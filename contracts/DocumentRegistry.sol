@@ -4,31 +4,30 @@ import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract NFTDocumentMinter is ERC721, ERC721Burnable, ERC721Pausable {
- 
+contract DocumentRegistry {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address owner;
     address mintedBy;
 
     constructor(
-        address _owner,
-        address _mintedBy,
-        string memory name,
-        string memory symbol
-    ) public ERC721(name, symbol) {
+        address _owner
+    ) public {
         this.owner = _owner;
-        this.mintedBy = _mintedBy;
     }
 
+    function requestMint(
+        address minter,
+        bool selfMint,
+        string memory tokenURI
+    ) public returns (uint256) {
+        require(NFTDocumentMinter(minter).mintedBy != address(0) , "NO CONTRACT MINTER FOUND");
+        if (selfMint == true) {
+            require(NFTDocumentMinter(minter).mintedBy == msg.sender, "INVALID MINTER ACCESS");
+            NFTDocumentMinter(minter).mint(msg.sender, tokenURI);
 
-
-    
-    function mint(address user, string memory tokenURI)
-        public
-        returns (uint256)
-    {
-        require(this.mintedBy == msg.sender, "INVALID MINTER");
+            // todo: emit event
+        }
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -36,5 +35,5 @@ contract NFTDocumentMinter is ERC721, ERC721Burnable, ERC721Pausable {
         _setTokenURI(newItemId, tokenURI);
 
         return newItemId;
-    }   
+    }
 }
