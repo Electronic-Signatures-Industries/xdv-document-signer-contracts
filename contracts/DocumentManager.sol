@@ -12,6 +12,7 @@ contract DocumentManager {
 
     // DID: https://blog.ceramic.network/how-to-store-encrypted-secrets-using-idx/
     // MINTED: Must encrypt using DID, and then upload new document which will be tokenize
+    // NFT Manager locks again to secure 
     // BURN_SWAP: Reads token uri from IPLD, and decrypts with DID
     // todo:  mapping de flow (REQUEST_MINTING, MINTED, BURN_SWAP)
 
@@ -33,6 +34,8 @@ contract DocumentManager {
         );
 
         // todo: API listening
+        // 1. Unlock (master decrypt)
+        // 2. IPLD (Alice DID pub)
 
         // todo: emit event
         
