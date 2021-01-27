@@ -1,5 +1,7 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 pragma experimental ABIEncoderV2;
+
+import "./NFTDocumentMinter.sol";
 
 import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
@@ -41,8 +43,10 @@ contract NFTFactory {
         emit Withdrawn(payee, b);
     }
 
-    // payWorkflowTemplate - payable
-    function createMinter(string memory name, string memory symbol)
+    function createMinter(
+        string memory name, 
+        string memory symbol,
+        uint fee)
         public
         payable
         returns (address)
@@ -50,20 +54,20 @@ contract NFTFactory {
         require(msg.value == fee, "MUST SEND FEE BEFORE USE");
 
         address minter =
-            address(new NFTDocumentMinter(owner, msg.sender, name, symbol));
+            address(new NFTDocumentMinter(owner, msg.sender, name, symbol, fee));
         bool ok = minters.add(minter);
         emit LogMinterCreated(minter);
 
-        // TODO: transfer from
+        // TODO: transfer from to owner (factory fee)
 
         return minter;
     }
 
     function count() public view returns (uint256) {
-        return workflows.length();
+        return minters.length();
     }
 
     function get(uint256 index) public view returns (address) {
-        return workflows.at(index);
+        return minters.at(index);
     }
 }

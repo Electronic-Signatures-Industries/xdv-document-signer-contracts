@@ -1,39 +1,55 @@
-pragma solidity ^0.6.0;
+pragma solidity ^0.7.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./NFTDocumentMinter.sol";
 
 contract DocumentRegistry {
     using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+    mapping(address => Counters.Counter) public minterDocumentRequestCounter;
+    struct DocumentMintingRequest {
+        address from;
+        address toMinter;
+        string documentURI;        
+    }
+    DocumentMintingRequest[] public minterDocumentRequests;
+    event LogRequestMinting(
+        address minter,
+        address from,
+        string tokenURI,
+        uint requestId
+    );
     address owner;
-    address mintedBy;
 
     constructor(
         address _owner
     ) public {
-        this.owner = _owner;
+        owner = _owner;
     }
 
     function requestMint(
         address minter,
         bool selfMint,
         string memory tokenURI
-    ) public returns (uint256) {
-        require(NFTDocumentMinter(minter).mintedBy != address(0) , "NO CONTRACT MINTER FOUND");
+    ) public returns (bool) {
+        require(NFTDocumentMinter(minter).mintedBy() != address(0) , "NO CONTRACT MINTER FOUND");
         if (selfMint == true) {
-            require(NFTDocumentMinter(minter).mintedBy == msg.sender, "INVALID MINTER ACCESS");
+            require(NFTDocumentMinter(minter).mintedBy() == msg.sender, "INVALID MINTER ACCESS");
             NFTDocumentMinter(minter).mint(msg.sender, tokenURI);
-
             // todo: emit event
+            return true;
         }
-        registry[minter].add(StructXYZ(msg.sender, tokenURI));
+        minterDocumentRequestCounter[minter].increment();
+        uint i = minterDocumentRequestCounter[minter].current();
+        
+        minterDocumentRequests[i] = (DocumentMintingRequest(msg.sender, minter, tokenURI));
         emit LogRequestMinting(
             minter,
             msg.sender,
-            tokenURI
+            tokenURI,
+            minterDocumentRequestCounter[minter].current()
         );
-        return newItemId;
+        return true;
     }
 }
