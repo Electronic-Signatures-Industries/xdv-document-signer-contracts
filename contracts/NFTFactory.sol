@@ -13,8 +13,8 @@ contract NFTFactory {
     using Address for address payable;
 
     // Emits when an document is created
-    event LogMinterCreated(address indexed minter);
-    event LogMinterRemoved(address indexed minter);
+    event MinterCreated(address indexed minter);
+    event MinterRemoved(address indexed minter);
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
     uint256 fee = 0.002 * 1e18;
@@ -46,7 +46,8 @@ contract NFTFactory {
     function createMinter(
         string memory name, 
         string memory symbol,
-        uint fee)
+        address paymentAddress,
+        uint feeStructure)
         public
         payable
         returns (address)
@@ -54,9 +55,17 @@ contract NFTFactory {
         require(msg.value == fee, "MUST SEND FEE BEFORE USE");
 
         address minter =
-            address(new NFTDocumentMinter(owner, msg.sender, name, symbol, fee));
+            address(new NFTDocumentMinter(
+                owner, 
+                msg.sender, 
+                name, 
+                symbol, 
+                feeStructure, 
+                fee,
+                paymentAddress,
+                address(this)));
         bool ok = minters.add(minter);
-        emit LogMinterCreated(minter);
+        emit MinterCreated(minter);
 
         // TODO: transfer from to owner (factory fee)
 

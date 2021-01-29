@@ -3,36 +3,49 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
+import "./ERC20Interface.sol";
 contract NFTDocumentMinter is ERC721Pausable {
  
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     address public owner;
-    uint256 public fee = 0.002 * 1e18;
+    uint256 public protocolServiceFee;
+    uint256 public mintingServiceFee;
     address public mintedBy;
-    
+    ERC20Interface public daiToken;
+    address public protocolPaymentAddress;
+    address public minterPaymentAddress;
+
     // DID: https://blog.ceramic.network/how-to-store-encrypted-secrets-using-idx/
     // MINTED: Must encrypt using DID, and then upload new document which will be tokenize
     // NFT Manager locks again to secure 
     // BURN_SWAP: Reads token uri from IPLD, and decrypts with DID
     // todo:  mapping de flow (REQUEST_MINTING, MINTED, BURN_SWAP)
-    event LogBurnSwap(
+    event BurnSwap(
         address minter,
         address from,
         uint id
     );
 
+    /**
+    * TODO
+     */
     constructor(
         address _owner,
         address _mintedBy,
         string memory name,
         string memory symbol,
-        uint burnFee
+        uint serviceFee,
+        uint protocolFee,
+        address paymentAddress,
+        address factoryPaymentAddress
     ) public ERC721(name, symbol) {
         owner = _owner;
         mintedBy = _mintedBy;
-        fee = burnFee;
+        mintingServiceFee = serviceFee;
+        protocolServiceFee = protocolFee;
+        minterPaymentAddress = paymentAddress;
+        protocolPaymentAddress = factoryPaymentAddress;
     }
    
     function mint(address user, string memory tokenURI)
@@ -54,27 +67,46 @@ contract NFTDocumentMinter is ERC721Pausable {
         payable
         returns (bool)
     {
-        require(msg.value == fee, "MUST SEND FEE BEFORE USE");
-        // todo: validate using DAI stablecoin
+        require(msg.value == (mintingServiceFee + protocolServiceFee), "MUST SEND FEE BEFORE USE");
+
+        // User must have a balance
+        require(
+            daiToken.balanceOf(msg.sender) > 0,
+            "Invalid token balance"
+        );
+        // User must have an allowance
+        require(
+            daiToken.allowance(msg.sender, address(this)) > 0,
+            "Invalid token allowance"
+        );
 
         _burn(tokenId);
 
-        // todo: API listening
-        // 1. Unlock (master decrypt)
-        // 2. IPLD (Alice DID pub)
+        // TODO: Update accounting
 
-        // todo: emit event
+        // Transfer tokens to NFT owner
+        require(
+            daiToken.transferFrom(
+                msg.sender, 
+                minterPaymentAddress, 
+                mintingServiceFee),
+            "Transfer failed for base token"
+        );
+        // Transfer tokens to pay service fee
+        require(
+            daiToken.transferFrom(
+                msg.sender, 
+                protocolPaymentAddress, 
+                protocolServiceFee),
+            "Transfer failed for base token"
+        );
         
-        emit LogBurnSwap(
+        emit BurnSwap(
             address(this),
             msg.sender,
             tokenId
         );
 
-
-        // todo: transferFrom to mintedBy
-        // todo: transferFrom to owner (tx fee)
-        // todo: emit event
         return true;
     }       
 
