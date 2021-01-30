@@ -42,10 +42,8 @@ contract DocumentAnchoring {
     );    
     address owner;
 
-    constructor(
-        address _owner
-    ) public {
-        owner = _owner;
+    constructor() public {
+        owner = msg.sender;
     }
 
     /** NatDoc

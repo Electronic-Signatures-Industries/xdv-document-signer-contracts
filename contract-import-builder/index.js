@@ -1,63 +1,59 @@
-const fs = require('fs');
-
-const _networks = {
-  ropsten: 3,
-  rinkeby: 4,
-  kovan: 42,
-  mainnet: 1,
-};
+const fs = require('fs')
+const networks = {
+    ropsten: 3,
+    rinkeby: 4,
+    kovan: 42,
+    mainnet: 1,
+}
 
 module.exports = class ContractImportBuilder {
-  constructor(network) {
-    this.network = network;
-    this.abiPath = '../abi-export';
-    this.addressPath = `../address-export/${network}/`;
-    this.filename = '';
-    this.abi = {
-      VERSION: '1.0.0',
-    };
-    this.address = {
-      VERSION: '1.0.0',
-    };
-  }
-
-  setPath = (path) => {
-    this.path = path;
-  };
-
-  setFilename = (filename) => {
-    this.filename = filename;
-  };
-
-  write = () => {
-    // Write the abi export file
-    fs.writeFileSync(
-      `${__dirname}/${this.abiPath}/${this.filename}.json`,
-      JSON.stringify(this.abi)
-    );
-    // Check if the network folder exists if not make it
-    const addressNetworkDir = `${__dirname}/${this.addressPath}`;
-    if (!fs.existsSync(addressNetworkDir)) {
-      fs.mkdirSync(addressNetworkDir);
+    constructor() {
+        this.importOutput = ''
+        this.contractImport = {
+            VERSION: '1.0.0'
+        }
     }
-    // Write the address file
-    fs.writeFileSync(
-      `${addressNetworkDir}/${this.filename}.json`,
-      JSON.stringify(this.address)
-    );
-  };
 
-  addContract = (name, abi, address) => {
-    this.abi[name] = {
-      raw: {
-        abi: abi.abi,
-      },
-    };
-    if (address) {
-      this.address[name] = {
-        address,
-      };
+    setOutput(output) {
+        this.importOutput = output
     }
-    this.write();
-  };
-};
+
+    addContract(name, abi, address, network) {
+        let addr = {}
+
+        if (this.importOutput.length < 5) {
+            throw new Error(
+                'A contract import must be set'
+            )
+        }
+
+        fs.exists(this.importOutput, exists => {
+            if (exists) {
+                const contractImportExisting = require(this.importOutput)
+
+                // get any existing addresses for the current selected network
+                if (contractImportExisting && contractImportExisting[name]) {
+                    addr = contractImportExisting[name].address
+                }
+            }
+
+            addr[network] = address
+
+            this.contractImport[name] = {
+                // raw: require(`./build/contracts/${abi.contractName}.json`),
+                raw: {
+                    abi: abi.abi
+                },
+                address: {
+                    ...addr
+                }
+            }
+
+            const output = JSON.stringify(this.contractImport);
+            const jsOutput = `module.exports = ${output}`;
+            if (this.onWrite) {
+                this.onWrite(jsOutput)
+            }
+        })
+    }
+}
