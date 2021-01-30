@@ -14,7 +14,13 @@ contract NFTFactory {
     using Address for address payable;
 
     // Emits when an document is created
-    event MinterCreated(address indexed minter);
+    event MinterCreated(
+        address indexed minter,
+        string indexed name, 
+        string indexed symbol,
+        address paymentAddress,
+        uint feeStructure
+    );
     event MinterRemoved(address indexed minter);
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
@@ -75,7 +81,13 @@ contract NFTFactory {
                 address(this),
                 daiToken));
         bool ok = minters.add(minter);
-        emit MinterCreated(minter);
+        emit MinterCreated(
+            minter,
+            name,
+            symbol,
+            paymentAddress,
+            feeStructure
+        );
 
         // TODO: transfer from to owner (factory fee)
 

@@ -3,94 +3,50 @@ const Web3 = require('web3');
 const web3 = new Web3();
 const BigNumber = require('bignumber.js');
 
-contract('Documents', accounts => {
+contract('NFTFactory', accounts => {
+  let dai;
   let owner;
-  let supplierAddr;
-  let debtorAddr;
-  let custodian;
-  let DocumentContract = artifacts.require('Documents');
-  let editor;
-  let ApprovalContract = artifacts.require('Approvals');
-  let signers;
-  let approvalCtr;
-  let limits;
-  let minimumSigners = 2;
-
+  let nftFactory;
+  let documents;
+  let DocumentAnchoring = artifacts.require('DocumentAnchoring');
+  let TestDAI = artifacts.require('DAI');
+  let DocumentMinter = artifacts.require('NFTDocumentMinter');
+  let NFTFactory = artifacts.require('NFTFactory');
   contract('#documents', () => {
     before(async () => {
-      signers = [
-        accounts[0],
-        accounts[2], // debtorAddr
-        '0xda31d24d6008f35cb87dbc492accce50dcfe5675'
-      ];
-
-     // approvalCtr = await ApprovalContract.deployed();
       owner = accounts[0];
-      editor = '0xea817a76993ae9cd3a706ff9d4e6d96a581838db';
-
-      // await contract.addACL(owner, 0); // add owner as admin
-
-      limits = [1000, 100, 1000];
-
-      // assert.equal(approvalCtr !== null, true);
-
-      contract = await DocumentContract.deployed();
-      owner = accounts[0];
-      supplierAddr = accounts[1];
-      debtorAddr = accounts[2];
-      custodian = accounts[3];
-      await contract.addACL(editor, 1, { from: owner }); // add supplier
-
-      //  await contract.addACL(owner, 0); // add owner as admin
-      await contract.addACL(supplierAddr, 1); // add supplier
-      await contract.addACL(signers[0], 2); // add debtor
-      await contract.addACL(signers[1], 2); // add debtor
-      await contract.addACL(signers[2], 2); // add debtor
-      await contract.addACL(custodian, 3); // add custodian
-
-      assert.equal(contract !== null, true);
+      dai = await TestDAI.deployed();
+      nftFactory = await NFTFactory.deployed();
+      documents = await DocumentAnchoring.deployed();
     });
-    describe('when supplier invoices', () => {
-      it('should create a new invoice', async () => {
-        assert.equal(contract !== null, true);
-        const toString = txt => web3.utils.fromUtf8(txt);
-        const toWei = usd => new BigNumber(usd);
-        const payload = {
-          id: toString('urn:supplier:SUPERXYZ:1000'),
-          supplier: supplierAddr,
-          debtor: debtorAddr,
-          fileIpfsJson: toString(JSON.stringify([{ path: '', content: '' }])),
-          fechaEmision: new Date().getTime() * 1000,
-          externalId: toString('10001001'),
-          signature: toString('.....'),
-          fechaExpiracion: new Date().getTime() * 1000
-        };
-        const {
-          id,
-          supplier,
-          debtor,
-          fileIpfsJson,
-          fechaEmision,
-          signature,
-          externalId,
-          fechaExpiracion
-        } = payload;
-        const _owner = await contract.owner();
+    describe('when creating a document issuing provider', () => {
+      it('should create a new NFT', async () => {
+        assert.equal(nftFactory !== null, true);
 
-        assert.equal(_owner.toLowerCase(), accounts[0].toLowerCase());
-        const ok = await contract.addDocument(
-          id,
-          supplier,
-          debtor,
-          fileIpfsJson,
-          fechaEmision,
-          externalId,
-          signature,
-          fechaExpiracion,
-          { from: supplierAddr }
+        const res = await nftFactory.createMinter(
+          "NOTARIO 9VNO - APOSTILLADO",
+          "NOT9APOST",
+          "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
+          20*10e18
         );
 
-        assert.equal(!!ok.tx, true);
+        // get NFTDocumentMinter and assert
+        const _owner = await contract.owner();
+
+        // assert.equal(_owner.toLowerCase(), accounts[0].toLowerCase());
+        // const ok = await contract.addDocument(
+        //   id,
+        //   supplier,
+        //   debtor,
+        //   fileIpfsJson,
+        //   fechaEmision,
+        //   externalId,
+        //   signature,
+        //   fechaExpiracion,
+        //   { from: supplierAddr }
+        // );
+
+        // assert.equal(!!ok.tx, true);
       });
     });
 

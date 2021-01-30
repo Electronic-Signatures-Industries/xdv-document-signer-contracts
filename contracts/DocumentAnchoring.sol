@@ -12,13 +12,19 @@ contract DocumentAnchoring {
     // Documents by minter counters
     mapping(address => uint) public minterDocumentRequestCounter;
 
+     enum DocumentMintingRequestStatus   {
+         REQUEST,
+         MINTED,
+         BURNED
+     }
     // Document minting request
     struct DocumentMintingRequest {
         address user;
         string userDid;
         address toMinter; // NFT
         string toMinterDid;
-        string documentURI;        
+        string documentURI;
+        uint status;        
     }
 
     // Document minter items
@@ -86,7 +92,8 @@ contract DocumentAnchoring {
             toMinterDid: minterDid,
             toMinter: minter,
             userDid: userDid, 
-            documentURI: tokenURI
+            documentURI: tokenURI,
+            status: uint(DocumentMintingRequestStatus.REQUEST)
         });
         emit RequestMinting(
             minter,
