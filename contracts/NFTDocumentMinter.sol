@@ -38,10 +38,12 @@ contract NFTDocumentMinter is ERC721Pausable {
         uint serviceFee,
         uint protocolFee,
         address paymentAddress,
-        address factoryPaymentAddress
+        address factoryPaymentAddress,
+        ERC20Interface paymentToken
     ) public ERC721(name, symbol) {
         owner = _owner;
         mintedBy = _mintedBy;
+        daiToken = paymentToken;
         mintingServiceFee = serviceFee;
         protocolServiceFee = protocolFee;
         minterPaymentAddress = paymentAddress;
