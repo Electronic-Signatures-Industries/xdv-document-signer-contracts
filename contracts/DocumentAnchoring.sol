@@ -28,7 +28,7 @@ contract DocumentAnchoring {
     }
 
     // Document minter items
-    DocumentMintingRequest[] public minterDocumentRequests;
+    mapping(uint => DocumentMintingRequest) public minterDocumentRequests;
 
     // RequestMinting events
     event RequestMinting(

@@ -24,7 +24,7 @@ contract NFTFactory {
     event MinterRemoved(address indexed minter);
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
-    uint256 fee = 0.002 * 1e18;
+    uint256 fee = 2 * 10e18;
     ERC20Interface public daiToken;
 
     // minters
@@ -61,8 +61,8 @@ contract NFTFactory {
     }
 
     function createMinter(
-        string memory name, 
-        string memory symbol,
+        bytes memory name, 
+        bytes memory symbol,
         address paymentAddress,
         uint feeStructure)
         public
@@ -73,8 +73,8 @@ contract NFTFactory {
             address(new NFTDocumentMinter(
                 owner, 
                 msg.sender, 
-                name, 
-                symbol, 
+                string(name), 
+                string(symbol), 
                 feeStructure, 
                 fee,
                 paymentAddress,
@@ -83,8 +83,8 @@ contract NFTFactory {
         bool ok = minters.add(minter);
         emit MinterCreated(
             minter,
-            name,
-            symbol,
+            string(name),
+            string(symbol),
             paymentAddress,
             feeStructure
         );

@@ -2,12 +2,15 @@
 const Web3 = require('web3');
 const web3 = new Web3();
 const BigNumber = require('bignumber.js');
+const { ethers } = require('ethers');
+const { assert } = require('chai');
 
 contract('NFTFactory', accounts => {
   let dai;
   let owner;
   let nftFactory;
   let documents;
+  let documentMinterAddress;
   let DocumentAnchoring = artifacts.require('DocumentAnchoring');
   let TestDAI = artifacts.require('DAI');
   let DocumentMinter = artifacts.require('NFTDocumentMinter');
@@ -24,188 +27,116 @@ contract('NFTFactory', accounts => {
         assert.equal(nftFactory !== null, true);
 
         const res = await nftFactory.createMinter(
-          "NOTARIO 9VNO - APOSTILLADO",
-          "NOT9APOST",
+          web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
+          web3.utils.fromUtf8("NOT9APOST"),
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
-          20*10e18
+          new BigNumber(20 * 10e18)
         );
 
-        // get NFTDocumentMinter and assert
-        const _owner = await contract.owner();
-
-        // assert.equal(_owner.toLowerCase(), accounts[0].toLowerCase());
-        // const ok = await contract.addDocument(
-        //   id,
-        //   supplier,
-        //   debtor,
-        //   fileIpfsJson,
-        //   fechaEmision,
-        //   externalId,
-        //   signature,
-        //   fechaExpiracion,
-        //   { from: supplierAddr }
-        // );
-
-        // assert.equal(!!ok.tx, true);
+        const nftAddress = res.logs[0].args.minter;
+        const minter = await DocumentMinter.at(nftAddress);
+        assert.equal(await minter.symbol(), "NOT9APOST");
       });
     });
 
-    describe('when debtor certifies', () => {
-      it('should certify invoice by debtor', async () => {
-        assert.equal(contract !== null, true);
-        const toString = txt => web3.utils.fromUtf8(txt);
 
-        const payload = {
-          id: toString('urn:supplier:SUPERXYZ:1000'),
-          amount: 100000
-        };
+    describe('when requesting minting from a document issuing provider', () => {
+      it('should anchor document and add it to request list', async () => {
+        assert.equal(nftFactory !== null, true);
 
-        const _owner = await contract.owner();
-        assert.equal(_owner.toLowerCase(), accounts[0].toLowerCase());
-        const ok = await contract.certifyDebtor(payload.id, payload.amount, {
-          from: debtorAddr
-        });
-        assert.equal(!!ok.tx, true);
-      });
-    });
-
-    describe('when debtor certifies', () => {
-      it('should certify invoice by debtor approval', async () => {
-        assert.equal(contract !== null, true);
-        const toString = txt => web3.utils.fromUtf8(txt);
-
-        const toWei = usd => new BigNumber(usd);
-        const payload = {
-          id: toString('urn:supplier:SUPERXYZ:2000'),
-          supplier: supplierAddr,
-          debtor: debtorAddr,
-          fileIpfsJson: toString(JSON.stringify([{ path: '', content: '' }])),
-          fechaEmision: new Date().getTime() * 1000,
-          externalId: toString('10001001'),
-          signature: toString('.....'),
-          fechaExpiracion: new Date().getTime() * 1000
-        };
-        const {
-          id,
-          supplier,
-          debtor,
-          fileIpfsJson,
-          fechaEmision,
-          signature,
-          externalId,
-          fechaExpiracion
-        } = payload;
-        const _owner = await contract.owner();
-
-        assert.equal(_owner.toLowerCase(), accounts[0].toLowerCase());
-        const ok = await contract.addDocument(
-          id,
-          supplier,
-          debtor,
-          fileIpfsJson,
-          fechaEmision,
-          externalId,
-          signature,
-          fechaExpiracion,
-          { from: supplierAddr }
+        const res = await nftFactory.createMinter(
+          web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
+          web3.utils.fromUtf8("NOT9APOST"),
+          "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
+          new BigNumber(20 * 10e18)
         );
 
-        let tx = await contract.addApproval(
-          editor,
-          signers,
-          limits,
-          minimumSigners,
-          {
-            from: owner
+        documentMinterAddress = res.logs[0].args.minter;
+
+        const requestMintResult = await documents.requestMint(
+          documentMinterAddress,
+          `did:ethr:${documentMinterAddress}`,
+          `did:ethr:${accounts[1]}`,
+          false,
+          `https://bobb.did.pa`,{
+            from: accounts[1]
           }
         );
-        let _id = tx.logs[0].args.id * 1;
+        assert.equal('https://bobb.did.pa', requestMintResult.logs[0].args.tokenURI);
+      });
 
-        let res = await contract.approvals(_id, signers[0]);
-        assert.equal(res.signedStatus, 0);
+      it('should mint NFT issued by document issuing provider', async () => {
+        assert.equal(nftFactory !== null, true);
 
-        // 1
-        await contract.certifyDebtorApproval(_id, payload.id, 99, {
-          from: signers[0]
-        });
+        const minter = await DocumentMinter.at(documentMinterAddress);
+        assert.equal(await minter.symbol(), "NOT9APOST");
 
-        res = await contract.approvals(_id, signers[0]);
-        assert.equal(res.signedStatus, 1);
+        const minted = await minter.mint(
+          accounts[0],
+          `https://bobb.did.pa/index.json`
+        );
 
-        // 2
-        await contract.certifyDebtorApproval(_id, payload.id, 99, {
-          from: signers[1]
-        });
-
-        res = await contract.approvals(_id, signers[1]);
-        assert.equal(res.signedStatus, 1);
-
-        // // 3
-        // await contract.certifyDebtorApproval(_id, payload.id, 99, {
-        //   from: signers[2]
-        // });
-
-        // res = await contract.approvals(_id, signers[2]);
-        // assert.equal(res.signedStatus, 1);
-
-        // Closed
-        tx = await contract.addApproval(editor, signers, limits, minimumSigners, {
-          from: owner
-        });
-        _id = tx.logs[0].args.id * 1;
-
-        try {
-          await contract.certifyDebtorApproval(_id, payload.id, 99, {
-            from: debtorAddr
-          });
-        } catch (e) {
-        } finally {
-          res = await contract.documents(payload.id, { from: debtorAddr });
-          assert.equal(res.status, 6);
-        }
+        assert.equal(minted.logs[0].event, 'Transfer');
       });
     });
+    describe('when burning', () => {
+      it('should pay for  service', async () => {
+        assert.equal(nftFactory !== null, true);
 
-    describe('when custodian certifies', () => {
-      it('should certify invoice by custodian', async () => {
-        assert.equal(contract !== null, true);
-        const toString = txt => web3.utils.fromUtf8(txt);
+        const res = await nftFactory.createMinter(
+          web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
+          web3.utils.fromUtf8("NOT9APOST"),
+          "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
+          new BigNumber(20 * 10e18)
+        );
 
-        const payload = {
-          id: toString('urn:supplier:SUPERXYZ:1000'),
-          trust: toString('FWLA')
-        };
+        documentMinterAddress = res.logs[0].args.minter;
 
-        const _owner = await contract.owner();
-        assert.equal(_owner.toLowerCase(), accounts[0].toLowerCase());
-        const ok = await contract.certifyTrust(payload.id, payload.trust, {
-          from: custodian
-        });
-        assert.equal(!!ok.tx, true);
+        const requestMintResult = await documents.requestMint(
+          documentMinterAddress,
+          `did:ethr:${documentMinterAddress}`,
+          `did:ethr:${accounts[1]}`,
+          false,
+          `https://bobb.did.pa`,{
+            from:  accounts[1]
+          }
+        );
+        assert.equal('https://bobb.did.pa', requestMintResult.logs[0].args.tokenURI);
+
+
+
+        const minter = await DocumentMinter.at(documentMinterAddress);
+        assert.equal(await minter.symbol(), "NOT9APOST");
+
+        const minted = await minter.mint(
+          accounts[0],
+          `https://bobb.did.pa/index.json`
+        );
+
+        assert.equal(minted.logs[0].event, 'Transfer');
+
+        await dai.mint(
+          accounts[1],
+          new BigNumber(22 * 10e18)
+        );
+
+        // allowance
+        await dai.approve(
+          documentMinterAddress,
+          new BigNumber(22 * 10e18),{
+
+            from: accounts[1]
+          }
+        );
+
+        await minter.burn(
+          minted.logs[0].args.tokenId, {
+            from: accounts[1]
+          }
+        );
       });
 
-      it('should fail if not custodian', async () => {
-        assert.equal(contract !== null, true);
-        const toString = txt => web3.utils.fromUtf8(txt);
-
-        const payload = {
-          trust: toString('FWLA'),
-          id: toString('urn:supplier:SUPERXYZ:1000')
-        };
-
-        const _owner = await contract.owner();
-        assert.equal(_owner.toLowerCase(), accounts[0].toLowerCase());
-
-        try {
-          await contract.certifyTrust(payload.id, payload.trust, {
-            from: supplierAddr
-          });
-        } catch (e) {
-          assert.throws(() => {
-            throw e;
-          }, Error);
-        }
-      });
     });
+
   });
 });
