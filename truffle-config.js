@@ -7,6 +7,20 @@ module.exports = {
     }
   },
   networks: {
+    bsctestnet: {
+      provider: () => new HDWalletProvider(process.env.BSC_MNEMONIC, process.env.BSC_TESTNET),
+      network_id: 97,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+    bsc: {
+      provider: () => new HDWalletProvider(process.env.BSC_MNEMONIC, `https://bsc-dataseed1.binance.org`),
+      network_id: 56,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
     localhost: {
       from: '0xA83B070a68336811e9265fbEc6d49B98538F61EA',
       host: 'localhost',

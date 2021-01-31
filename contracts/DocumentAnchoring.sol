@@ -17,6 +17,8 @@ contract DocumentAnchoring {
          MINTED,
          BURNED
      }
+
+     
     // Document minting request
     struct DocumentMintingRequest {
         address user;
