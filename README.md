@@ -8,3 +8,8 @@ Despues la copia de IPLD va a ejecutar una accion llamada "onSetToLockDocument"
 El usuario recibe la notificacion en websocket y puede bajar el archivo con su DID
 
 Poner status del flujo de Document anchoring
+## development settings
+
+1. `ganache-cli -m "describe uncle will various ankle film brother pelican apple congress animal segment" -i 10`
+2. `truffle compile`
+3. `truffle migrate --network development`

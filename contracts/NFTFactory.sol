@@ -6,6 +6,7 @@ import "./NFTDocumentMinter.sol";
 import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
+import "./ERC20Interface.sol";
 
 contract NFTFactory {
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -13,25 +14,33 @@ contract NFTFactory {
     using Address for address payable;
 
     // Emits when an document is created
-    event LogMinterCreated(address indexed minter);
-    event LogMinterRemoved(address indexed minter);
+    event MinterCreated(
+        address indexed minter,
+        string indexed name, 
+        string indexed symbol,
+        address paymentAddress,
+        uint feeStructure
+    );
+    event MinterRemoved(address indexed minter);
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
-    uint256 fee = 0.002 * 1e18;
+    uint256 fee = 2 * 10e18;
+    ERC20Interface public daiToken;
 
     // minters
     EnumerableSet.AddressSet internal minters;
 
-    constructor() public {
+    constructor(address dai) public {
+        daiToken = ERC20Interface(dai);
         owner = msg.sender;
     }
 
-    function setFee(uint256 _fee) public {
+    function setProtocolFee(uint256 _fee) public {
         require(msg.sender == owner, "INVALID_USER");
         fee = _fee;
     }
 
-    function getFee() public returns (uint256) {
+    function getProtocolFee() public returns (uint256) {
         return fee;
     }
 
@@ -43,20 +52,42 @@ contract NFTFactory {
         emit Withdrawn(payee, b);
     }
 
+    function withdrawToken(address payable payee, address token) public {
+        require(msg.sender == owner, "INVALID_USER");
+        uint256 b = ERC20Interface(token).balanceOf(address(this));
+        payee.sendValue(b);
+
+        emit Withdrawn(payee, b);
+    }
+
     function createMinter(
-        string memory name, 
-        string memory symbol,
-        uint fee)
+        bytes memory name, 
+        bytes memory symbol,
+        address paymentAddress,
+        uint feeStructure)
         public
-        payable
         returns (address)
     {
-        require(msg.value == fee, "MUST SEND FEE BEFORE USE");
 
         address minter =
-            address(new NFTDocumentMinter(owner, msg.sender, name, symbol, fee));
+            address(new NFTDocumentMinter(
+                owner, 
+                msg.sender, 
+                string(name), 
+                string(symbol), 
+                feeStructure, 
+                fee,
+                paymentAddress,
+                address(this),
+                daiToken));
         bool ok = minters.add(minter);
-        emit LogMinterCreated(minter);
+        emit MinterCreated(
+            minter,
+            string(name),
+            string(symbol),
+            paymentAddress,
+            feeStructure
+        );
 
         // TODO: transfer from to owner (factory fee)
 
