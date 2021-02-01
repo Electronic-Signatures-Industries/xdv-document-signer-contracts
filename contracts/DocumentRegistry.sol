@@ -11,7 +11,8 @@ contract DocumentRegistry {
     struct DocumentMintingRequest {
         address from;
         address toMinter;
-        string documentURI;        
+        string documentURI;  
+        uint status;      
     }
     DocumentMintingRequest[] public minterDocumentRequests;
     event LogRequestMinting(

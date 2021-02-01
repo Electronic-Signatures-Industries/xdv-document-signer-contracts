@@ -174,6 +174,7 @@ export class IPFSManager {
 
     async encryptObject(did: DID, cleartext, dids: string[]) {
         const jwe = await did.createDagJWE(cleartext, dids)
+        // jwe es un obj encriptado
         return this.client.dag.put(jwe, { format: this.format, hashAlg: 'sha2-256' })
     }
 

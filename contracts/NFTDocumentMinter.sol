@@ -46,6 +46,8 @@ contract NFTDocumentMinter is ERC721Pausable {
         _safeMint(user, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
+        // TODO desplegar el fee de burn
+
         return newItemId;
     }   
 
