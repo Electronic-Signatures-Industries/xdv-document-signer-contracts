@@ -1,7 +1,7 @@
 const fs = require('fs');
 const DocumentAnchoring = artifacts.require('DocumentAnchoring');
 const NFTFactory = artifacts.require('NFTFactory');
-const TestDAI = artifacts.require('DAI');
+const DAI = artifacts.require('DAI');
 
 
 const ContractImportBuilder = require('../contract-import-builder');
@@ -15,17 +15,16 @@ module.exports = async (deployer, network, accounts) => {
     fs.writeFileSync(path, output);
   };
   let dai;
-  let daiaddress =""
-if  (network ==="rinkeby")
-{
-  daiaddress = "0xxxxxxx"
-}
-else {
+  let daiaddress = ""
+  // if (network === "rinkeby") {
+  daiaddress = "0xec5dcb5dbf4b114c9d0f65bccab49ec54f6a0867"
+  // }
+  // else {
 
-  await deployer.deploy(TestDAI);
-  dai = await TestDAI.deployed();
-  daiaddress = dai.address
-}
+  await deployer.deploy(DAI);
+  dai = await DAI.deployed();
+  //   daiaddress = dai.address
+  // }
   await deployer.deploy(DocumentAnchoring);
   const documents = await DocumentAnchoring.deployed();
 
@@ -33,7 +32,7 @@ else {
   const factory = await NFTFactory.deployed();
 
   builder.addContract(
-    'TestDAI',
+    'DAI',
     dai,
     daiaddress,
     network
