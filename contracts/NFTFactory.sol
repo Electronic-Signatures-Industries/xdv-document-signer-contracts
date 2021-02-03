@@ -2,13 +2,13 @@ pragma solidity ^0.7.0;
 pragma experimental ABIEncoderV2;
 
 import "./NFTDocumentMinter.sol";
-
+import "./MinterRegistry.sol";
 import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "./ERC20Interface.sol";
 
-contract NFTFactory {
+contract NFTFactory is MinterRegistry {
     using EnumerableSet for EnumerableSet.AddressSet;
     using SafeMath for uint256;
     using Address for address payable;
@@ -64,6 +64,7 @@ contract NFTFactory {
         bytes memory name, 
         bytes memory symbol,
         address paymentAddress,
+        bool userHasKyc,
         uint feeStructure)
         public
         returns (address)
@@ -80,6 +81,15 @@ contract NFTFactory {
                 paymentAddress,
                 address(this),
                 daiToken));
+        
+        addToRegistry(
+                minter, 
+                name,
+                symbol,
+                paymentAddress,
+                userHasKyc,
+                feeStructure);
+        
         bool ok = minters.add(minter);
         emit MinterCreated(
             minter,
