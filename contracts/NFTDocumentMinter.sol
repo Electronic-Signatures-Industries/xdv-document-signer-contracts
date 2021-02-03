@@ -69,19 +69,18 @@ contract NFTDocumentMinter is ERC721Pausable {
         payable
         returns (bool)
     {
-       require(msg.value == (mintingServiceFee + protocolServiceFee), "MUST SEND FEE BEFORE USE");
+       /// require(msg.value == (mintingServiceFee + protocolServiceFee), "MUST SEND FEE BEFORE USE");
 
-        //TO DO change BNB later to WBNB
         // User must have a balance
         require(
-            msg.value >= 0,
+            daiToken.balanceOf(msg.sender) >= 0,
             "Invalid token balance"
         );
         // User must have an allowance
-        //require(
-        //    daiToken.allowance(msg.sender, address(this)) >= 0,
-        //    "Invalid token allowance"
-        //);
+        require(
+            daiToken.allowance(msg.sender, address(this)) >= 0,
+            "Invalid token allowance"
+        );
 
         _burn(tokenId);
 
@@ -89,14 +88,18 @@ contract NFTDocumentMinter is ERC721Pausable {
 
         // Transfer tokens to NFT owner
         require(
-             payable(protocolPaymentAddress).transfer(protocolServiceFee),
-                
+            daiToken.transferFrom(
+                msg.sender, 
+                minterPaymentAddress, 
+                mintingServiceFee),
             "Transfer failed for base token"
         );
         // Transfer tokens to pay service fee
         require(
-              payable(protocolPaymentAddress).transfer(protocolServiceFee),
-            
+            daiToken.transferFrom(
+                msg.sender, 
+                protocolPaymentAddress, 
+                protocolServiceFee),
             "Transfer failed for base token"
         );
         

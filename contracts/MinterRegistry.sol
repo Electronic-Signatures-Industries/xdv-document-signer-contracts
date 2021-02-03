@@ -1,4 +1,3 @@
-
 pragma solidity ^0.7.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
@@ -51,7 +50,7 @@ contract MinterRegistry {
     uint i = minterCounter[minter];
         
     dataProviderMinters[i] = DataProviderMinter({
-        minterAddres: minter, 
+        minterAddress: minter, 
         name: name,
         symbol: symbol,
         paymentAddress: paymentAddress,
@@ -59,10 +58,10 @@ contract MinterRegistry {
         feeStructure: feeStructure,
         created: block.timestamp
     });
+
+    emit MinterRegistered(minter, i, name, symbol);
     return i;
     }
-
-
 
 }
 

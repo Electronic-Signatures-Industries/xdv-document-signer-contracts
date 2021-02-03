@@ -24,7 +24,7 @@ contract NFTFactory is MinterRegistry {
     event MinterRemoved(address indexed minter);
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
-    uint256 fee = 2 * 10e18;
+    uint256 fee = 0.4 * 1e18;
     ERC20Interface public daiToken;
 
     // minters
