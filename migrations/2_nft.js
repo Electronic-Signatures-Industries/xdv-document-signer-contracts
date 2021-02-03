@@ -14,20 +14,28 @@ module.exports = async (deployer, network, accounts) => {
   builder.onWrite = (output) => {
     fs.writeFileSync(path, output);
   };
+  let dai;
+  let daiaddress =""
+if  (network ==="rinkeby")
+{
+  daiaddress = "0xxxxxxx"
+}
+else {
 
   await deployer.deploy(TestDAI);
-  const dai = await TestDAI.deployed();
-
+  dai = await TestDAI.deployed();
+  daiaddress = dai.address
+}
   await deployer.deploy(DocumentAnchoring);
   const documents = await DocumentAnchoring.deployed();
 
-  await deployer.deploy(NFTFactory, dai.address);
+  await deployer.deploy(NFTFactory, daiaddress);
   const factory = await NFTFactory.deployed();
 
   builder.addContract(
     'TestDAI',
     dai,
-    dai.address,
+    daiaddress,
     network
   );
 
