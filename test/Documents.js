@@ -30,6 +30,7 @@ contract('NFTFactory', accounts => {
           web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
           web3.utils.fromUtf8("NOT9APOST"),
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
+          false,
           new BigNumber(20 * 10e18)
         );
 
@@ -48,6 +49,7 @@ contract('NFTFactory', accounts => {
           web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
           web3.utils.fromUtf8("NOT9APOST"),
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
+          false,
           new BigNumber(20 * 10e18)
         );
 
@@ -58,9 +60,9 @@ contract('NFTFactory', accounts => {
           `did:ethr:${documentMinterAddress}`,
           `did:ethr:${accounts[1]}`,
           false,
-          `https://bobb.did.pa`,{
-            from: accounts[1]
-          }
+          `https://bobb.did.pa`, {
+          from: accounts[1]
+        }
         );
         assert.equal('https://bobb.did.pa', requestMintResult.logs[0].args.tokenURI);
       });
@@ -87,7 +89,9 @@ contract('NFTFactory', accounts => {
           web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
           web3.utils.fromUtf8("NOT9APOST"),
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
-          new BigNumber(20 * 10e18)
+
+          false,
+          new BigNumber(2 * 1e18)
         );
 
         documentMinterAddress = res.logs[0].args.minter;
@@ -97,9 +101,9 @@ contract('NFTFactory', accounts => {
           `did:ethr:${documentMinterAddress}`,
           `did:ethr:${accounts[1]}`,
           false,
-          `https://bobb.did.pa`,{
-            from:  accounts[1]
-          }
+          `https://bobb.did.pa`, {
+          from: accounts[1]
+        }
         );
         assert.equal('https://bobb.did.pa', requestMintResult.logs[0].args.tokenURI);
 
@@ -123,16 +127,17 @@ contract('NFTFactory', accounts => {
         // allowance
         await dai.approve(
           documentMinterAddress,
-          new BigNumber(22 * 10e18),{
+          new BigNumber(22 * 10e18), {
 
-            from: accounts[1]
-          }
+          from: accounts[1]
+        }
         );
 
         await minter.burn(
           minted.logs[0].args.tokenId, {
-            from: accounts[1]
-          }
+          from: accounts[1],
+          value: new BigNumber(2.4  * 1e18)
+        }
         );
       });
 
