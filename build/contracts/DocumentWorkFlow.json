@@ -1,0 +1,832 @@
+{
+  "contractName": "DocumentWorkFlow",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "minterDocumentRequestCounter",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "minterDocumentRequests",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "userDid",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "toMinter",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "toMinterDid",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "documentURI",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "status",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.7.6+commit.7338295f\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"minterDocumentRequestCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"minterDocumentRequests\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"userDid\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"toMinter\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"toMinterDid\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"documentURI\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"status\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/esfera-ubuntu/Documents/projects/ifesa/nft-document-swap/contracts/DocumentWorkFlow.sol\":\"DocumentWorkFlow\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/esfera-ubuntu/Documents/projects/ifesa/nft-document-swap/contracts/DocumentWorkFlow.sol\":{\"keccak256\":\"0xf05b1ce08836373bc52bd3718196d13e16dd8a209447aa2ba5c6776073cc4fb0\",\"urls\":[\"bzz-raw://b0701816485cd2291dc826635424752ce33d6a2e434857aaf438dea73430b31e\",\"dweb:/ipfs/QmbS5dSsWb4q4bqsEmjTWXA5DyqBupcbMwXQGPNwKx6314\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506105ef806100206000396000f3fe608060405234801561001057600080fd5b50600436106100365760003560e01c806318030e7d1461003b5780632aa222c814610267575b600080fd5b6100676004803603602081101561005157600080fd5b81019080803590602001909291905050506102bf565b604051808873ffffffffffffffffffffffffffffffffffffffff168152602001806020018773ffffffffffffffffffffffffffffffffffffffff16815260200180602001806020018681526020018060200185810385528b818151815260200191508051906020019080838360005b838110156100f15780820151818401526020810190506100d6565b50505050905090810190601f16801561011e5780820380516001836020036101000a031916815260200191505b50858103845289818151815260200191508051906020019080838360005b8381101561015757808201518184015260208101905061013c565b50505050905090810190601f1680156101845780820380516001836020036101000a031916815260200191505b50858103835288818151815260200191508051906020019080838360005b838110156101bd5780820151818401526020810190506101a2565b50505050905090810190601f1680156101ea5780820380516001836020036101000a031916815260200191505b50858103825286818151815260200191508051906020019080838360005b83811015610223578082015181840152602081019050610208565b50505050905090810190601f1680156102505780820380516001836020036101000a031916815260200191505b509b50505050505050505050505060405180910390f35b6102a96004803603602081101561027d57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506105a1565b6040518082815260200191505060405180910390f35b60016020528060005260406000206000915090508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103915780601f1061036657610100808354040283529160200191610391565b820191906000526020600020905b81548152906001019060200180831161037457829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690806003018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104555780601f1061042a57610100808354040283529160200191610455565b820191906000526020600020905b81548152906001019060200180831161043857829003601f168201915b505050505090806004018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104f35780601f106104c8576101008083540402835291602001916104f3565b820191906000526020600020905b8154815290600101906020018083116104d657829003601f168201915b505050505090806005015490806006018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105975780601f1061056c57610100808354040283529160200191610597565b820191906000526020600020905b81548152906001019060200180831161057a57829003601f168201915b5050505050905087565b6000602052806000526040600020600091509050548156fea26469706673582212203c2622b768089bd44d412707b837966538cae81a295f19afa170d3b1224be90164736f6c63430007060033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100365760003560e01c806318030e7d1461003b5780632aa222c814610267575b600080fd5b6100676004803603602081101561005157600080fd5b81019080803590602001909291905050506102bf565b604051808873ffffffffffffffffffffffffffffffffffffffff168152602001806020018773ffffffffffffffffffffffffffffffffffffffff16815260200180602001806020018681526020018060200185810385528b818151815260200191508051906020019080838360005b838110156100f15780820151818401526020810190506100d6565b50505050905090810190601f16801561011e5780820380516001836020036101000a031916815260200191505b50858103845289818151815260200191508051906020019080838360005b8381101561015757808201518184015260208101905061013c565b50505050905090810190601f1680156101845780820380516001836020036101000a031916815260200191505b50858103835288818151815260200191508051906020019080838360005b838110156101bd5780820151818401526020810190506101a2565b50505050905090810190601f1680156101ea5780820380516001836020036101000a031916815260200191505b50858103825286818151815260200191508051906020019080838360005b83811015610223578082015181840152602081019050610208565b50505050905090810190601f1680156102505780820380516001836020036101000a031916815260200191505b509b50505050505050505050505060405180910390f35b6102a96004803603602081101561027d57600080fd5b81019080803573ffffffffffffffffffffffffffffffffffffffff1690602001909291905050506105a1565b6040518082815260200191505060405180910390f35b60016020528060005260406000206000915090508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690806001018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156103915780601f1061036657610100808354040283529160200191610391565b820191906000526020600020905b81548152906001019060200180831161037457829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1690806003018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104555780601f1061042a57610100808354040283529160200191610455565b820191906000526020600020905b81548152906001019060200180831161043857829003601f168201915b505050505090806004018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156104f35780601f106104c8576101008083540402835291602001916104f3565b820191906000526020600020905b8154815290600101906020018083116104d657829003601f168201915b505050505090806005015490806006018054600181600116156101000203166002900480601f0160208091040260200160405190810160405280929190818152602001828054600181600116156101000203166002900480156105975780601f1061056c57610100808354040283529160200191610597565b820191906000526020600020905b81548152906001019060200180831161057a57829003601f168201915b5050505050905087565b6000602052806000526040600020600091509050548156fea26469706673582212203c2622b768089bd44d412707b837966538cae81a295f19afa170d3b1224be90164736f6c63430007060033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "25:610:1:-:0;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "25:610:1:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;189:69;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;93:60;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;189:69;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;93:60::-;;;;;;;;;;;;;;;;;:::o",
+  "source": "pragma solidity ^0.7.0;\n\ncontract DocumentWorkFlow {\n    // Documents by minter counters\n    mapping(address => uint) public minterDocumentRequestCounter;\n\n    // Document minter items\n    mapping(uint => DocumentMintingRequest) public minterDocumentRequests;\n    \n    enum DocumentMintingRequestStatus   {\n        REQUEST,\n        MINTED,\n        BURNED\n    }\n\n     \n    // Document minting request\n    struct DocumentMintingRequest {\n        address user;\n        string userDid;\n        address toMinter; // NFT\n        string toMinterDid;\n        string documentURI;\n        uint status;        \n        string description;\n    }\n}",
+  "sourcePath": "/home/esfera-ubuntu/Documents/projects/ifesa/nft-document-swap/contracts/DocumentWorkFlow.sol",
+  "ast": {
+    "absolutePath": "/home/esfera-ubuntu/Documents/projects/ifesa/nft-document-swap/contracts/DocumentWorkFlow.sol",
+    "exportedSymbols": {
+      "DocumentWorkFlow": [
+        183
+      ]
+    },
+    "id": 184,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 155,
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "id": 183,
+        "linearizedBaseContracts": [
+          183
+        ],
+        "name": "DocumentWorkFlow",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "functionSelector": "2aa222c8",
+            "id": 159,
+            "mutability": "mutable",
+            "name": "minterDocumentRequestCounter",
+            "nodeType": "VariableDeclaration",
+            "scope": 183,
+            "src": "93:60:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
+              "typeString": "mapping(address => uint256)"
+            },
+            "typeName": {
+              "id": 158,
+              "keyType": {
+                "id": 156,
+                "name": "address",
+                "nodeType": "ElementaryTypeName",
+                "src": "101:7:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "93:24:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_address_$_t_uint256_$",
+                "typeString": "mapping(address => uint256)"
+              },
+              "valueType": {
+                "id": 157,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "112:4:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "constant": false,
+            "functionSelector": "18030e7d",
+            "id": 163,
+            "mutability": "mutable",
+            "name": "minterDocumentRequests",
+            "nodeType": "VariableDeclaration",
+            "scope": 183,
+            "src": "189:69:1",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$182_storage_$",
+              "typeString": "mapping(uint256 => struct DocumentWorkFlow.DocumentMintingRequest)"
+            },
+            "typeName": {
+              "id": 162,
+              "keyType": {
+                "id": 160,
+                "name": "uint",
+                "nodeType": "ElementaryTypeName",
+                "src": "197:4:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                }
+              },
+              "nodeType": "Mapping",
+              "src": "189:39:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$182_storage_$",
+                "typeString": "mapping(uint256 => struct DocumentWorkFlow.DocumentMintingRequest)"
+              },
+              "valueType": {
+                "id": 161,
+                "name": "DocumentMintingRequest",
+                "nodeType": "UserDefinedTypeName",
+                "referencedDeclaration": 182,
+                "src": "205:22:1",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_struct$_DocumentMintingRequest_$182_storage_ptr",
+                  "typeString": "struct DocumentWorkFlow.DocumentMintingRequest"
+                }
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "canonicalName": "DocumentWorkFlow.DocumentMintingRequestStatus",
+            "id": 167,
+            "members": [
+              {
+                "id": 164,
+                "name": "REQUEST",
+                "nodeType": "EnumValue",
+                "src": "315:7:1"
+              },
+              {
+                "id": 165,
+                "name": "MINTED",
+                "nodeType": "EnumValue",
+                "src": "332:6:1"
+              },
+              {
+                "id": 166,
+                "name": "BURNED",
+                "nodeType": "EnumValue",
+                "src": "348:6:1"
+              }
+            ],
+            "name": "DocumentMintingRequestStatus",
+            "nodeType": "EnumDefinition",
+            "src": "269:91:1"
+          },
+          {
+            "canonicalName": "DocumentWorkFlow.DocumentMintingRequest",
+            "id": 182,
+            "members": [
+              {
+                "constant": false,
+                "id": 169,
+                "mutability": "mutable",
+                "name": "user",
+                "nodeType": "VariableDeclaration",
+                "scope": 182,
+                "src": "444:12:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 168,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "444:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 171,
+                "mutability": "mutable",
+                "name": "userDid",
+                "nodeType": "VariableDeclaration",
+                "scope": 182,
+                "src": "466:14:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 170,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "466:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 173,
+                "mutability": "mutable",
+                "name": "toMinter",
+                "nodeType": "VariableDeclaration",
+                "scope": 182,
+                "src": "490:16:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 172,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "490:7:1",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 175,
+                "mutability": "mutable",
+                "name": "toMinterDid",
+                "nodeType": "VariableDeclaration",
+                "scope": 182,
+                "src": "523:18:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 174,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "523:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 177,
+                "mutability": "mutable",
+                "name": "documentURI",
+                "nodeType": "VariableDeclaration",
+                "scope": 182,
+                "src": "551:18:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 176,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "551:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 179,
+                "mutability": "mutable",
+                "name": "status",
+                "nodeType": "VariableDeclaration",
+                "scope": 182,
+                "src": "579:11:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 178,
+                  "name": "uint",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "579:4:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 181,
+                "mutability": "mutable",
+                "name": "description",
+                "nodeType": "VariableDeclaration",
+                "scope": 182,
+                "src": "608:18:1",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_string_storage_ptr",
+                  "typeString": "string"
+                },
+                "typeName": {
+                  "id": 180,
+                  "name": "string",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "608:6:1",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_storage_ptr",
+                    "typeString": "string"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "DocumentMintingRequest",
+            "nodeType": "StructDefinition",
+            "scope": 183,
+            "src": "404:229:1",
+            "visibility": "public"
+          }
+        ],
+        "scope": 184,
+        "src": "25:610:1"
+      }
+    ],
+    "src": "0:635:1"
+  },
+  "legacyAST": {
+    "attributes": {
+      "absolutePath": "/home/esfera-ubuntu/Documents/projects/ifesa/nft-document-swap/contracts/DocumentWorkFlow.sol",
+      "exportedSymbols": {
+        "DocumentWorkFlow": [
+          183
+        ]
+      }
+    },
+    "children": [
+      {
+        "attributes": {
+          "literals": [
+            "solidity",
+            "^",
+            "0.7",
+            ".0"
+          ]
+        },
+        "id": 155,
+        "name": "PragmaDirective",
+        "src": "0:23:1"
+      },
+      {
+        "attributes": {
+          "abstract": false,
+          "baseContracts": [
+            null
+          ],
+          "contractDependencies": [
+            null
+          ],
+          "contractKind": "contract",
+          "fullyImplemented": true,
+          "linearizedBaseContracts": [
+            183
+          ],
+          "name": "DocumentWorkFlow",
+          "scope": 184
+        },
+        "children": [
+          {
+            "attributes": {
+              "constant": false,
+              "functionSelector": "2aa222c8",
+              "mutability": "mutable",
+              "name": "minterDocumentRequestCounter",
+              "scope": 183,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "mapping(address => uint256)",
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "type": "mapping(address => uint256)"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "type": "address"
+                    },
+                    "id": 156,
+                    "name": "ElementaryTypeName",
+                    "src": "101:7:1"
+                  },
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 157,
+                    "name": "ElementaryTypeName",
+                    "src": "112:4:1"
+                  }
+                ],
+                "id": 158,
+                "name": "Mapping",
+                "src": "93:24:1"
+              }
+            ],
+            "id": 159,
+            "name": "VariableDeclaration",
+            "src": "93:60:1"
+          },
+          {
+            "attributes": {
+              "constant": false,
+              "functionSelector": "18030e7d",
+              "mutability": "mutable",
+              "name": "minterDocumentRequests",
+              "scope": 183,
+              "stateVariable": true,
+              "storageLocation": "default",
+              "type": "mapping(uint256 => struct DocumentWorkFlow.DocumentMintingRequest)",
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "type": "mapping(uint256 => struct DocumentWorkFlow.DocumentMintingRequest)"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 160,
+                    "name": "ElementaryTypeName",
+                    "src": "197:4:1"
+                  },
+                  {
+                    "attributes": {
+                      "name": "DocumentMintingRequest",
+                      "referencedDeclaration": 182,
+                      "type": "struct DocumentWorkFlow.DocumentMintingRequest"
+                    },
+                    "id": 161,
+                    "name": "UserDefinedTypeName",
+                    "src": "205:22:1"
+                  }
+                ],
+                "id": 162,
+                "name": "Mapping",
+                "src": "189:39:1"
+              }
+            ],
+            "id": 163,
+            "name": "VariableDeclaration",
+            "src": "189:69:1"
+          },
+          {
+            "attributes": {
+              "canonicalName": "DocumentWorkFlow.DocumentMintingRequestStatus",
+              "name": "DocumentMintingRequestStatus"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "name": "REQUEST"
+                },
+                "id": 164,
+                "name": "EnumValue",
+                "src": "315:7:1"
+              },
+              {
+                "attributes": {
+                  "name": "MINTED"
+                },
+                "id": 165,
+                "name": "EnumValue",
+                "src": "332:6:1"
+              },
+              {
+                "attributes": {
+                  "name": "BURNED"
+                },
+                "id": 166,
+                "name": "EnumValue",
+                "src": "348:6:1"
+              }
+            ],
+            "id": 167,
+            "name": "EnumDefinition",
+            "src": "269:91:1"
+          },
+          {
+            "attributes": {
+              "canonicalName": "DocumentWorkFlow.DocumentMintingRequest",
+              "name": "DocumentMintingRequest",
+              "scope": 183,
+              "visibility": "public"
+            },
+            "children": [
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "user",
+                  "scope": 182,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "address",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "stateMutability": "nonpayable",
+                      "type": "address"
+                    },
+                    "id": 168,
+                    "name": "ElementaryTypeName",
+                    "src": "444:7:1"
+                  }
+                ],
+                "id": 169,
+                "name": "VariableDeclaration",
+                "src": "444:12:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "userDid",
+                  "scope": 182,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "string",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "string",
+                      "type": "string"
+                    },
+                    "id": 170,
+                    "name": "ElementaryTypeName",
+                    "src": "466:6:1"
+                  }
+                ],
+                "id": 171,
+                "name": "VariableDeclaration",
+                "src": "466:14:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "toMinter",
+                  "scope": 182,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "address",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "address",
+                      "stateMutability": "nonpayable",
+                      "type": "address"
+                    },
+                    "id": 172,
+                    "name": "ElementaryTypeName",
+                    "src": "490:7:1"
+                  }
+                ],
+                "id": 173,
+                "name": "VariableDeclaration",
+                "src": "490:16:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "toMinterDid",
+                  "scope": 182,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "string",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "string",
+                      "type": "string"
+                    },
+                    "id": 174,
+                    "name": "ElementaryTypeName",
+                    "src": "523:6:1"
+                  }
+                ],
+                "id": 175,
+                "name": "VariableDeclaration",
+                "src": "523:18:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "documentURI",
+                  "scope": 182,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "string",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "string",
+                      "type": "string"
+                    },
+                    "id": 176,
+                    "name": "ElementaryTypeName",
+                    "src": "551:6:1"
+                  }
+                ],
+                "id": 177,
+                "name": "VariableDeclaration",
+                "src": "551:18:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "status",
+                  "scope": 182,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "uint256",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "uint",
+                      "type": "uint256"
+                    },
+                    "id": 178,
+                    "name": "ElementaryTypeName",
+                    "src": "579:4:1"
+                  }
+                ],
+                "id": 179,
+                "name": "VariableDeclaration",
+                "src": "579:11:1"
+              },
+              {
+                "attributes": {
+                  "constant": false,
+                  "mutability": "mutable",
+                  "name": "description",
+                  "scope": 182,
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "type": "string",
+                  "visibility": "internal"
+                },
+                "children": [
+                  {
+                    "attributes": {
+                      "name": "string",
+                      "type": "string"
+                    },
+                    "id": 180,
+                    "name": "ElementaryTypeName",
+                    "src": "608:6:1"
+                  }
+                ],
+                "id": 181,
+                "name": "VariableDeclaration",
+                "src": "608:18:1"
+              }
+            ],
+            "id": 182,
+            "name": "StructDefinition",
+            "src": "404:229:1"
+          }
+        ],
+        "id": 183,
+        "name": "ContractDefinition",
+        "src": "25:610:1"
+      }
+    ],
+    "id": 184,
+    "name": "SourceUnit",
+    "src": "0:635:1"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.7.6+commit.7338295f.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.3",
+  "updatedAt": "2021-02-04T02:01:08.688Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

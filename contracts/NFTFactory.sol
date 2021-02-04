@@ -13,14 +13,6 @@ contract NFTFactory is MinterRegistry {
     using SafeMath for uint256;
     using Address for address payable;
 
-    // Emits when an document is created
-    event MinterCreated(
-        address indexed minter,
-        string indexed name, 
-        string indexed symbol,
-        address paymentAddress,
-        uint feeStructure
-    );
     event MinterRemoved(address indexed minter);
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
@@ -61,8 +53,8 @@ contract NFTFactory is MinterRegistry {
     }
 
     function createMinter(
-        bytes memory name, 
-        bytes memory symbol,
+        string memory name, 
+        string memory symbol,
         address paymentAddress,
         bool userHasKyc,
         uint feeStructure)
@@ -74,32 +66,19 @@ contract NFTFactory is MinterRegistry {
             address(new NFTDocumentMinter(
                 owner, 
                 msg.sender, 
-                string(name), 
-                string(symbol), 
-                feeStructure, 
-                fee,
-                paymentAddress,
-                address(this),
+                name, 
+                symbol, 
                 daiToken));
         
         addToRegistry(
-                minter, 
-                name,
-                symbol,
-                paymentAddress,
-                userHasKyc,
-                feeStructure);
-        
-        bool ok = minters.add(minter);
-        emit MinterCreated(
-            minter,
-            string(name),
-            string(symbol),
+            minter, 
+            name,
+            symbol,
             paymentAddress,
-            feeStructure
-        );
-
-        // TODO: transfer from to owner (factory fee)
+            userHasKyc,
+            feeStructure,
+            fee,
+            address(this));
 
         return minter;
     }

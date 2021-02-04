@@ -27,14 +27,14 @@ contract('NFTFactory', accounts => {
         assert.equal(nftFactory !== null, true);
 
         const res = await nftFactory.createMinter(
-          web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
-          web3.utils.fromUtf8("NOT9APOST"),
+          "NOTARIO 9VNO - APOSTILLADO",
+          "NOT9APOST",
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
           false,
           new BigNumber(20 * 10e18)
         );
 
-        const nftAddress = res.logs[0].args.minter;
+        const nftAddress = res.logs[0].args.minterAddress;
         const minter = await DocumentMinter.at(nftAddress);
         assert.equal(await minter.symbol(), "NOT9APOST");
       });
@@ -46,14 +46,14 @@ contract('NFTFactory', accounts => {
         assert.equal(nftFactory !== null, true);
 
         const res = await nftFactory.createMinter(
-          web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
-          web3.utils.fromUtf8("NOT9APOST"),
+          "NOTARIO 9VNO - APOSTILLADO",
+          "NOT9APOST",
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
           false,
           new BigNumber(20 * 10e18)
         );
 
-        documentMinterAddress = res.logs[0].args.minter;
+        documentMinterAddress = res.logs[0].args.minterAddress;
 
         const requestMintResult = await documents.requestMint(
           documentMinterAddress,
@@ -86,15 +86,15 @@ contract('NFTFactory', accounts => {
         assert.equal(nftFactory !== null, true);
 
         const res = await nftFactory.createMinter(
-          web3.utils.fromUtf8("NOTARIO 9VNO - APOSTILLADO"),
-          web3.utils.fromUtf8("NOT9APOST"),
+          "NOTARIO 9VNO - APOSTILLADO",
+          "NOT9APOST",
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
 
           false,
           new BigNumber(2 * 1e18)
         );
 
-        documentMinterAddress = res.logs[0].args.minter;
+        documentMinterAddress = res.logs[0].args.minterAddress;
 
         const requestMintResult = await documents.requestMint(
           documentMinterAddress,

@@ -4,34 +4,12 @@ import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./NFTDocumentMinter.sol";
+import "./MinterRegistry.sol";
 
 /**
  *  Anchors IPLD cids by minter address
  */
-contract DocumentAnchoring {
-    // Documents by minter counters
-    mapping(address => uint) public minterDocumentRequestCounter;
-
-     enum DocumentMintingRequestStatus   {
-         REQUEST,
-         MINTED,
-         BURNED
-     }
-
-     
-    // Document minting request
-    struct DocumentMintingRequest {
-        address user;
-        string userDid;
-        address toMinter; // NFT
-        string toMinterDid;
-        string documentURI;
-        uint status;        
-    }
-
-    // Document minter items
-    mapping(uint => DocumentMintingRequest) public minterDocumentRequests;
-
+contract DocumentAnchoring is MinterRegistry {
     // RequestMinting events
     event RequestMinting(
         address minter, // NFT
@@ -39,7 +17,6 @@ contract DocumentAnchoring {
         string tokenURI,
         uint anchorId
     );
-
 
     // SelfMinted event
     event SelfMinted(
@@ -65,7 +42,8 @@ contract DocumentAnchoring {
         string memory minterDid,
         string memory userDid,
         bool selfMint,
-        string memory tokenURI
+        string memory tokenURI,
+        string memory description
     ) public returns (bool) {
         // Checks if there is a valid address
         require(NFTDocumentMinter(minter).mintedBy() != address(0) , "NO CONTRACT MINTER FOUND");
@@ -95,7 +73,8 @@ contract DocumentAnchoring {
             toMinter: minter,
             userDid: userDid, 
             documentURI: tokenURI,
-            status: uint(DocumentMintingRequestStatus.REQUEST)
+            status: uint(DocumentMintingRequestStatus.REQUEST),
+            description: description
         });
         emit RequestMinting(
             minter,

@@ -4,9 +4,13 @@ import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ERC20Interface.sol";
-contract NFTDocumentMinter is ERC721Pausable {
+import "./MinterRegistry.sol";
+//import "../node_modules/@openzeppelin/contracts/math/SafeMath.sol";
+
+contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
  
     using Counters for Counters.Counter;
+    using SafeMath for uint;
     Counters.Counter private _tokenIds;
     address public owner;
     uint256 public protocolServiceFee;
@@ -35,19 +39,19 @@ contract NFTDocumentMinter is ERC721Pausable {
         address _mintedBy,
         string memory name,
         string memory symbol,
-        uint serviceFee,
+        /*uint serviceFee,
         uint protocolFee,
         address paymentAddress,
-        address factoryPaymentAddress,
+        address factoryPaymentAddress,*/
         ERC20Interface paymentToken
     ) public ERC721(name, symbol) {
         owner = _owner;
         mintedBy = _mintedBy;
         daiToken = paymentToken;
-        mintingServiceFee = serviceFee;
+        /*mintingServiceFee = serviceFee;
         protocolServiceFee = protocolFee;
         minterPaymentAddress = paymentAddress;
-        protocolPaymentAddress = factoryPaymentAddress;
+        protocolPaymentAddress = factoryPaymentAddress;*/
     }
    
     function mint(address user, string memory tokenURI)
@@ -62,6 +66,10 @@ contract NFTDocumentMinter is ERC721Pausable {
         _setTokenURI(newItemId, tokenURI);
 
         // TODO desplegar el fee de burn
+        uint index = minterDocumentRequestCounter[address(this)];
+        minterDocumentRequests[index].status = uint(DocumentMintingRequestStatus.MINTED);
+
+
 
         return newItemId;
     }   
@@ -71,7 +79,6 @@ contract NFTDocumentMinter is ERC721Pausable {
         payable
         returns (bool)
     {
-       /// require(msg.value == (mintingServiceFee + protocolServiceFee), "MUST SEND FEE BEFORE USE");
 
         // User must have a balance
         require(
@@ -84,26 +91,41 @@ contract NFTDocumentMinter is ERC721Pausable {
             "Invalid token allowance"
         );
 
+        /* require(
+            daiToken.balanceOf(msg.sender) == (mintingServiceFee.sum(protocolServiceFee)), 
+            "MUST SEND FEE BEFORE USE");
+        */
+
+        uint index = minterCounter[address(this)];
+        DataProviderMinter memory dataProvider = dataProviderMinters[index];
+        
         _burn(tokenId);
 
         // TODO: Update accounting
+        //  - create mappings to data provider accounting
+        //  - create mappings to protocol fee accounting
 
         // Transfer tokens to NFT owner
         require(
             daiToken.transferFrom(
                 msg.sender, 
-                minterPaymentAddress, 
-                mintingServiceFee),
+                dataProvider.paymentAddress, 
+                dataProvider.feeStructure),
             "Transfer failed for base token"
         );
+
         // Transfer tokens to pay service fee
         require(
             daiToken.transferFrom(
                 msg.sender, 
-                protocolPaymentAddress, 
-                protocolServiceFee),
+                dataProvider.factoryAddress, 
+                dataProvider.serviceFee),
             "Transfer failed for base token"
         );
+
+        // TODO desplegar el fee de burn
+        uint _index = minterDocumentRequestCounter[address(this)];
+        minterDocumentRequests[_index].status = uint(DocumentMintingRequestStatus.BURNED);
         
         emit BurnSwap(
             address(this),
