@@ -1,8 +1,8 @@
 const fs = require('fs');
 const DocumentAnchoring = artifacts.require('DocumentAnchoring');
-const NFTFactory = artifacts.require('NFTFactory');
+const NFTManager = artifacts.require('NFTManager');
 const DAI = artifacts.require('DAI');
-
+const NFTDocumentMinter = artifacts.require('NFTDocumentMinter');
 
 const ContractImportBuilder = require('../contract-import-builder');
 
@@ -28,9 +28,13 @@ module.exports = async (deployer, network, accounts) => {
   await deployer.deploy(DocumentAnchoring);
   const documents = await DocumentAnchoring.deployed();
 
-  await deployer.deploy(NFTFactory, daiaddress);
-  const factory = await NFTFactory.deployed();
+  await deployer.deploy(NFTManager, daiaddress);
+  const manager = await NFTManager.deployed();
 
+  await deployer.deploy(NFTDocumentMinter, "XDV Document Token", "XDV", daiaddress);
+  const datatoken = await NFTDocumentMinter.deployed();
+  
+  await manager.setProtocolFee(new BigNumber(5 * 1e18));
   builder.addContract(
     'DAI',
     dai,
@@ -46,9 +50,17 @@ module.exports = async (deployer, network, accounts) => {
   );
 
   builder.addContract(
-    'NFTFactory',
-    factory,
-    factory.address,
+    'NFTManager',
+    manager,
+    manager.address,
     network
   );
+
+
+  builder.addContract(
+    'NFTDocumentMinter',
+    datatoken,
+    datatoken.address,
+    network
+  );  
 };

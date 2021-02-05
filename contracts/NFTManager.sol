@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "./ERC20Interface.sol";
 
-contract NFTFactory is MinterRegistry {
+contract NFTManager is MinterRegistry {
     using EnumerableSet for EnumerableSet.AddressSet;
     using SafeMath for uint256;
     using Address for address payable;
