@@ -41,14 +41,10 @@ contract DocumentAnchoring is MinterRegistry {
         string memory tokenURI,
         string memory description
     ) public returns (bool) {
-        // Checks if there is a valid address
-        require(NFTDocumentMinter(minter).mintedBy() != address(0) , "NO CONTRACT MINTER FOUND");
- 
         // Allow self minting
         if (selfMint == true) {
             // Is sender owner of minter
-            require(NFTDocumentMinter(minter).mintedBy() == msg.sender, "INVALID MINTER ACCESS");
-            uint id = NFTDocumentMinter(minter).mint(msg.sender, tokenURI);
+            uint id = NFTDocumentMinter(minter).mint(0, msg.sender, tokenURI);
             
             emit SelfMinted(
                 minter, 
@@ -63,7 +59,7 @@ contract DocumentAnchoring is MinterRegistry {
         minterDocumentRequestCounter[minter]++;
         uint i = minterDocumentRequestCounter[minter];
         
-        minterDocumentRequests[i] = DocumentMintingRequest({
+        minterDocumentRequests[minter][i] = DocumentMintingRequest({
             user: msg.sender, 
             toMinterDid: minterDid,
             toMinter: minter,

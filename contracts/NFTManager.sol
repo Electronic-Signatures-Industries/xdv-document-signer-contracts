@@ -13,7 +13,6 @@ contract NFTFactory is MinterRegistry {
     using SafeMath for uint256;
     using Address for address payable;
 
-    event MinterRemoved(address indexed minter);
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
     uint256 fee;

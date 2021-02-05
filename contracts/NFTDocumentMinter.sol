@@ -10,8 +10,7 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
     using SafeMath for uint;
     Counters.Counter private _tokenIds;
     address public owner;
-    address public mintedBy;
-    ERC20Interface public daiToken;
+    ERC20Interface public stablecoin;
 
     event BurnSwap(
         address minter,
@@ -19,22 +18,22 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
         uint id
     );
 
+    /**
+    * XDV Data Token
+    */
     constructor(
-        address _owner,
-        address _mintedBy,
         string memory name,
-        string memory symbol
+        string memory symbol,
+        address tokenAddress
     ) public ERC721(name, symbol) {
-        owner = _owner;
-        mintedBy = _mintedBy;
-        // daiToken = paymentToken;
+        owner = msg.sender;
+        stablecoin  = ERC20Interface(tokenAddress);
     }
    
-    function mint(address user, string memory tokenURI)
+    function mint(uint requestId, address user, string memory tokenURI)
         public
         returns (uint256)
     {
-        require(mintedBy == msg.sender, "INVALID MINTER");
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -42,13 +41,14 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
         _setTokenURI(newItemId, tokenURI);
 
         // TODO desplegar el fee de burn
-        uint index = minterDocumentRequestCounter[address(this)];
-        minterDocumentRequests[index].status = uint(DocumentMintingRequestStatus.MINTED);
+        if (requestId > 0) {
+            minterDocumentRequests[address(this)][requestId].status = uint(DocumentMintingRequestStatus.MINTED);
+        }
 
         return newItemId;
     }   
 
-    function burn(uint tokenId)
+    function burn(uint requestId, uint tokenId)
         public
         payable
         returns (bool)
@@ -56,17 +56,17 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
 
         // User must have a balance
         require(
-            daiToken.balanceOf(msg.sender) >= 0,
+            stablecoin.balanceOf(msg.sender) >= 0,
             "Invalid token balance"
         );
         // User must have an allowance
         require(
-            daiToken.allowance(msg.sender, address(this)) >= 0,
+            stablecoin.allowance(msg.sender, address(this)) >= 0,
             "Invalid token allowance"
         );
 
         /* require(
-            daiToken.balanceOf(msg.sender) == (mintingServiceFee.sum(protocolServiceFee)), 
+            stablecoin.balanceOf(msg.sender) == (mintingServiceFee.sum(protocolServiceFee)), 
             "MUST SEND FEE BEFORE USE");
         */
 
@@ -81,7 +81,7 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
 
         // Transfer tokens to NFT owner
         require(
-            daiToken.transferFrom(
+            stablecoin.transferFrom(
                 msg.sender, 
                 dataProvider.paymentAddress, 
                 dataProvider.feeStructure),
@@ -90,7 +90,7 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
 
         // Transfer tokens to pay service fee
         require(
-            daiToken.transferFrom(
+            stablecoin.transferFrom(
                 msg.sender, 
                 dataProvider.factoryAddress, 
                 dataProvider.serviceFee),
@@ -98,9 +98,9 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
         );
 
         // TODO desplegar el fee de burn
-        uint _index = minterDocumentRequestCounter[address(this)];
-        minterDocumentRequests[_index].status = uint(DocumentMintingRequestStatus.BURNED);
-        
+        if (requestId > 0) {
+            minterDocumentRequests[address(this)][requestId].status = uint(DocumentMintingRequestStatus.BURNED);
+        }
         emit BurnSwap(
             address(this),
             msg.sender,

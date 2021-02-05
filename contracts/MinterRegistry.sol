@@ -13,11 +13,11 @@ contract MinterRegistry {
     mapping(address => uint) public minterCounter;
     mapping(uint => DataProviderMinter) public dataProviderMinters;
 
-    // Requested Documents by minter counters
+    // Requested Documents by minter id sequence/autonumber
     mapping(address => uint) public minterDocumentRequestCounter;
 
-    // Requested Document minter items
-    mapping(uint => DocumentMintingRequest) public minterDocumentRequests;
+    // Requests by minter by autonumber
+    mapping(address => mapping(uint => DocumentMintingRequest)) public minterDocumentRequests;
     
     enum DocumentMintingRequestStatus   {
         REQUEST,
