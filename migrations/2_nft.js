@@ -1,3 +1,4 @@
+const BigNumber = require('bignumber.js');
 const fs = require('fs');
 const DocumentAnchoring = artifacts.require('DocumentAnchoring');
 const NFTManager = artifacts.require('NFTManager');
