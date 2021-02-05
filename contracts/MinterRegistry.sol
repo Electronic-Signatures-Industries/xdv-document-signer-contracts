@@ -58,6 +58,10 @@ contract MinterRegistry {
         string indexed symbol
     );
 
+    constructor() public {
+
+    }
+    
     function addToRegistry(
         address minter,
         string memory name,

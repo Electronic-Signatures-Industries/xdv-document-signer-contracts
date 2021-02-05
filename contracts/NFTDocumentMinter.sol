@@ -1,11 +1,8 @@
 pragma solidity ^0.7.0;
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ERC20Interface.sol";
 import "./MinterRegistry.sol";
-//import "../node_modules/@openzeppelin/contracts/math/SafeMath.sol";
 
 contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
  
@@ -13,45 +10,24 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
     using SafeMath for uint;
     Counters.Counter private _tokenIds;
     address public owner;
-    uint256 public protocolServiceFee;
-    uint256 public mintingServiceFee;
     address public mintedBy;
     ERC20Interface public daiToken;
-    address public protocolPaymentAddress;
-    address public minterPaymentAddress;
 
-    // DID: https://blog.ceramic.network/how-to-store-encrypted-secrets-using-idx/
-    // MINTED: Must encrypt using DID, and then upload new document which will be tokenize
-    // NFT Manager locks again to secure 
-    // BURN_SWAP: Reads token uri from IPLD, and decrypts with DID
-    // todo:  mapping de flow (REQUEST_MINTING, MINTED, BURN_SWAP)
     event BurnSwap(
         address minter,
         address from,
         uint id
     );
 
-    /**
-    * TODO
-     */
     constructor(
         address _owner,
         address _mintedBy,
         string memory name,
-        string memory symbol,
-        /*uint serviceFee,
-        uint protocolFee,
-        address paymentAddress,
-        address factoryPaymentAddress,*/
-        ERC20Interface paymentToken
+        string memory symbol
     ) public ERC721(name, symbol) {
         owner = _owner;
         mintedBy = _mintedBy;
-        daiToken = paymentToken;
-        /*mintingServiceFee = serviceFee;
-        protocolServiceFee = protocolFee;
-        minterPaymentAddress = paymentAddress;
-        protocolPaymentAddress = factoryPaymentAddress;*/
+        // daiToken = paymentToken;
     }
    
     function mint(address user, string memory tokenURI)
@@ -68,8 +44,6 @@ contract NFTDocumentMinter is ERC721Pausable, MinterRegistry {
         // TODO desplegar el fee de burn
         uint index = minterDocumentRequestCounter[address(this)];
         minterDocumentRequests[index].status = uint(DocumentMintingRequestStatus.MINTED);
-
-
 
         return newItemId;
     }   

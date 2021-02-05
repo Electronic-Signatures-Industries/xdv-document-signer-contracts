@@ -6,6 +6,7 @@ module.exports = {
       version: "^0.7.0"
     }
   },
+  plugins: ["truffle-contract-size"],
   networks: {
     bsctestnet: {
       provider: () => new HDWalletProvider(process.env.BSC_MNEMONIC, process.env.BSC_TESTNET),

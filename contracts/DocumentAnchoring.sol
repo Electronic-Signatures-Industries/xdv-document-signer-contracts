@@ -1,8 +1,4 @@
 pragma solidity ^0.7.0;
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 import "./NFTDocumentMinter.sol";
 import "./MinterRegistry.sol";
 
