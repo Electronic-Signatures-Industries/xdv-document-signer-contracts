@@ -215,7 +215,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -234,7 +235,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -253,7 +255,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -307,7 +310,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -3883,6 +3887,106 @@
     "version": "0.7.6+commit.7338295f.Emscripten.clang"
   },
   "networks": {
+    "10": {
+      "events": {
+        "0x27cbb566eb604924251497b674c4c5afaa8275d5ef452d9dd86cdd6e0ada15ca": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "minter",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "internalType": "string",
+              "name": "symbol",
+              "type": "string"
+            }
+          ],
+          "name": "MinterRegistered",
+          "type": "event"
+        },
+        "0xa80c7d6d2d07f8bb5eec657b8d7c4b324f0858cbdd14cea252619ab61afe3a92": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "minter",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "tokenURI",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "anchorId",
+              "type": "uint256"
+            }
+          ],
+          "name": "RequestMinting",
+          "type": "event"
+        },
+        "0x2fba0a5a0542aa8564b567a38d6232d6e463eae72ffb8004484a0f4b036296b9": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "minter",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "tokenURI",
+              "type": "string"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            }
+          ],
+          "name": "SelfMinted",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x93b703CfBD9D1DB04eaf86829B5a47729d81B0Fb",
+      "transactionHash": "0xb5fd1001abe2e6a3d608fbbca47ceaeb92183eafc048b3c9b3346aaf3f36d688"
+    },
     "97": {
       "events": {
         "0xa80c7d6d2d07f8bb5eec657b8d7c4b324f0858cbdd14cea252619ab61afe3a92": {
@@ -3980,8 +4084,8 @@
         }
       },
       "links": {},
-      "address": "0x096341A7575F993628B927D27910ce538Ec3E513",
-      "transactionHash": "0x999709f01d1b6da3f0ac6dd509c51c624c8adf7f2f3e419569fd366e0d23e8e6"
+      "address": "0xbC16BbdB3a553dA4A7395c1A0350AD28dDe7cb52",
+      "transactionHash": "0xfadd2fbe60bba9a33cdcb8eac5f050fe56cade755ae08d3feaef439bf2edd518"
     },
     "1612014491683": {
       "events": {
@@ -4054,7 +4158,8 @@
     }
   },
   "schemaVersion": "3.3.3",
-  "updatedAt": "2021-02-06T00:47:47.907Z",
+  "updatedAt": "2021-02-09T22:35:13.535Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {
