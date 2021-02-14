@@ -17,25 +17,27 @@ module.exports = async (deployer, network, accounts) => {
     let daiaddress = "";
     let dai;
 
-    await deployer.deploy(DAI);
-    dai = await DAI.deployed();
-    // if (network === "rinkeby") {
-      //TODO
-    daiaddress = "pendiente";
-    // }
+    if (network === "bsc") {
+      daiaddress = "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3";
+    }
+    else{
+      await deployer.deploy(DAI);
+      dai = await DAI.deployed();
+      daiaddress = dai.address;
+    }
     // else {
 
-    await deployer.deploy(XDVDocumentAnchoring, dai.address);
+    await deployer.deploy(XDVDocumentAnchoring, daiaddress);
 
     xdvDocumentAnchoring = await XDVDocumentAnchoring.deployed();
-    await xdvDocumentAnchoring.setProtocolConfig(new BigNumber(1 * 1e18));
+    await xdvDocumentAnchoring.setProtocolConfig(new BigNumber(0.5 * 1e18));
     /*const fee_bn = new BigNumber(5 * 1e18);
     await dai.mint(accounts[0],fee_bn);*/
 
     builder.addContract(
       'DAI',
       dai,
-      dai.address,
+      daiaddress,
       network
     );
 

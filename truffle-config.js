@@ -16,11 +16,11 @@ module.exports = {
       skipDryRun: false
     },
     bsc: {
-      provider: () => new HDWalletProvider(process.env.BSC_MNEMONIC, `https://bsc-dataseed1.binance.org`),
+      provider: () => new HDWalletProvider(process.env.BSCMAINNET_MNEMONIC, `https://bsc-dataseed1.binance.org`),
       network_id: 56,
       confirmations: 10,
       timeoutBlocks: 200,
-      skipDryRun: true
+      skipDryRun: false
     },
     localhost: {
       from: '0xA83B070a68336811e9265fbEc6d49B98538F61EA',
