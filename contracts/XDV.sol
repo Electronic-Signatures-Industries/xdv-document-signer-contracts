@@ -10,12 +10,7 @@ contract XDV is ERC721Pausable {
     Counters.Counter private _tokenIds;
     address public owner;
     ERC20Interface public stablecoin;
-
-    event BurnSwap(
-        address minter,
-        address from,
-        uint id
-    );
+    address public platformOwner;
 
     /**
     * XDV Data Token
@@ -27,11 +22,20 @@ contract XDV is ERC721Pausable {
         owner = msg.sender;
     }
    
+    function setPlatformOwner(address user)
+        public
+        returns (bool)
+    {
+        require(msg.sender == owner);
+        platformOwner = user;
+
+        return true;
+    }
     function mint(address user, string memory tokenURI)
         public
         returns (uint256)
     {
-        require(msg.sender == owner);
+        require(msg.sender == platformOwner);
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -45,7 +49,7 @@ contract XDV is ERC721Pausable {
         public
         returns (bool)
     {
-        require(msg.sender == owner);
+        require(msg.sender == platformOwner);
         
         _burn(tokenId);
         return true;

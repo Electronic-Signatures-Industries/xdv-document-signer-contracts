@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "./ERC20Interface.sol";
 
-contract NFTManager is MinterRegistry {
+contract XDVController is MinterRegistry {
     using EnumerableSet for EnumerableSet.AddressSet;
     using SafeMath for uint256;
     using Address for address payable;
@@ -16,13 +16,15 @@ contract NFTManager is MinterRegistry {
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
     uint256 fee;
+    XDV private platformToken;
     ERC20Interface public token;
 
     // minters
     EnumerableSet.AddressSet internal minters;
 
-    constructor(address stablecoin) public {
+    constructor(address stablecoin, address xdv) public {
         token = ERC20Interface(stablecoin);
+        platformToken = XDV(xdv);
         owner = msg.sender;
     }
 
@@ -54,13 +56,7 @@ contract NFTManager is MinterRegistry {
         public
         returns (uint256)
     {
-        _tokenIds.increment();
-
-        uint256 newItemId = _tokenIds.current();
-        _safeMint(user, newItemId);
-        _setTokenURI(newItemId, tokenURI);
-  
-        return newItemId;
+        return platformToken.mint(user, tokenURI);
     }   
 
     function burn(uint requestId, uint tokenId)
@@ -71,24 +67,24 @@ contract NFTManager is MinterRegistry {
 
         // User must have a balance
         require(
-            stablecoin.balanceOf(msg.sender) >= 0,
+            token.balanceOf(msg.sender) >= 0,
             "Invalid token balance"
         );
         // User must have an allowance
         require(
-            stablecoin.allowance(msg.sender, address(this)) >= 0,
+            token.allowance(msg.sender, address(this)) >= 0,
             "Invalid token allowance"
         );
 
         /* require(
-            stablecoin.balanceOf(msg.sender) == (mintingServiceFee.sum(protocolServiceFee)), 
+            token.balanceOf(msg.sender) == (mintingServiceFee.sum(protocolServiceFee)), 
             "MUST SEND FEE BEFORE USE");
         */
 
         uint index = minterCounter[address(this)];
         DataProviderMinter memory dataProvider = dataProviderMinters[index];
         
-        _burn(tokenId);
+        platformToken.burn(tokenId);
 
         // TODO: Update accounting
         //  - create mappings to data provider accounting
@@ -96,7 +92,7 @@ contract NFTManager is MinterRegistry {
 
         // Transfer tokens to NFT owner
         require(
-            stablecoin.transferFrom(
+            token.transferFrom(
                 msg.sender, 
                 dataProvider.paymentAddress, 
                 dataProvider.feeStructure),
@@ -105,7 +101,7 @@ contract NFTManager is MinterRegistry {
 
         // Transfer tokens to pay service fee
         require(
-            stablecoin.transferFrom(
+            token.transferFrom(
                 msg.sender, 
                 dataProvider.factoryAddress, 
                 dataProvider.serviceFee),
@@ -116,11 +112,7 @@ contract NFTManager is MinterRegistry {
         if (requestId > 0) {
             minterDocumentRequests[address(this)][requestId].status = uint(DocumentMintingRequestStatus.BURNED);
         }
-        emit BurnSwap(
-            address(this),
-            msg.sender,
-            tokenId
-        );
+        
 
         return true;
     }       
