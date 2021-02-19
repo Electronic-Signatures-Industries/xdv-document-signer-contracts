@@ -1,57 +1,49 @@
 const BigNumber = require('bignumber.js');
 const fs = require('fs');
 const DocumentAnchoring = artifacts.require('DocumentAnchoring');
-const NFTManager = artifacts.require('NFTManager');
-const DAI = artifacts.require('DAI');
-const NFTDocumentMinter = artifacts.require('NFTDocumentMinter');
+const XDVController = artifacts.require('XDVController');
+const USDC = artifacts.require('USDC');
+const XDV = artifacts.require('XDV');
 
 const ContractImportBuilder = require('../contract-import-builder');
 
 module.exports = async (deployer, network, accounts) => {
   const builder = new ContractImportBuilder();
-  const path = `${__dirname}/../abi-export/main.js`;
+  const path = `${__dirname}/../abi-export/nft.js`;
 
   builder.setOutput(path);
   builder.onWrite = (output) => {
     fs.writeFileSync(path, output);
   };
-  let dai;
-  let daiaddress = ""
+  let usdc;
+  let usdcaddress = ""
   // if (network === "rinkeby") {
-  daiaddress = "0xec5dcb5dbf4b114c9d0f65bccab49ec54f6a0867"
+  usdcaddress = "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";
   // }
   // else {
 
-  await deployer.deploy(DAI);
-  dai = await DAI.deployed();
-  //   daiaddress = dai.address
-  // }
-  await deployer.deploy(DocumentAnchoring);
-  const documents = await DocumentAnchoring.deployed();
+  await deployer.deploy(USDC);
+  usdc = await USDC.deployed();
+  //   usdcaddress = usdc.address
 
-  await deployer.deploy(NFTManager, daiaddress);
-  const manager = await NFTManager.deployed();
+  await deployer.deploy(XDV, "XDV Document Token", "XDV");
+  const datatoken = await XDV.deployed();
 
-  await deployer.deploy(NFTDocumentMinter, "XDV Document Token", "XDV", daiaddress);
-  const datatoken = await NFTDocumentMinter.deployed();
+  await deployer.deploy(XDVController, usdc.address, datatoken.address);
+  const manager = await XDVController.deployed();
+
   
-  await manager.setProtocolFee(new BigNumber(5 * 1e18));
+  await manager.setProtocolFee(new BigNumber(1 * 1e18));
   builder.addContract(
-    'DAI',
-    dai,
-    daiaddress,
+    'USDC',
+    usdc,
+    usdc.address,
     network
   );
 
-  builder.addContract(
-    'DocumentAnchoring',
-    documents,
-    documents.address,
-    network
-  );
 
   builder.addContract(
-    'NFTManager',
+    'XDVController',
     manager,
     manager.address,
     network
@@ -59,7 +51,7 @@ module.exports = async (deployer, network, accounts) => {
 
 
   builder.addContract(
-    'NFTDocumentMinter',
+    'XDV',
     datatoken,
     datatoken.address,
     network

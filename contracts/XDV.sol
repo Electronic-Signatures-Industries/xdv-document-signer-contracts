@@ -10,6 +10,7 @@ contract XDV is ERC721Pausable {
     Counters.Counter private _tokenIds;
     address public owner;
     ERC20Interface public stablecoin;
+    mapping(address => bool) public whitelistedMinters;
     address public platformOwner;
 
     /**
@@ -22,25 +23,39 @@ contract XDV is ERC721Pausable {
         owner = msg.sender;
     }
    
-    function setPlatformOwner(address user)
+    function setWhitelistedMinter(address user, bool isPlatformOwner)
         public
         returns (bool)
     {
         require(msg.sender == owner);
-        platformOwner = user;
+        if (isPlatformOwner) {
+          platformOwner = user;
+          whitelistedMinters[user] = true;
+        } else {
+            whitelistedMinters[user] = true;
+        }
 
         return true;
     }
+
+    /**
+     * @dev Mints a XDV Data Token if whitelisted
+     */
     function mint(address user, string memory tokenURI)
         public
         returns (uint256)
     {
-        require(msg.sender == platformOwner);
+        require(whitelistedMinters[msg.sender], "User has not been whitelisted");
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
         _safeMint(user, newItemId);
         _setTokenURI(newItemId, tokenURI);
+
+        // minted, remove user
+        if (msg.sender != platformOwner) {
+            // whitelistedMinters[msg.sender] = false;
+        }
   
         return newItemId;
     }   
@@ -49,7 +64,7 @@ contract XDV is ERC721Pausable {
         public
         returns (bool)
     {
-        require(msg.sender == platformOwner);
+        require(msg.sender == platformOwner, "Burn only allowed via platform owner");
         
         _burn(tokenId);
         return true;

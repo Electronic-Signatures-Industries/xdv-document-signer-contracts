@@ -1,15 +1,78 @@
-# nft-document-swap
-NFT &lt;> Document Swap
+# XDV NFT Protocol
 
-Cuando el evento de Burn se emite, llega una notificacion al API
-El API desbloquea el evento de IPLD y hace una copia
-Despues la copia de IPLD va a ejecutar una accion llamada "onSetToLockDocument" 
-    y emite un evento "DocumentUnlock" el cual va a contar con el nuevo hash
-El usuario recibe la notificacion en websocket y puede bajar el archivo con su DID
 
-Poner status del flujo de Document anchoring
 ## development settings
 
 1. `ganache-cli -m "describe uncle will various ankle film brother pelican apple congress animal segment" -i 10`
 2. `truffle compile`
 3. `truffle migrate --network development`
+
+
+## XDV NFT Protocol
+
+XDV NFT Protocolo puede ser utilizado por cualquiera, para mint tokens de documentos NFT por medio del token XDV. Debe ser usado en combinacion con IPLD y tecnologias DID. El protocolo solo define como almacenar o anchor un archivo o cid de referencia para usar el XDV NFT como tokenizador de documentos.
+
+### Arquitectura
+
+#### XDV NFT Token
+
+Emite token unicos con el documento enlazado. Al quemar, un backend service libera cualquier documento previamente solicitado para un proveedor de servicio.,
+
+Se adhiere al estandar ERC-721.
+
+#### XDV Controller
+
+Administra a los Proveedores de Tokenizacion de Documentos, minting, burning y permisos adicionales, y otros metodos administrativos.
+
+### Registro y Whitelist de Proveedores de Tokenizacion de Documentos
+
+1. Un proveedor de servicio se registra y obtiene un whitelisting para emitir monedas.
+
+```solidity
+    function registerMinter(
+        address minter,
+        string memory name, 
+        address paymentAddress,
+        bool userHasKyc,
+        uint feeStructure)
+        public
+        returns (uint)
+```
+
+>Nota: En esta V1 del sistema en `testnet` no se aplicara KYC a los proveedores. Para `mainnet` el whitelisting no sera automatico y es posible requiera previo KYC.
+
+2. El proveedor debe consultar la lista y eventos emitidos para obtener la lista mas actualizada de solicitudes pendientes.
+
+### Solicitudes
+
+1. Un usuario solicita el servicio de un proveedor de datos por medio de `requestDataProviderService`
+
+```solidity
+   function requestDataProviderService(
+        string memory minterDid,
+        address minterAddress,
+        string memory userDid,
+        string memory documentURI,
+        string memory description
+    ) public payable returns(uint){
+```
+
+2. Un proveedor de tokenizacion, previamente registrado, `mint un token NFT` despues de elaborar la solicitud del usuario. Este proceso es similar a un envio de mensajeria express, lo llamamos `Caja Segura`, donde el sobre es el NFT y contiene los documentos encriptados/firmados almancenados en `IPLD`.
+
+```solidity
+
+    /**
+     * @dev Mints a XDV Data Token if whitelisted
+     */
+    function mint(address user, string memory tokenURI)
+        public
+        returns (uint256)
+    {
+```
+
+3. El usuario recibe el token XDV NFT y procede a `burn` o quemarlo en el protocolo XDV NFT. Este proceso es donde se paga por el servicio de envio de `Caja Segura`, es decir, el usuario en la accion de quemar, se le solicita pago previo para habilitar sus documentos.
+
+4. El usuario espera por un determinado tiempo la notificacion de un backend donde le notifica los documentos estan disponibles. (Este paso en V1 `testnet` no esta disponible, en `mainnet` sera habilitador en un API).
+
+## Copyright IFESA 2021, Rogelio Morrell C., Luis Sanchez, Ruben Guevara
+## Copyright IDAO 2021, Edgar Sucre

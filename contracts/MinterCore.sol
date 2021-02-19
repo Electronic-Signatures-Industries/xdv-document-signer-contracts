@@ -5,10 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 /**
- *  Register Minters  debe ir un mapping, un evento de add registry, un counter para 
- saber cuantos registros , get de fetch que debe recibir un address, y returnar un struct de vuelta
+ *  @dev MinterCore
  */
-contract MinterRegistry {
+contract MinterCore {
     // Documents provider mappings
     mapping(address => uint) public minterCounter;
     mapping(uint => DataProviderMinter) public dataProviderMinters;
@@ -32,7 +31,8 @@ contract MinterRegistry {
         address toMinter; // NFT
         string toMinterDid;
         string documentURI;
-        uint status;        
+        uint status;    
+        uint timestamp;    
         string description;
     }
 
@@ -40,7 +40,6 @@ contract MinterRegistry {
     struct DataProviderMinter {
         address minterAddress;
         string name;
-        string symbol;
         address paymentAddress;//*
         bool hasUserKyc;
         uint feeStructure;//*
@@ -54,44 +53,17 @@ contract MinterRegistry {
     event MinterRegistered(
         address indexed minter, // NFT
         uint indexed id,
-        string name,
-        string indexed symbol
+        string name
     );
 
-    constructor() public {
+    // DocumentAnchored events
+    event DocumentAnchored(
+        address indexed user, 
+        string indexed userDid,
+        string documentURI,
+        uint id
+    );
 
-    }
-    
-    function addToRegistry(
-        address minter,
-        string memory name,
-        string memory symbol,
-        address paymentAddress,
-        bool hasUserKyc,
-        uint feeStructure,
-        uint serviceFee,
-        address factoryAddress  
-    ) public returns(uint){
-
-        minterCounter[minter]++;
-        uint i = minterCounter[minter];
-            
-        dataProviderMinters[i] = DataProviderMinter({
-            minterAddress: minter, 
-            name: name,
-            symbol: symbol,
-            paymentAddress: paymentAddress,
-            hasUserKyc: hasUserKyc,
-            feeStructure: feeStructure,
-            created: block.timestamp,
-            serviceFee: serviceFee,
-            factoryAddress: factoryAddress,
-            enabled: true
-        });
-
-        emit MinterRegistered(minter, i, name, symbol);
-        return i;
-    }
-
+  
 }
 
