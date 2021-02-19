@@ -1,7 +1,7 @@
 pragma solidity ^0.7.0;
 pragma experimental ABIEncoderV2;
 
-import "./NFTDocumentMinter.sol";
+import "./XDV.sol";
 import "./MinterRegistry.sol";
 import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
@@ -16,13 +16,13 @@ contract NFTManager is MinterRegistry {
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
     uint256 fee;
-    ERC20Interface public daiToken;
+    ERC20Interface public token;
 
     // minters
     EnumerableSet.AddressSet internal minters;
 
-    constructor(address dai) public {
-        daiToken = ERC20Interface(dai);
+    constructor(address stablecoin) public {
+        token = ERC20Interface(stablecoin);
         owner = msg.sender;
     }
 
@@ -50,6 +50,80 @@ contract NFTManager is MinterRegistry {
 
         emit Withdrawn(payee, b);
     }
+   function mint(address user, string memory tokenURI)
+        public
+        returns (uint256)
+    {
+        _tokenIds.increment();
+
+        uint256 newItemId = _tokenIds.current();
+        _safeMint(user, newItemId);
+        _setTokenURI(newItemId, tokenURI);
+  
+        return newItemId;
+    }   
+
+    function burn(uint requestId, uint tokenId)
+        public
+        payable
+        returns (bool)
+    {
+
+        // User must have a balance
+        require(
+            stablecoin.balanceOf(msg.sender) >= 0,
+            "Invalid token balance"
+        );
+        // User must have an allowance
+        require(
+            stablecoin.allowance(msg.sender, address(this)) >= 0,
+            "Invalid token allowance"
+        );
+
+        /* require(
+            stablecoin.balanceOf(msg.sender) == (mintingServiceFee.sum(protocolServiceFee)), 
+            "MUST SEND FEE BEFORE USE");
+        */
+
+        uint index = minterCounter[address(this)];
+        DataProviderMinter memory dataProvider = dataProviderMinters[index];
+        
+        _burn(tokenId);
+
+        // TODO: Update accounting
+        //  - create mappings to data provider accounting
+        //  - create mappings to protocol fee accounting
+
+        // Transfer tokens to NFT owner
+        require(
+            stablecoin.transferFrom(
+                msg.sender, 
+                dataProvider.paymentAddress, 
+                dataProvider.feeStructure),
+            "Transfer failed for base token"
+        );
+
+        // Transfer tokens to pay service fee
+        require(
+            stablecoin.transferFrom(
+                msg.sender, 
+                dataProvider.factoryAddress, 
+                dataProvider.serviceFee),
+            "Transfer failed for base token"
+        );
+
+        // TODO desplegar el fee de burn
+        if (requestId > 0) {
+            minterDocumentRequests[address(this)][requestId].status = uint(DocumentMintingRequestStatus.BURNED);
+        }
+        emit BurnSwap(
+            address(this),
+            msg.sender,
+            tokenId
+        );
+
+        return true;
+    }       
 
     function registerMinter(
         address minter,
