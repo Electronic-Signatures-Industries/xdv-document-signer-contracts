@@ -75,4 +75,3 @@ Administra a los Proveedores de Tokenizacion de Documentos, minting, burning y p
 4. El usuario espera por un determinado tiempo la notificacion de un backend donde le notifica los documentos estan disponibles. (Este paso en V1 `testnet` no esta disponible, en `mainnet` sera habilitador en un API).
 
 ## Copyright IFESA 2021, Rogelio Morrell C., Luis Sanchez, Ruben Guevara
-## Copyright IDAO 2021, Edgar Sucre
