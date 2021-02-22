@@ -4,9 +4,8 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ERC20Interface.sol";
 
 contract XDV is ERC721Pausable {
- 
     using Counters for Counters.Counter;
-    using SafeMath for uint;
+    using SafeMath for uint256;
     Counters.Counter private _tokenIds;
     address public owner;
     ERC20Interface public stablecoin;
@@ -14,26 +13,31 @@ contract XDV is ERC721Pausable {
     address public platformOwner;
 
     /**
-    * XDV Data Token
-    */
-    constructor(
-        string memory name,
-        string memory symbol
-    ) public ERC721(name, symbol) {
+     * XDV Data Token
+     */
+    constructor(string memory name, string memory symbol)
+        public
+        ERC721(name, symbol)
+    {
         owner = msg.sender;
     }
-   
-    function setWhitelistedMinter(address user, bool isPlatformOwner)
+
+    function setPlatformOwner(address user)
         public
         returns (bool)
     {
         require(msg.sender == owner);
-        if (isPlatformOwner) {
-          platformOwner = user;
-          whitelistedMinters[user] = true;
-        } else {
-            whitelistedMinters[user] = true;
-        }
+
+        platformOwner = user;
+
+        return true;
+    }
+    function setWhitelistedMinter(address user)
+        public
+        returns (bool)
+    {
+        require(msg.sender == owner);
+        whitelistedMinters[user] = true;
 
         return true;
     }
@@ -45,7 +49,10 @@ contract XDV is ERC721Pausable {
         public
         returns (uint256)
     {
-        require(whitelistedMinters[msg.sender], "User has not been whitelisted");
+        require(
+            whitelistedMinters[msg.sender],
+            "User has not been whitelisted"
+        );
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -56,26 +63,27 @@ contract XDV is ERC721Pausable {
         if (msg.sender != platformOwner) {
             // whitelistedMinters[msg.sender] = false;
         }
-  
+
         return newItemId;
-    }   
-
-    function burn(uint tokenId)
-        public
-        returns (bool)
-    {
-        require(msg.sender == platformOwner, "Burn only allowed via platform owner");
-        
-        _burn(tokenId);
-        return true;
-    }       
-
-      function _beforeTokenTransfer(address from, address to, uint256 amount)
-        internal virtual override
-    {
-        super._beforeTokenTransfer(from, to, amount);
-
-//        require(_validRecipient(to), "ERC20WithSafeTransfer: invalid recipient");
     }
 
+    function burn(uint256 tokenId) public returns (bool) {
+        require(
+            msg.sender == platformOwner,
+            "Burn only allowed via platform owner"
+        );
+
+        _burn(tokenId);
+        return true;
+    }
+
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual override {
+        super._beforeTokenTransfer(from, to, amount);
+
+        //        require(_validRecipient(to), "ERC20WithSafeTransfer: invalid recipient");
+    }
 }

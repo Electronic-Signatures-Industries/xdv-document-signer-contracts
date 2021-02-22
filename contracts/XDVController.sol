@@ -119,28 +119,29 @@ contract XDVController is MinterCore {
     *  @dev Mints a platform token.
      */
    function mint(
+       uint requestId,
        address user, 
-       address tokenizationConfig,
+       address dataProvider,
        string memory tokenURI
     )
         public
         returns (uint256)
     {
+        require(minterDocumentRequests[dataProvider][requestId].status == uint(DocumentMintingRequestStatus.REQUEST), "Document with invalid status" );
         require(user != address(0), "Invalid address");
 
        // updates a request
-        uint requestId = minterCounter[tokenizationConfig];
-        minterDocumentRequests[tokenizationConfig][requestId]
+        minterDocumentRequests[dataProvider][requestId]
         .status = uint(DocumentMintingRequestStatus.MINTED);
         
-        minterCounter[tokenizationConfig] = minterCounter[tokenizationConfig] + 1;
+        minterCounter[dataProvider] = minterCounter[dataProvider] + 1;
         return platformToken.mint(user, tokenURI);
     }   
 
     /**
     *  @dev Burns a platform token.
      */
-    function burn(uint requestId, uint tokenId)
+    function burn(uint requestId, uint dataProviderId, uint tokenId)
         public
         payable
         returns (bool)
@@ -162,8 +163,7 @@ contract XDVController is MinterCore {
             "MUST SEND FEE BEFORE USE");
         */
 
-        uint index = minterCounter[address(this)];
-        DataProviderMinter memory dataProvider = dataProviderMinters[index];
+        DataProviderMinter memory dataProvider = dataProviderMinters[dataProviderId];
 
         require(
             dataProvider.feeStructure > 0,
@@ -172,10 +172,6 @@ contract XDVController is MinterCore {
         require(
             dataProvider.paymentAddress != address(0),
             "Must have a payment address"
-        );
-        require(
-            dataProvider.factoryAddress != address(0),
-            "Must have a factory address"
         );
         require(
             dataProvider.serviceFee > 0,
@@ -199,7 +195,7 @@ contract XDVController is MinterCore {
         require(
             token.transferFrom(
                 msg.sender, 
-                dataProvider.factoryAddress, 
+                address(this), 
                 dataProvider.serviceFee),
             "Transfer failed for base token"
         );
@@ -244,7 +240,7 @@ contract XDVController is MinterCore {
         });
 
         // whitelist
-        platformToken.setWhitelistedMinter(msg.sender, false);
+//        platformToken.setWhitelistedMinter(msg.sender, false);
 
         emit MinterRegistered(minter, i, name);
         return i;
