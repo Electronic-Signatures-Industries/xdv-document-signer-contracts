@@ -87,7 +87,7 @@ contract('XDV NFT', accounts => {
 
         await ctrl.burn(
           0,
-          accounts[1],
+          1,
           1, {
             from: accounts[2]
           }
