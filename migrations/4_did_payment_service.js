@@ -7,7 +7,7 @@ const ContractImportBuilder = require('../contract-import-builder');
 
 module.exports = async (deployer, network, accounts) => {
     const builder = new ContractImportBuilder();
-    const path = `${__dirname}/../abi-export/xdv.js`;
+    const path = `${__dirname}/../abi-export/did.js`;
 
     builder.setOutput(path);
     builder.onWrite = (output) => {
