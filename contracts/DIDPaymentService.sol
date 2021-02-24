@@ -49,7 +49,7 @@ contract DIDPaymentService {
      * @dev Pays for KYC Service, supports pre-paid users
      */
     function payKYCService(address user) public payable returns (bool) {
-        require(orders[user] == true, "User already paid");
+        require(orders[user] == false, "User already paid");
         if (whitelisted[user] == false) {
             // User must have a balance
             require(
@@ -80,10 +80,6 @@ contract DIDPaymentService {
     }
 
     function verifyPayment(address user) public view returns (bool) {
-        require(
-            orders[user] == true,
-            "No KYC payment found for current user"
-        );
-        return true;
+        return orders[user];
     }
 }
