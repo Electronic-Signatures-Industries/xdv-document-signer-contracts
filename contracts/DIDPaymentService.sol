@@ -10,22 +10,30 @@ import "./ERC20Interface.sol";
  */
 contract DIDPaymentService {
     address public owner;
-    uint public fee;
+    uint256 public fee;
     ERC20Interface public stablecoin;
 
     mapping(address => bool) public orders;
-    mapping (address => uint) public accounting;
+    mapping(address => bool) public whitelisted;
+    mapping(address => uint256) public accounting;
 
-    event KYCPaid(
-        address providerMinter
-    );
+    event KYCPaid(address payer, address user);
 
     /**
-    * DID Payment
-    */
+     * DID Payment
+     */
     constructor(address tokenAddress) public {
         owner = msg.sender;
-        stablecoin  = ERC20Interface(tokenAddress);
+        stablecoin = ERC20Interface(tokenAddress);
+    }
+
+    function setWhitelistedUser(address user, bool enable)
+        public
+        returns (bool)
+    {
+        require(msg.sender == owner, "INVALID_USER");
+        whitelisted[user] = enable;
+        return true;
     }
 
     function setProtocolConfig(uint256 _fee) public {
@@ -35,40 +43,48 @@ contract DIDPaymentService {
 
     function getProtocolConfig() public view returns (uint256) {
         return (fee);
-    }    
+    }
 
-    function payKYCService(
-    ) public payable returns(bool){
-
-        // User must have a balance
-        require(
-            stablecoin.balanceOf(msg.sender) >= 0,
-            "Invalid token balance"
-        );
-        // User must have an allowance
-        require(
-            stablecoin.allowance(msg.sender, address(this)) >= 0,
-            "Invalid token allowance"
-        );
-        require(
-            stablecoin.transferFrom(
-                msg.sender,
-                address(this), 
-                fee),
-            "Transfer failed for fee"
-        );
-
+    /**
+    * @dev Pays for KYC Service, supports pre-paid users
+     */
+    function payKYCService(address user) public payable returns (bool) {
+        require(orders[user] == true, "User already paid");
+        if (whitelisted[user] == false) {
+            // User must have a balance
+            require(
+                stablecoin.balanceOf(msg.sender) >= 0,
+                "Invalid token balance"
+            );
+            // User must have an allowance
+            require(
+                stablecoin.allowance(msg.sender, address(this)) >= 0,
+                "Invalid token allowance"
+            );
+            require(
+                stablecoin.transferFrom(msg.sender, address(this), fee),
+                "Transfer failed for fee"
+            );
         accounting[msg.sender] = accounting[msg.sender] + fee;
+
+        } else {
+        accounting[user] = accounting[user] + 0;
+
+        }
+        // update accounting
         accounting[address(this)] = accounting[address(this)] + fee;
+
+        // already paid
         orders[msg.sender] = true;
-        emit KYCPaid(msg.sender);
+        emit KYCPaid(msg.sender, user);
         return true;
     }
 
-    function verifyPayment(
-    ) public view returns(bool) {
-        require(orders[msg.sender] == true, "No KYC payment found for current user");    
+    function verifyPayment() public view returns (bool) {
+        require(
+            orders[msg.sender] == true,
+            "No KYC payment found for current user"
+        );
         return true;
     }
-
 }
