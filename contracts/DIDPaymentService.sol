@@ -46,7 +46,7 @@ contract DIDPaymentService {
     }
 
     /**
-    * @dev Pays for KYC Service, supports pre-paid users
+     * @dev Pays for KYC Service, supports pre-paid users
      */
     function payKYCService(address user) public payable returns (bool) {
         require(orders[user] == true, "User already paid");
@@ -65,24 +65,23 @@ contract DIDPaymentService {
                 stablecoin.transferFrom(msg.sender, address(this), fee),
                 "Transfer failed for fee"
             );
-        accounting[msg.sender] = accounting[msg.sender] + fee;
-
+            accounting[msg.sender] = accounting[msg.sender] + fee;
+            orders[msg.sender] = true;
         } else {
-        accounting[user] = accounting[user] + 0;
-
+            accounting[user] = accounting[user] + 0;
+            orders[user] = true;
         }
         // update accounting
         accounting[address(this)] = accounting[address(this)] + fee;
 
         // already paid
-        orders[msg.sender] = true;
         emit KYCPaid(msg.sender, user);
         return true;
     }
 
-    function verifyPayment() public view returns (bool) {
+    function verifyPayment(address user) public view returns (bool) {
         require(
-            orders[msg.sender] == true,
+            orders[user] == true,
             "No KYC payment found for current user"
         );
         return true;
