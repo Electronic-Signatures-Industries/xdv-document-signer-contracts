@@ -15,32 +15,23 @@ contract XDVController is MinterCore {
 
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
-    uint256 fee;
+
     XDV private platformToken;
     ERC20Interface public token;
 
     // minters
-    EnumerableSet.AddressSet internal minters;
+    mapping(address => DataProviderMinter) internal minters;
+    mapping(address => uint256) public dataProviderAccounting;
 
-    constructor(address stablecoin, address xdv)  {
+    constructor(address stablecoin, address xdv) {
         token = ERC20Interface(stablecoin);
         platformToken = XDV(xdv);
         owner = msg.sender;
     }
 
-    function setProtocolFee(uint256 _fee) public {
-        require(msg.sender == owner, "INVALID_USER");
-        fee = _fee;
-    }
-
-    function getProtocolFee() public returns (uint256) {
-        return fee;
-    }
-
     function withdraw(address payable payee) public {
         require(msg.sender == owner, "INVALID_USER");
         uint256 b = address(this).balance;
-
 
         emit Withdrawn(payee, b);
     }
@@ -51,9 +42,7 @@ contract XDVController is MinterCore {
 
         // Transfer tokens to pay service fee
         require(
-            ERC20Interface(erc20token).transfer(
-                payee, 
-                balance),
+            ERC20Interface(erc20token).transfer(payee, balance),
             "Transfer failed for base token"
         );
 
@@ -61,48 +50,32 @@ contract XDVController is MinterCore {
     }
 
     /**
-    * User requests anchored document to be process 
+     * User requests anchored document to be process
      */
-   function requestDataProviderService(
+    function requestDataProviderService(
         string memory minterDid,
         address minterAddress,
         string memory userDid,
         string memory documentURI,
         string memory description
-    ) public payable returns(uint){
+    ) public  returns (uint256) {
+        // // User must have a balance
+        // require(token.balanceOf(msg.sender) >= 0, "Invalid token balance");
+        // // User must have an allowance
+        // require(
+        //     token.allowance(msg.sender, address(this)) >= 0,
+        //     "Invalid token allowance"
+        // );
 
-        // User must have a balance
-        require(
-            token.balanceOf(msg.sender) >= 0,
-            "Invalid token balance"
-        );
-        // User must have an allowance
-        require(
-            token.allowance(msg.sender, address(this)) >= 0,
-            "Invalid token allowance"
-        );
+        uint256 i = minterDocumentRequestCounter[minterAddress];
 
-
-        require(
-            token.transferFrom(
-                msg.sender,
-                address(this), 
-                fee),
-            "Transfer failed for fee"
-        );
-
-        // accounting[msg.sender] = accounting[msg.sender] + fee;
-        // accounting[address(this)] = accounting[address(this)] + fee;
-
-        uint i = minterDocumentRequestCounter[minterAddress];
-            
         // Assign request to minter
         // We should move to use XDV Worker Protocol
         minterDocumentRequests[minterAddress][i] = DocumentMintingRequest({
-            user: msg.sender, 
+            user: msg.sender,
             userDid: userDid,
             documentURI: documentURI,
-            status: uint(DocumentMintingRequestStatus.REQUEST),
+            status: uint256(DocumentMintingRequestStatus.REQUEST),
             description: description,
             toMinterDid: minterDid,
             toMinter: minterAddress,
@@ -114,143 +87,88 @@ contract XDVController is MinterCore {
         return i;
     }
 
-
     /**
-    *  @dev Mints a platform token.
+     *  @dev Mints a platform token.
      */
-   function mint(
-       uint requestId,
-       address user, 
-       address dataProvider,
-       string memory tokenURI
-    )
-        public
-        returns (uint256)
-    {
-        require(minterDocumentRequests[dataProvider][requestId].status == uint(DocumentMintingRequestStatus.REQUEST), "Document with invalid status" );
+    function mint(
+        uint256 requestId,
+        address user,
+        address dataProvider,
+        string memory tokenURI
+    ) public returns (uint256) {
+        require(
+            minterDocumentRequests[dataProvider][requestId].status ==
+                uint256(DocumentMintingRequestStatus.REQUEST),
+            "Document with invalid status"
+        );
         require(user != address(0), "Invalid address");
 
-       // updates a request
-        minterDocumentRequests[dataProvider][requestId]
-        .status = uint(DocumentMintingRequestStatus.MINTED);
-        
+        // updates a request
+        minterDocumentRequests[dataProvider][requestId].status = uint256(
+            DocumentMintingRequestStatus.MINTED
+        );
+
         minterCounter[dataProvider] = minterCounter[dataProvider] + 1;
         return platformToken.mint(user, tokenURI);
-    }   
+    }
 
     /**
-    *  @dev Burns a platform token.
+     *  @dev Burns a platform token.
      */
-    function burn(uint requestId, uint dataProviderId, uint tokenId)
-        public
-        payable
-        returns (bool)
-    {
-
-        // User must have a balance
+    function burn(
+        uint256 requestId,
+        address dataProvider,
+        uint256 tokenId
+    ) public returns (bool) {
         require(
-            token.balanceOf(msg.sender) >= 0,
-            "Invalid token balance"
+            minterDocumentRequests[dataProvider][requestId].status ==
+                uint256(DocumentMintingRequestStatus.MINTED),
+            "Document with invalid status"
         );
-        // User must have an allowance
-        require(
-            token.allowance(msg.sender, address(this)) >= 0,
-            "Invalid token allowance"
-        );
-
-        /* require(
-            token.balanceOf(msg.sender) == (mintingServiceFee.sum(protocolServiceFee)), 
-            "MUST SEND FEE BEFORE USE");
-        */
-
-        DataProviderMinter memory dataProvider = dataProviderMinters[dataProviderId];
-
-        require(
-            dataProvider.feeStructure > 0,
-            "Must have set a fee structure"
-        );
-        require(
-            dataProvider.paymentAddress != address(0),
-            "Must have a payment address"
-        );
-        require(
-            dataProvider.serviceFee > 0,
-            "Must have set a service fee"
-        );
-        platformToken.burn(tokenId);
-
-        // TODO: Update accounting
-        //  - create mappings to data provider accounting
-        //  - create mappings to protocol fee accounting
-        // Transfer tokens to NFT owner
-        require(
-            token.transferFrom(
-                msg.sender, 
-                dataProvider.paymentAddress, 
-                dataProvider.feeStructure),
-            "Transfer failed for base token"
+        
+        platformToken.burn(
+            msg.sender,
+            tokenId,
+            minters[dataProvider].feeStructure,
+            minters[dataProvider].paymentAddress
         );
 
-        // Transfer tokens to pay service fee
-        require(
-            token.transferFrom(
-                msg.sender, 
-                address(this), 
-                dataProvider.serviceFee),
-            "Transfer failed for base token"
-        );
+        dataProviderAccounting[dataProvider] += minters[dataProvider].feeStructure;
 
         // TODO desplegar el fee de burn
         if (requestId > 0) {
-            minterDocumentRequests[dataProvider.minterAddress][requestId]
-            .status = uint(DocumentMintingRequestStatus.BURNED);
+            minterDocumentRequests[dataProvider][requestId].status = uint256(
+                DocumentMintingRequestStatus.BURNED
+            );
         }
-        
 
         return true;
-    }       
+    }
 
     /**
-    * @dev Registers a data tokenization service
-    *
+     * @dev Registers a data tokenization service
+     *
      */
     function registerMinter(
-        address minter,
-        string memory name, 
+        string memory name,
         address paymentAddress,
         bool userHasKyc,
-        uint feeStructure)
-        public
-        returns (uint)
-    {
- 
-      minterCounter[minter]++;
-        uint i = minterCounter[minter];
-            
-        dataProviderMinters[i] = DataProviderMinter({
-            minterAddress: minter, 
+        uint256 feeStructure
+    ) public returns (uint256) {
+        minterCounter[msg.sender]++;
+
+        minters[msg.sender] = DataProviderMinter({
             name: name,
             paymentAddress: paymentAddress,
             hasUserKyc: userHasKyc,
             feeStructure: feeStructure,
             created: block.timestamp,
-            serviceFee: fee,
             factoryAddress: address(this),
             enabled: true
         });
 
-        // whitelist
-//        platformToken.setWhitelistedMinter(msg.sender, false);
-
-        emit MinterRegistered(minter, i, name);
-        return i;
-    }
-
-    function count() public view returns (uint256) {
-        return minters.length();
-    }
-
-    function get(uint256 index) public view returns (address) {
-        return minters.at(index);
+        // set new minter
+        emit MinterRegistered(msg.sender, name);
+        return minterCounter[msg.sender];
     }
 }

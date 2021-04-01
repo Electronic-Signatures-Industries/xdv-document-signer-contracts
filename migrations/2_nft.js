@@ -26,14 +26,14 @@ module.exports = async (deployer, network, accounts) => {
   usdc = await USDC.deployed();
   //   usdcaddress = usdc.address
 
-  await deployer.deploy(XDV, "XDV Document Token", "XDV");
+  await deployer.deploy(XDV, "XDV Document Token", "XDV", usdc.address);
   const datatoken = await XDV.deployed();
 
   await deployer.deploy(XDVController, usdc.address, datatoken.address);
   const manager = await XDVController.deployed();
 
   
-  await manager.setProtocolFee(new BigNumber(1 * 1e18));
+  await datatoken.setProtocolFee(new BigNumber(1 * 1e18));
   builder.addContract(
     'USDC',
     usdc,

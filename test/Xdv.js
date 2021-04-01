@@ -15,7 +15,7 @@ contract('XDVDocumentAnchoring', accounts => {
             documents = await XDVDocumentAnchoring.deployed();
         })
         describe('when creating a xdv document issuing provider', () => {
-            it('should add a new Document', async () => {
+            xit('should add a new Document', async () => {
                 const userDID = 'user DID';
                 const res = await documents.addDocument(
                     userDID,

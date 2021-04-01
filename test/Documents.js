@@ -29,14 +29,14 @@ contract('XDV NFT', accounts => {
         assert.equal(ctrl !== null, true);
 
         const res = await ctrl.registerMinter(
-          accounts[1],
           "NOTARIO 9VNO - APOSTILLADO",
           "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
           false,
-          new BigNumber(20 * 10e18)
+          new BigNumber(20 * 10e18), {
+            from: accounts[1]
+          }
         );
 
-        await xdv.setWhitelistedMinter(ctrl.address);
 
         documentMinterAddress = res.logs[0].args.minter;
       });
@@ -72,11 +72,12 @@ contract('XDV NFT', accounts => {
         );
 
         const id = res.logs[0].args.id;
+        assert.equal(id, 0);
 
         const requestMintResult = await ctrl.mint(
           id,
           accounts[2],
-          documentMinterAddress,
+          accounts[1],
           `https://bobb.did.pa`, {
           from: accounts[1]
         }
@@ -85,88 +86,30 @@ contract('XDV NFT', accounts => {
         const bal = await xdv.balanceOf(accounts[2]);
         assert.equal(bal, 1);
 
+
+        await usdc.mint(
+          accounts[2],
+          new BigNumber(22 * 10e18)
+        );
+
+        // allowance
+        await usdc.approve(
+          xdv.address,
+          new BigNumber(22 * 10e18), {
+
+          from: accounts[2]
+        }
+        );
+        
         await ctrl.burn(
-          0,
-          1,
+          id,
+          documentMinterAddress,
           1, {
             from: accounts[2]
           }
         )
       });
 
-      xit('should mint NFT issued by document issuing provider', async () => {
-        assert.equal(ctrl !== null, true);
-
-        const minter = await XDV.at(documentMinterAddress);
-        assert.equal(await minter.symbol(), "NOT9APOST");
-
-        const minted = await minter.mint(
-          accounts[0],
-          `https://bobb.did.pa/index.json`
-        );
-
-        assert.equal(minted.logs[0].event, 'Transfer');
-      });
-    });
-    describe('when burning', () => {
-      xit('should pay for  service', async () => {
-        assert.equal(ctrl !== null, true);
-
-        const res = await ctrl.createMinter(
-          "NOTARIO 9VNO - APOSTILLADO",
-          "NOT9APOST",
-          "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
-
-          false,
-          new BigNumber(2 * 1e18)
-        );
-
-        documentMinterAddress = res.logs[0].args.minterAddress;
-
-        const requestMintResult = await documents.requestMint(
-          documentMinterAddress,
-          `did:ethr:${documentMinterAddress}`,
-          `did:ethr:${accounts[1]}`,
-          false,
-          `https://bobb.did.pa`, {
-          from: accounts[1]
-        }
-        );
-        assert.equal('https://bobb.did.pa', requestMintResult.logs[0].args.tokenURI);
-
-
-
-        const minter = await XDV.at(documentMinterAddress);
-        assert.equal(await minter.symbol(), "NOT9APOST");
-
-        const minted = await minter.mint(
-          accounts[0],
-          `https://bobb.did.pa/index.json`
-        );
-
-        assert.equal(minted.logs[0].event, 'Transfer');
-
-        await usdc.mint(
-          accounts[1],
-          new BigNumber(22 * 10e18)
-        );
-
-        // allowance
-        await usdc.approve(
-          documentMinterAddress,
-          new BigNumber(22 * 10e18), {
-
-          from: accounts[1]
-        }
-        );
-
-        await minter.burn(
-          minted.logs[0].args.tokenId, {
-          from: accounts[1],
-          value: new BigNumber(2.4 * 1e18)
-        }
-        );
-      });
 
     });
 

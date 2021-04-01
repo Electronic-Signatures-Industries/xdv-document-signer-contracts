@@ -10,7 +10,7 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 contract MinterCore {
     // Documents provider mappings
     mapping(address => uint) public minterCounter;
-    mapping(uint => DataProviderMinter) public dataProviderMinters;
+
 
     // Requested Documents by minter id sequence/autonumber
     mapping(address => uint) public minterDocumentRequestCounter;
@@ -38,13 +38,11 @@ contract MinterCore {
 
     // Document minting provider
     struct DataProviderMinter {
-        address minterAddress;
         string name;
         address paymentAddress;//*
         bool hasUserKyc;
         uint feeStructure;//*
         uint created;
-        uint serviceFee;//*
         address factoryAddress;//*
         bool enabled;
     }
@@ -52,7 +50,6 @@ contract MinterCore {
     // RequestMinting events
     event MinterRegistered(
         address indexed minter, // NFT
-        uint indexed id,
         string name
     );
 

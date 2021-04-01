@@ -9,38 +9,31 @@ contract XDV is ERC721Pausable {
     Counters.Counter private _tokenIds;
     address public owner;
     ERC20Interface public stablecoin;
-    mapping(address => bool) public whitelistedMinters;
-    address public platformOwner;
+    uint public serviceFee;
+
+    mapping(address => uint) public serviceAccounting;
+
 
     /**
      * XDV Data Token
      */
-    constructor(string memory name, string memory symbol)
+    constructor(string memory name, string memory symbol, address tokenERC20)
         public
         ERC721(name, symbol)
     {
         owner = msg.sender;
+        stablecoin = ERC20Interface(tokenERC20);
     }
 
-    function setPlatformOwner(address user)
-        public
-        returns (bool)
-    {
-        require(msg.sender == owner);
-
-        platformOwner = user;
-
-        return true;
+    function setProtocolFee(uint256 _fee) public {
+        require(msg.sender == owner, "INVALID_USER");
+        serviceFee = _fee;
     }
-    function setWhitelistedMinter(address user)
-        public
-        returns (bool)
-    {
-        require(msg.sender == owner);
-        whitelistedMinters[user] = true;
 
-        return true;
+    function getProtocolFee() public returns (uint256) {
+        return serviceFee;
     }
+
 
     /**
      * @dev Mints a XDV Data Token if whitelisted
@@ -49,33 +42,75 @@ contract XDV is ERC721Pausable {
         public
         returns (uint256)
     {
-        require(
-            whitelistedMinters[msg.sender],
-            "User has not been whitelisted"
-        );
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
         _safeMint(user, newItemId);
         _setTokenURI(newItemId, tokenURI);
 
-        // minted, remove user
-        if (msg.sender != platformOwner) {
-            // whitelistedMinters[msg.sender] = false;
-        }
 
         return newItemId;
     }
+    /**
+    *  @dev Burns a platform token.
+     */
+    function burn(
+        address caller,
+        uint tokenId,
+        uint providerFee,
+        address paymentAddress
+    )
+        public
+        payable
+        returns (bool)
+    {
 
-    function burn(uint256 tokenId) public returns (bool) {
+        // User must have a balance
         require(
-            msg.sender == platformOwner,
-            "Burn only allowed via platform owner"
+            stablecoin.balanceOf(caller) >= 0,
+            "Invalid token balance"
+        );
+        // User must have an allowance
+        require(
+            stablecoin.allowance(caller, address(this)) >= 0,
+            "Invalid token allowance"
+        );
+        require(
+            providerFee > 0,
+            "Must have set a fee structure"
+        );
+        require(
+            paymentAddress != address(0),
+            "Must have a payment address"
+        );
+        require(
+            serviceFee > 0,
+            "Must have set a service fee"
+        );
+        
+        _burn(tokenId);
+
+        // Transfer tokens to NFT owner, change pull pattern
+        require(
+            stablecoin.transferFrom(
+                caller, 
+                paymentAddress, 
+                providerFee),
+            "Transfer failed for base stablecoin"
         );
 
-        _burn(tokenId);
+        // Transfer tokens to pay service fee
+        require(
+            stablecoin.transferFrom(
+                caller, 
+                address(this), 
+                serviceFee),
+            "Transfer failed for base token"
+        );
+
+        serviceAccounting[address(this)] += serviceFee;
         return true;
-    }
+    }       
 
     function _beforeTokenTransfer(
         address from,
