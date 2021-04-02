@@ -140,13 +140,19 @@ await ctrl.burn(
 - `XDV.sol`: **0xA3965469419721587993Cec23F5228eF36DB5846**
 - `USDC.sol`: **0x90dfB53185D33cf556A2fF94eBF85EB4e1bAfc6F**
 
-### Encriptacion por medio de Key Exchange
+### Encriptacion por medio de SSS  y Key Exchange
 
 ```
-1. Minter cuando sube el o los archivos, crea un IPLD item adicional y este va tener una o varias firmas por el minter sobre el documento y key exchange con Alicia
-2. Cuando ocurre el burn, tenemos un Ecrecover ya sea ECDSA o ED25519 , sobre esa firma para ver si minter firmo. Aqui el cliente tiene que leer esa firma y subir el R,S,V del ECDSA
-3. Si no firmo, no burn, no se libera. Si firmo, se cobra, se burn, se retorna el link por el evento as is, encriptado o partial anon creds.
-4. Alicia solo tiene la seg que Bob firmo, por el IPLD existe otro archivo para key exchange entre Bob, obtiene la llave para desencriptar y lo realiza SOLO SI se verifica que en efecto Bob firmo
+1. Cuando solicita, `XDV Universal Wallet` crea 2 `Secret Shamir Sharing` shares, uno se almacena
+en la wallet del usuario y la otra en la solicitud.
+2. Cuando el minter crea el NFT, encripta documentos despues de realizar un key exchange por medio del protocolo Noise.
+3. Cuando el usuario burn, XDV NFT smart contracts verifica 
+a) Que el share de Alicia y el share del smart contract son verificables
+b) Si los shares no son verificables, no es posible continuar
+c) Si lo es, se realiza el cobro del servicio y se completa
+4. Una vez Alicia verifique que el documento es valido, realiza un key exchange por medio del protocolo Noise y desencripta el documento.
+
+
 ```
 
 ## Copyright IFESA 2021, Rogelio Morrell C., Luis Sanchez, Ruben Guevara
