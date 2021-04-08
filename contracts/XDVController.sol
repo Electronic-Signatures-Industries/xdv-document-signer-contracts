@@ -1,18 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 
 pragma experimental ABIEncoderV2;
 
 import "./XDV.sol";
 import "./MinterCore.sol";
-import "@openzeppelin/contracts/utils/EnumerableSet.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "./ERC20Interface.sol";
 
 contract XDVController is MinterCore {
     using EnumerableSet for EnumerableSet.AddressSet;
-    using SafeMath for uint256;
     using Address for address payable;
 
     event Withdrawn(address indexed payee, uint256 weiAmount);
