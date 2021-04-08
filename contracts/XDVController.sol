@@ -1,4 +1,6 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
+
 pragma experimental ABIEncoderV2;
 
 import "./XDV.sol";
@@ -58,7 +60,7 @@ contract XDVController is MinterCore {
         string memory userDid,
         string memory documentURI,
         string memory description
-    ) public  returns (uint256) {
+    ) public returns (uint256) {
         // // User must have a balance
         // require(token.balanceOf(msg.sender) >= 0, "Invalid token balance");
         // // User must have an allowance
@@ -110,39 +112,6 @@ contract XDVController is MinterCore {
 
         minterCounter[dataProvider] = minterCounter[dataProvider] + 1;
         return platformToken.mint(user, tokenURI);
-    }
-
-    /**
-     *  @dev Burns a platform token.
-     */
-    function burn(
-        uint256 requestId,
-        address dataProvider,
-        uint256 tokenId
-    ) public returns (bool) {
-        require(
-            minterDocumentRequests[dataProvider][requestId].status ==
-                uint256(DocumentMintingRequestStatus.MINTED),
-            "Document with invalid status"
-        );
-        
-        platformToken.burn(
-            msg.sender,
-            tokenId,
-            minters[dataProvider].feeStructure,
-            minters[dataProvider].paymentAddress
-        );
-
-        dataProviderAccounting[dataProvider] += minters[dataProvider].feeStructure;
-
-        // TODO desplegar el fee de burn
-        if (requestId > 0) {
-            minterDocumentRequests[dataProvider][requestId].status = uint256(
-                DocumentMintingRequestStatus.BURNED
-            );
-        }
-
-        return true;
     }
 
     /**

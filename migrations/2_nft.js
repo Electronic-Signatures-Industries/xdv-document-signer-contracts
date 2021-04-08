@@ -1,6 +1,5 @@
 const BigNumber = require('bignumber.js');
 const fs = require('fs');
-const DocumentAnchoring = artifacts.require('DocumentAnchoring');
 const XDVController = artifacts.require('XDVController');
 const USDC = artifacts.require('USDC');
 const XDV = artifacts.require('XDV');
@@ -26,14 +25,17 @@ module.exports = async (deployer, network, accounts) => {
   usdc = await USDC.deployed();
   //   usdcaddress = usdc.address
 
-  await deployer.deploy(XDV, "XDV Document Token", "XDV", usdc.address);
+  await deployer.deploy(XDV, "XDV Document Token", "XDV", usdc.address, accounts[0]);
   const datatoken = await XDV.deployed();
 
   await deployer.deploy(XDVController, usdc.address, datatoken.address);
   const manager = await XDVController.deployed();
 
-  
-  await datatoken.setProtocolFee(new BigNumber(1 * 1e18));
+  const serviceFeeForContract = new BigNumber(1 * 1e17)
+  const serviceFeeForPaymentAddress = new BigNumber(9 * 1e17)
+  await datatoken.setServiceFeeForContract(serviceFeeForContract);
+  await datatoken.setServiceFeeForPaymentAddress(serviceFeeForPaymentAddress);
+
   builder.addContract(
     'USDC',
     usdc,

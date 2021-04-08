@@ -1,117 +1,101 @@
-// const assert = require("assert");
-const Web3 = require('web3');
-const web3 = new Web3();
-const BigNumber = require('bignumber.js');
-const { ethers } = require('ethers');
-const { assert } = require('chai');
+const { BigNumber } = require("bignumber.js");
+const { assert } = require("chai");
+const Bluebird = require("bluebird");
+const TestUSDC = artifacts.require("USDC");
+const XDV = artifacts.require("XDV");
+const XDVController = artifacts.require("XDVController");
 
-contract('XDV NFT', accounts => {
-  let usdc;
-  let owner;
-  let ctrl;
-  let documents;
+contract("XDV NFT", (accounts) => {
+  let erc20Contract;
+  let controllerContract;
   let documentMinterAddress;
-  let xdv;
-  let DocumentAnchoring = artifacts.require('DocumentAnchoring');
-  let TestUSDC = artifacts.require('USDC');
-  let XDV = artifacts.require('XDV');
-  let XDVController = artifacts.require('XDVController');
-  contract('#xdv data token', () => {
+  let xdvContract;
+
+  // Initialize the contracts and make sure they exist
+  before(async () => {
+    const { ctr, usd, xdv } = await Bluebird.props({
+      xdv: XDV.deployed(),
+      usd: TestUSDC.deployed(),
+      ctr: XDVController.deployed(),
+    });
+
+    assert.isNotNull(ctr, "Contract must exist");
+    assert.isNotNull(usd, "Contract must exist");
+    assert.isNotNull(xdv, "Contract must exist");
+
+    controllerContract = ctr;
+    erc20Contract = usd;
+    xdvContract = xdv;
+  });
+
+  describe("when registering a document issuing provider", () => {
+    it("should create a new entry", async () => {
+      const res = await controllerContract.registerMinter(
+        "NOTARIO 9VNO - APOSTILLADO",
+        "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
+        false,
+        new BigNumber(20 * 10e18),
+        {
+          from: accounts[1],
+        }
+      );
+
+      documentMinterAddress = res.logs[0].args.minter;
+      assert.strictEqual(documentMinterAddress, accounts[1]);
+    });
+  });
+
+  describe("when requesting minting from a document issuing provider", () => {
+    let requestId;
+
+    // Add some cash to the contracts
     before(async () => {
-      owner = accounts[0];
-      xdv = await XDV.deployed();
-      usdc = await TestUSDC.deployed();
-      ctrl = await XDVController.deployed();
-      documents = await DocumentAnchoring.deployed();
-    });
-    describe('when registering a document issuing provider', () => {
-      it('should create a new entry', async () => {
-        assert.equal(ctrl !== null, true);
+      const usdcAmount = new BigNumber(22 * 10e18);
+      const recipentAddresses = [
+        controllerContract.address,
+        xdvContract.address,
+      ];
 
-        const res = await ctrl.registerMinter(
-          "NOTARIO 9VNO - APOSTILLADO",
-          "0x0a2Cd4F28357D59e9ff26B1683715201Ea53Cc3b",
-          false,
-          new BigNumber(20 * 10e18), {
-            from: accounts[1]
-          }
-        );
-
-
-        documentMinterAddress = res.logs[0].args.minter;
-      });
+      await erc20Contract.mint(
+        accounts[2],
+        usdcAmount.times(recipentAddresses.length)
+      );
+      const coroutines = recipentAddresses.map((addr) =>
+        erc20Contract.approve(addr, usdcAmount, { from: accounts[2] })
+      );
+      await Bluebird.all(coroutines);
     });
 
+    it("should anchor document and add it to request list", async () => {
+      const minterAccount = accounts[1];
+      const senderAccount = accounts[2];
 
-    describe('when requesting minting from a document issuing provider', () => {
-      it('should anchor document and add it to request list', async () => {
-        assert.equal(ctrl !== null, true);
-
-        await usdc.mint(
-          accounts[2],
-          new BigNumber(22 * 10e18)
-        );
-
-        // allowance
-        await usdc.approve(
-          ctrl.address,
-          new BigNumber(22 * 10e18), {
-
-          from: accounts[2]
+      const res = await controllerContract.requestDataProviderService(
+        `did:ethr:${minterAccount}`,
+        minterAccount,
+        `did:ethr:${senderAccount}`,
+        "https://ipfs.io/ipfs/xxxx",
+        "Notariar",
+        {
+          from: senderAccount,
         }
-        );
+      );
 
-        const res = await ctrl.requestDataProviderService(
-          "did:ethr:" + accounts[1],
-          accounts[1],
-          "did:ethr:" + accounts[2],
-          "https://ipfs.io/ipfs/xxxx",
-          "Notariar", {
-          from: accounts[2]
+      requestId = res.logs[0].args.id;
+      assert.equal(requestId, 0);
+
+      await controllerContract.mint(
+        requestId,
+        senderAccount,
+        minterAccount,
+        `https://bobb.did.pa`,
+        {
+          from: minterAccount,
         }
-        );
+      );
 
-        const id = res.logs[0].args.id;
-        assert.equal(id, 0);
-
-        const requestMintResult = await ctrl.mint(
-          id,
-          accounts[2],
-          accounts[1],
-          `https://bobb.did.pa`, {
-          from: accounts[1]
-        }
-        );
-
-        const bal = await xdv.balanceOf(accounts[2]);
-        assert.equal(bal, 1);
-
-
-        await usdc.mint(
-          accounts[2],
-          new BigNumber(22 * 10e18)
-        );
-
-        // allowance
-        await usdc.approve(
-          xdv.address,
-          new BigNumber(22 * 10e18), {
-
-          from: accounts[2]
-        }
-        );
-        
-        await ctrl.burn(
-          id,
-          documentMinterAddress,
-          1, {
-            from: accounts[2]
-          }
-        )
-      });
-
-
+      const bal = await xdvContract.balanceOf(senderAccount);
+      assert.equal(bal, 1);
     });
-
   });
 });
