@@ -110,27 +110,9 @@ Un proveedor de tokenizacion, previamente registrado, `mint un token NFT` despue
     {
 ```
 
-#### Burn
+### Transfer
 
-El usuario recibe el token XDV NFT y procede a `burn` o quemarlo en el protocolo XDV NFT. Este proceso es donde se paga por el servicio de envio de `Caja Segura`, es decir, el usuario en la accion de quemar, se le solicita pago previo para habilitar sus documentos.
-
-```solidity
-    function burn(
-        uint256 requestId,
-        address dataProvider,
-        uint256 tokenId
-    ) public returns (bool) 
-```
-
-```typescript
-await ctrl.burn(
-    id,
-    documentMinterAddress,
-    1, {
-    from: accounts[2]
-    }
-)
-```
+Still being worked on.
 
 ### Redes
 

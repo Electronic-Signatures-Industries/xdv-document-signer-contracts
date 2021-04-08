@@ -115,39 +115,6 @@ contract XDVController is MinterCore {
     }
 
     /**
-     *  @dev Burns a platform token.
-     */
-    function burn(
-        uint256 requestId,
-        address dataProvider,
-        uint256 tokenId
-    ) public returns (bool) {
-        require(
-            minterDocumentRequests[dataProvider][requestId].status ==
-                uint256(DocumentMintingRequestStatus.MINTED),
-            "Document with invalid status"
-        );
-
-        platformToken.safeTransferFrom(
-            msg.sender,
-            minters[dataProvider].paymentAddress,
-            tokenId
-        );
-
-        dataProviderAccounting[dataProvider] += minters[dataProvider]
-            .feeStructure;
-
-        // TODO desplegar el fee de burn
-        if (requestId > 0) {
-            minterDocumentRequests[dataProvider][requestId].status = uint256(
-                DocumentMintingRequestStatus.BURNED
-            );
-        }
-
-        return true;
-    }
-
-    /**
      * @dev Registers a data tokenization service
      *
      */
