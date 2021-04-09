@@ -1,15 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ERC20Interface.sol";
 
-contract XDV is ERC721Pausable {
+contract XDV is ERC721, ERC721Pausable, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
-    using SafeMath for uint256;
     Counters.Counter private _tokenIds;
-    address public owner;
     ERC20Interface public stablecoin;
     uint256 public serviceFeeForPaymentAddress = 0;
     uint256 public serviceFeeForContract = 0;
@@ -22,11 +23,6 @@ contract XDV is ERC721Pausable {
         uint256 paidToPaymentAddress
     );
 
-    modifier onlyOwner() {
-        require(msg.sender == owner, "INVALID_USER");
-        _;
-    }
-
     /**
      * XDV Data Token
      */
@@ -36,7 +32,6 @@ contract XDV is ERC721Pausable {
         address tokenERC20,
         address newPaymentAddress
     ) ERC721(name, symbol) {
-        owner = msg.sender;
         paymentAddress = newPaymentAddress;
         stablecoin = ERC20Interface(tokenERC20);
     }
@@ -56,24 +51,45 @@ contract XDV is ERC721Pausable {
     /**
      * @dev Mints a XDV Data Token if whitelisted
      */
-    function mint(address user, string memory tokenURI)
-        public
-        returns (uint256)
-    {
+    function mint(address user, string memory uri) public returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
         _safeMint(user, newItemId);
-        _setTokenURI(newItemId, tokenURI);
+        _setTokenURI(newItemId, uri);
 
         return newItemId;
+    }
+
+    /**
+     * @dev Just overrides the superclass' function. Fixes inheritance
+     * source: https://forum.openzeppelin.com/t/how-do-inherit-from-erc721-erc721enumerable-and-erc721uristorage-in-v4-of-openzeppelin-contracts/6656/4
+     */
+    function _burn(uint256 tokenId)
+        internal
+        override(ERC721, ERC721URIStorage)
+    {
+        super._burn(tokenId);
+    }
+
+    /**
+     * @dev Just overrides the superclass' function. Fixes inheritance
+     * source: https://forum.openzeppelin.com/t/how-do-inherit-from-erc721-erc721enumerable-and-erc721uristorage-in-v4-of-openzeppelin-contracts/6656/4
+     */
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721, ERC721URIStorage)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
     }
 
     function _beforeTokenTransfer(
         address from,
         address to,
         uint256 amount
-    ) internal virtual override {
+    ) internal virtual override(ERC721, ERC721Pausable) {
         // Address can be 0 when minting the coin for the first time.
         // no fees are applicable in this edge case.
         if (from == address(0)) {
@@ -83,8 +99,7 @@ contract XDV is ERC721Pausable {
 
         require(paymentAddress != address(0), "Must have a payment address");
 
-        uint256 totalFees =
-            serviceFeeForContract.add(serviceFeeForPaymentAddress);
+        uint256 totalFees = serviceFeeForContract + serviceFeeForPaymentAddress;
 
         // User must have a balance
         require(

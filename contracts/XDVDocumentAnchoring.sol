@@ -1,7 +1,7 @@
-pragma solidity ^0.7.0;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721Burnable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721Pausable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "./ERC20Interface.sol";
 
@@ -27,7 +27,7 @@ contract XDVDocumentAnchoring {
     */
     constructor(
         address tokenAddress
-    ) public {
+    ) {
         owner = msg.sender;
         stablecoin  = ERC20Interface(tokenAddress);
     }
@@ -38,7 +38,7 @@ contract XDVDocumentAnchoring {
         fee = _fee;
     }
 
-    function getProtocolConfig() public returns (uint256) {
+    function getProtocolConfig() public view returns (uint256) {
         return (fee);
     }
     // Document Anchor
