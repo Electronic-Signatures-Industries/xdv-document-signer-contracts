@@ -13,15 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: node:15
-        
-    services:
-      ganache:
-        image: trufflesuite/ganache-cli
-        ports:
-          - 8545:8545
-        #options: >-
-         # -m "describe uncle will various ankle film brother pelican apple congress animal segment"
-          #-i 10
 
     steps:
     - uses: actions/checkout@v2
@@ -39,6 +30,7 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - run: npm i -g truffle
-    - run: npm ci
-    - run: truffle test --network ci
+    - run: npm i -g truffle ganache-cli --quiet
+    - run: npm ci --quiet
+    - run: ganache-cli -m "describe uncle will various ankle film brother pelican apple congress animal segment" -i 10 &
+    - run: truffle test
