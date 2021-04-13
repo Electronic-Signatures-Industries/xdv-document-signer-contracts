@@ -34,6 +34,12 @@ module.exports = {
       port: 8545,
       network_id: '*' // Match any network id
     },
+    ci: {
+      from: '0xA83B070a68336811e9265fbEc6d49B98538F61EA',
+      host: 'ganache' ,
+      port: 8545,
+      network_id: '*' // Match any network id
+    },
     rinkeby: {
       provider: () =>
         new HDWalletProvider(process.env.MNEMONIC, process.env.URL),
