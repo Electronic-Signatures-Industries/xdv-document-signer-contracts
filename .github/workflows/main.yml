@@ -12,10 +12,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [15.x]
+    container: node:15
         
     services:
       ganache:
@@ -28,10 +25,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+    - run: npm i -g truffle
     - run: npm ci
-    - run: npm run build --if-present
-    - run: npx -y truffle test
+    - run: truffle test
