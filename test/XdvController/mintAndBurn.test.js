@@ -1,5 +1,5 @@
 const { assert } = require("chai");
-const Bluebird = require("Bluebird");
+const Bluebird = require("bluebird");
 const TestUSDC = artifacts.require("USDC");
 const XDV = artifacts.require("XDV");
 const XDVController = artifacts.require("XDVController");
