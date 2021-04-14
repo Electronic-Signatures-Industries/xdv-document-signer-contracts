@@ -30,7 +30,11 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - run: npm i -g truffle ganache-cli --quiet
-    - run: npm ci --quiet
+    - name: Install Truffle + Ganache
+      run: npm i -g truffle ganache-cli
+
+    - name: Install Dependencies
+      run: npm install
+
     - run: ganache-cli -m "describe uncle will various ankle film brother pelican apple congress animal segment" -i 10 &
     - run: truffle test
