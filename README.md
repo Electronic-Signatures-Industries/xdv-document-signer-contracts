@@ -1,5 +1,5 @@
 # XDV NFT Protocol
-
+[![Continuous Integration](https://github.com/Electronic-Signatures-Industries/nft-document-swap/actions/workflows/main.yml/badge.svg)](https://github.com/Electronic-Signatures-Industries/nft-document-swap/actions/workflows/main.yml)
 
 ## development settings
 

@@ -11,6 +11,7 @@ on:
 
 jobs:
   build:
+    name: Truffle Tests
     runs-on: ubuntu-latest
     container: node:15
 
@@ -30,11 +31,10 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - name: Install Truffle + Ganache
-      run: npm i -g truffle ganache-cli
-
     - name: Install Dependencies
       run: npm install
 
-    - run: ganache-cli -m "describe uncle will various ankle film brother pelican apple congress animal segment" -i 10 &
-    - run: truffle test
+    - name: Ganache in the background
+      run: npm run ganache -- -m "describe uncle will various ankle film brother pelican apple congress animal segment" &
+
+    - run: npm run truffle -- test
