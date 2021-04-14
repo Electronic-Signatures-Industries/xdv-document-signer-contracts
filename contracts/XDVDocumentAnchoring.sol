@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./ERC20Interface.sol";
 
 /**
  *  Register Minters  debe ir un mapping, un evento de add registry, un counter para 
@@ -18,7 +18,7 @@ contract XDVDocumentAnchoring {
 
     address public owner;
     uint public fee;
-    ERC20Interface public stablecoin;
+    IERC20 public stablecoin;
 
     mapping (address => uint) public accounting;
 
@@ -29,7 +29,7 @@ contract XDVDocumentAnchoring {
         address tokenAddress
     ) {
         owner = msg.sender;
-        stablecoin  = ERC20Interface(tokenAddress);
+        stablecoin = IERC20(tokenAddress);
     }
 
 

@@ -2,16 +2,17 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./ERC20Interface.sol";
 
-contract XDV is ERC721, ERC721Pausable, ERC721URIStorage, Ownable {
+contract XDV is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    ERC20Interface public stablecoin;
+    IERC20 public stablecoin;
     uint256 public serviceFeeForPaymentAddress = 0;
     uint256 public serviceFeeForContract = 0;
     address public paymentAddress;
@@ -33,7 +34,7 @@ contract XDV is ERC721, ERC721Pausable, ERC721URIStorage, Ownable {
         address newPaymentAddress
     ) ERC721(name, symbol) {
         paymentAddress = newPaymentAddress;
-        stablecoin = ERC20Interface(tokenERC20);
+        stablecoin = IERC20(tokenERC20);
     }
 
     function setServiceFeeForPaymentAddress(uint256 _fee) public onlyOwner {
@@ -88,57 +89,42 @@ contract XDV is ERC721, ERC721Pausable, ERC721URIStorage, Ownable {
     function _beforeTokenTransfer(
         address from,
         address to,
-        uint256 amount
+        uint256 tokenId
     ) internal virtual override(ERC721, ERC721Pausable) {
-        // Address can be 0 when minting the coin for the first time.
-        // no fees are applicable in this edge case.
-        if (from == address(0)) {
-            super._beforeTokenTransfer(from, to, amount);
-            return;
+        require(!paused(), "XDV: Token execution is paused");
+
+        if (to == address(0)) {
+            paymentBeforeBurn(from);
         }
 
-        require(paymentAddress != address(0), "Must have a payment address");
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
 
-        uint256 totalFees = serviceFeeForContract + serviceFeeForPaymentAddress;
-
-        // User must have a balance
+    /**
+     * @dev tries to execute the payment when the token is burned.
+     * Reverts if the payment procedure could not be completed.
+     */
+    function paymentBeforeBurn(address tokenHolder) internal virtual {
         require(
-            stablecoin.balanceOf(msg.sender) >= totalFees,
-            "Sender does not have enough token balance to transfer"
-        );
-
-        // User must have an allowance
-        require(
-            stablecoin.allowance(msg.sender, address(this)) >= totalFees,
-            "Sender does not have enough allowance to transfer"
+            paymentAddress != address(0),
+            "XDV: Must have a payment address"
         );
 
         // Transfer tokens to pay service fee
         require(
-            stablecoin.transferFrom(
-                msg.sender,
-                paymentAddress,
-                serviceFeeForPaymentAddress
-            ),
-            "Transfer failed for payment address"
+            stablecoin.transferFrom(tokenHolder, address(this), serviceFeeForContract),
+            "XDV: Transfer failed for recipient"
         );
-
         require(
-            stablecoin.transferFrom(
-                msg.sender,
-                address(this),
-                serviceFeeForContract
-            ),
-            "Transfer failed for payment address"
+            stablecoin.transferFrom(tokenHolder, paymentAddress, serviceFeeForPaymentAddress),
+            "XDV: Transfer failed for recipient"
         );
 
         emit ServiceFeePaid(
-            from,
+            tokenHolder,
             paymentAddress,
             serviceFeeForContract,
             serviceFeeForPaymentAddress
         );
-
-        super._beforeTokenTransfer(from, to, amount);
     }
 }

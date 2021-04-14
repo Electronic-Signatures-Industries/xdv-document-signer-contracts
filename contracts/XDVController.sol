@@ -5,12 +5,12 @@ pragma experimental ABIEncoderV2;
 
 import "./XDV.sol";
 import "./MinterCore.sol";
-import "./ERC20Interface.sol";
 import "./IERC1271.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract XDVController is MinterCore, IERC1271, Ownable {
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -19,14 +19,14 @@ contract XDVController is MinterCore, IERC1271, Ownable {
     event Withdrawn(address indexed payee, uint256 weiAmount);
 
     XDV private platformToken;
-    ERC20Interface public token;
+    IERC20 public token;
 
     // minters
     mapping(address => DataProviderMinter) internal minters;
     mapping(address => uint256) public dataProviderAccounting;
 
     constructor(address stablecoin, address xdv) {
-        token = ERC20Interface(stablecoin);
+        token = IERC20(stablecoin);
         platformToken = XDV(xdv);
     }
 
@@ -58,11 +58,11 @@ contract XDVController is MinterCore, IERC1271, Ownable {
         public
         onlyOwner
     {
-        uint256 balance = ERC20Interface(erc20token).balanceOf(address(this));
+        uint256 balance = IERC20(erc20token).balanceOf(address(this));
 
         // Transfer tokens to pay service fee
         require(
-            ERC20Interface(erc20token).transfer(payee, balance),
+            IERC20(erc20token).transfer(payee, balance),
             "Transfer failed for base token"
         );
 
