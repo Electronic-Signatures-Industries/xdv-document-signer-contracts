@@ -15,9 +15,6 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract XDVController is MinterCore, IERC1271, Ownable {
     using EnumerableSet for EnumerableSet.AddressSet;
     using Address for address payable;
-
-    event Withdrawn(address indexed payee, uint256 weiAmount);
-
     XDV private platformToken;
     IERC20 public token;
 
@@ -46,27 +43,6 @@ contract XDVController is MinterCore, IERC1271, Ownable {
         // Inspiration 2: https://github.com/OpenZeppelin/openzeppelin-contracts/pull/2424/files#diff-ff994ffdd277f7cdf0abeb3093d8d5eb7b072a80ebd89f3578cc38ecd1cb6cf2R24
         address signer = ECDSA.recover(hash, signature);
         return signer == owner() ? this.isValidSignature.selector : bytes4(0);
-    }
-
-    function withdraw(address payable payee) public onlyOwner {
-        uint256 b = address(this).balance;
-
-        emit Withdrawn(payee, b);
-    }
-
-    function withdrawToken(address payable payee, address erc20token)
-        public
-        onlyOwner
-    {
-        uint256 balance = IERC20(erc20token).balanceOf(address(this));
-
-        // Transfer tokens to pay service fee
-        require(
-            IERC20(erc20token).transfer(payee, balance),
-            "Transfer failed for base token"
-        );
-
-        emit Withdrawn(payee, balance);
     }
 
     /**

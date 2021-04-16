@@ -17,6 +17,8 @@ contract XDV is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
     uint256 public serviceFeeForContract = 0;
     address public paymentAddress;
 
+    event Withdrawn(address indexed paymentAddress, uint256 amount);
+
     event ServiceFeePaid(
         address indexed from,
         address indexed paymentAddress,
@@ -112,11 +114,19 @@ contract XDV is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
 
         // Transfer tokens to pay service fee
         require(
-            stablecoin.transferFrom(tokenHolder, address(this), serviceFeeForContract),
+            stablecoin.transferFrom(
+                tokenHolder,
+                address(this),
+                serviceFeeForContract
+            ),
             "XDV: Transfer failed for recipient"
         );
         require(
-            stablecoin.transferFrom(tokenHolder, paymentAddress, serviceFeeForPaymentAddress),
+            stablecoin.transferFrom(
+                tokenHolder,
+                paymentAddress,
+                serviceFeeForPaymentAddress
+            ),
             "XDV: Transfer failed for recipient"
         );
 
@@ -126,5 +136,16 @@ contract XDV is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
             serviceFeeForContract,
             serviceFeeForPaymentAddress
         );
+    }
+
+    function withdrawBalance(address payable payee) public onlyOwner {
+        uint256 balance = stablecoin.balanceOf(address(this));
+
+        require(
+            stablecoin.transfer(payee, balance),
+            "XDV: Transfer failed"
+        );
+
+        emit Withdrawn(payee, balance);
     }
 }

@@ -5,7 +5,7 @@ const TestUSDC = artifacts.require("USDC");
 const XDV = artifacts.require("XDV");
 const XDVController = artifacts.require("XDVController");
 
-contract("XDV NFT", (accounts) => {
+contract("XDV: Anchoring and Minting", (accounts) => {
   let erc20Contract;
   let controllerContract;
   let documentMinterAddress;
@@ -13,19 +13,11 @@ contract("XDV NFT", (accounts) => {
 
   // Initialize the contracts and make sure they exist
   before(async () => {
-    const { ctr, usd, xdv } = await Bluebird.props({
-      xdv: XDV.deployed(),
-      usd: TestUSDC.deployed(),
-      ctr: XDVController.deployed(),
-    });
-
-    assert.isNotNull(ctr, "Contract must exist");
-    assert.isNotNull(usd, "Contract must exist");
-    assert.isNotNull(xdv, "Contract must exist");
-
-    controllerContract = ctr;
-    erc20Contract = usd;
-    xdvContract = xdv;
+    ({ controllerContract, xdvContract, erc20Contract } = await Bluebird.props({
+      xdvContract: XDV.deployed(),
+      erc20Contract: TestUSDC.deployed(),
+      controllerContract: XDVController.deployed(),
+    }));
   });
 
   describe("when registering a document issuing provider", () => {
