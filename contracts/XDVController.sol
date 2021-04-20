@@ -55,6 +55,14 @@ contract XDVController is MinterCore, IERC1271, Ownable {
         string memory documentURI,
         string memory description
     ) public returns (uint256) {
+        // // User must have a balance
+        // require(token.balanceOf(msg.sender) >= 0, "Invalid token balance");
+        // // User must have an allowance
+        // require(
+        //     token.allowance(msg.sender, address(this)) >= 0,
+        //     "Invalid token allowance"
+        // );
+
         uint256 i = minterDocumentRequestCounter[minterAddress];
 
         // Assign request to minter
