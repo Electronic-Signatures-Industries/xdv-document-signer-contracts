@@ -1,4 +1,4 @@
-const { BigNumber } = require('bignumber.js');
+const BigNumber = require('bignumber.js');
 const fs = require('fs');
 const XDVController = artifacts.require('XDVController');
 const USDC = artifacts.require('USDC');

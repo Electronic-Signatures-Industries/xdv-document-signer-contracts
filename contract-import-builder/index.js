@@ -14,8 +14,6 @@ module.exports = class ContractImportBuilder {
         }
     }
 
-    onWrite = null
-
     setOutput(output) {
         this.importOutput = output
     }
