@@ -1,50 +1,24 @@
-const BigNumber = require('bignumber.js');
-const fs = require('fs');
-const DAI = artifacts.require('DAI');
-const XDVDocumentAnchoring = artifacts.require('XDVDocumentAnchoring');
+const fs = require("fs");
+const XDVDocumentAnchoring = artifacts.require("XDVDocumentAnchoring");
 
-const ContractImportBuilder = require('../contract-import-builder');
+const ContractImportBuilder = require("../contract-import-builder");
 
 module.exports = async (deployer, network, accounts) => {
-    const builder = new ContractImportBuilder();
-    const path = `${__dirname}/../abi-export/xdv.js`;
+  const builder = new ContractImportBuilder();
+  const path = `${__dirname}/../abi-export/xdv.js`;
 
-    builder.setOutput(path);
-    builder.onWrite = (output) => {
-        fs.writeFileSync(path, output);
-    };
-    let xdvDocumentAnchoring;
-    let daiaddress = "";
-    let dai;
+  builder.setOutput(path);
+  builder.onWrite = (output) => {
+    fs.writeFileSync(path, output);
+  };
 
-    if (network === "bsc") {
-      daiaddress = "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3";
-    }
-    else{
-      await deployer.deploy(DAI);
-      dai = await DAI.deployed();
-      daiaddress = dai.address;
-    }
-    // else {
+  await deployer.deploy(XDVDocumentAnchoring);
+  const xdvDocumentAnchoring = await XDVDocumentAnchoring.deployed();
 
-    await deployer.deploy(XDVDocumentAnchoring, daiaddress);
-
-    xdvDocumentAnchoring = await XDVDocumentAnchoring.deployed();
-    await xdvDocumentAnchoring.setProtocolConfig(new BigNumber(0.5 * 1e18));
-    /*const fee_bn = new BigNumber(5 * 1e18);
-    await dai.mint(accounts[0],fee_bn);*/
-
-    builder.addContract(
-      'DAI',
-      dai,
-      daiaddress,
-      network
-    );
-
-    builder.addContract(
-      'XDVDocumentAnchoring',
-      xdvDocumentAnchoring,
-      xdvDocumentAnchoring.address,
-      network
-    );
+  builder.addContract(
+    "XDVDocumentAnchoring",
+    xdvDocumentAnchoring,
+    xdvDocumentAnchoring.address,
+    network
+  );
 };
