@@ -16,6 +16,7 @@ contract XDVDocumentAnchoring {
     // Document by user address by id
     mapping(address => mapping(uint => DocumentAnchor)) public minterDocumentAnchors;
 
+    event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
     uint public fee;
     IERC20 public stablecoin;
@@ -32,6 +33,26 @@ contract XDVDocumentAnchoring {
         stablecoin = IERC20(tokenAddress);
     }
 
+
+    function withdraw(address payable payee) public {
+        require(msg.sender == owner, "INVALID_USER");
+        uint256 b = address(this).balance;
+
+        emit Withdrawn(payee, b);
+    }
+
+    function withdrawToken(address payable payee, address erc20token) public {
+        require(msg.sender == owner, "INVALID_USER");
+        uint256 balance = IERC20(erc20token).balanceOf(address(this));
+
+        // Transfer tokens to pay service fee
+        require(
+            IERC20(erc20token).transfer(payee, balance),
+            "Transfer failed for base token"
+        );
+
+        emit Withdrawn(payee, balance);
+    }
 
     function setProtocolConfig(uint256 _fee) public {
         require(msg.sender == owner, "INVALID_USER");
