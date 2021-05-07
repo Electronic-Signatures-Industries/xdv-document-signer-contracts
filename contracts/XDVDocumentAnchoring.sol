@@ -69,6 +69,7 @@ contract XDVDocumentAnchoring {
         string documentURI; 
         string description;
         uint timestamp;
+        // wlsigners
     }
 
     // DocumentAnchored events
@@ -83,29 +84,32 @@ contract XDVDocumentAnchoring {
 // Case 2 - quorum eg 3 of 5 - aggPeerSigning
     function peerSigning(
         uint docid,
+
         string memory userDid,
         string memory documentUri,
         bool isComplete
     ) public payable returns(uint) {
-        // 
+        // if docid exists
+        // if wl
+        // map single to multi approvals
     }
 
     // TODO: whitelist - optional
     function addDocument(
         string memory userDid,
         string memory documentURI,
-        string memory description
-        // address[] wl
+        string memory description,
+        address[] memory whitelist
     ) public payable returns(uint){
 
         // User must have a balance
         require(
-            stablecoin.balanceOf(msg.sender) >= 0,
+            stablecoin.balanceOf(msg.sender) > 0,
             "Invalid token balance"
         );
         // User must have an allowance
         require(
-            stablecoin.allowance(msg.sender, address(this)) >= 0,
+            stablecoin.allowance(msg.sender, address(this)) > 0,
             "Invalid token allowance"
         );
 
