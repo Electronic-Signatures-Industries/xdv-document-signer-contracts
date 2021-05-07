@@ -78,11 +78,24 @@ contract XDVDocumentAnchoring {
         string documentURI,
         uint id
     );
+// Case 0 - single
+// Case 1 - get approvals
+// Case 2 - quorum eg 3 of 5 - aggPeerSigning
+    function peerSigning(
+        uint docid,
+        string memory userDid,
+        string memory documentUri,
+        bool isComplete
+    ) public payable returns(uint) {
+        // 
+    }
 
+    // TODO: whitelist - optional
     function addDocument(
         string memory userDid,
         string memory documentURI,
         string memory description
+        // address[] wl
     ) public payable returns(uint){
 
         // User must have a balance
