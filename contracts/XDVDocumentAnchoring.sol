@@ -13,8 +13,12 @@ contract XDVDocumentAnchoring {
     // Document by minter id sequence/autonumber
     mapping(address => uint) public minterDocumentAnchorCounter;
 
+// TODO: Remove, deprecated
     // Document by user address by id
     mapping(address => mapping(uint => DocumentAnchor)) public minterDocumentAnchors;
+
+    // Doocument by doc id
+    mapping(uint => DocumentAnchor) public multiApprovalDocumentAnchors;
 
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
@@ -69,7 +73,7 @@ contract XDVDocumentAnchoring {
         string documentURI; 
         string description;
         uint timestamp;
-        // wlsigners
+        // address[] whitelistSigners;
     }
 
     // DocumentAnchored events
@@ -84,17 +88,47 @@ contract XDVDocumentAnchoring {
 // Case 2 - quorum eg 3 of 5 - aggPeerSigning
     function peerSigning(
         uint docid,
-
         string memory userDid,
         string memory documentUri,
         bool isComplete
     ) public payable returns(uint) {
         // if docid exists
-        // if wl
-        // map single to multi approvals
-    }
+        // require(multiApprovalDocumentAnchors[docid].user != address(0));
+        // if whitelist
+        // TODO: .whitelist.length > 0
 
-    // TODO: whitelist - optional
+        // User must have a balance
+        require(
+            stablecoin.balanceOf(msg.sender) > 0,
+            "Invalid token balance"
+        );
+        // User must have an allowance
+        require(
+            stablecoin.allowance(msg.sender, address(this)) > 0,
+            "Invalid token allowance"
+        );
+
+
+        require(
+            stablecoin.transferFrom(
+                msg.sender,
+                address(this), 
+                fee),
+            "Transfer failed for fee"
+        );
+
+        accounting[msg.sender] = accounting[msg.sender] + fee;
+        accounting[address(this)] = accounting[address(this)] + fee;
+
+        minterDocumentAnchorCounter[msg.sender]++;
+        uint i = minterDocumentAnchorCounter[msg.sender];
+            
+        multiApprovalDocumentAnchors[i].user = msg.sender;
+        // TODO: Update other fields
+
+        emit DocumentAnchored(msg.sender, userDid, documentURI, i);
+        return i; 
+    }
     function addDocument(
         string memory userDid,
         string memory documentURI,
@@ -128,12 +162,14 @@ contract XDVDocumentAnchoring {
         minterDocumentAnchorCounter[msg.sender]++;
         uint i = minterDocumentAnchorCounter[msg.sender];
             
-        minterDocumentAnchors[msg.sender][i] = DocumentAnchor({
+        multiApprovalDocumentAnchors[i] = DocumentAnchor({
             user: msg.sender, 
             userDid: userDid,
             documentURI: documentURI,
             description: description,
-            timestamp: block.timestamp
+            timestamp: block.timestamp,
+            // TODO
+            // whitelistSigners: whitelist
         });
 
         emit DocumentAnchored(msg.sender, userDid, documentURI, i);
