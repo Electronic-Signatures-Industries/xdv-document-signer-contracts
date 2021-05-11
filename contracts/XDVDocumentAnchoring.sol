@@ -32,6 +32,10 @@ contract XDVDocumentAnchoring {
         stablecoin = IERC20(tokenAddress);
     }
 
+    function setStableCoin(address tokenAddress) public {
+        require(msg.sender == owner, "INVALID_USER");
+        stablecoin = IERC20(tokenAddress);
+    }
 
     function setProtocolConfig(uint256 _fee) public {
         require(msg.sender == owner, "INVALID_USER");
