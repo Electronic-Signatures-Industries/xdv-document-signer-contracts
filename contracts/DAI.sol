@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/presets/ERC20PresetMinterPauser.sol";
 
-contract DAI is ERC20PresetMinterPauser {
+contract DAI is ERC20PresetMinterPauser, Ownable {
     constructor() ERC20PresetMinterPauser("DAI", "DAI") {
-        mint(address(this), 1000000 ether);
+        mint(msg.sender, 1000000 ether);
     }
 }
