@@ -13,11 +13,7 @@ contract XDVDocumentAnchoring {
     // Document by minter id sequence/autonumber
     mapping(address => uint) public minterDocumentAnchorCounter;
 
-// TODO: Remove, deprecated
-    // Document by user address by id
-    mapping(address => mapping(uint => DocumentAnchor)) public minterDocumentAnchors;
-
-    // Doocument by doc id
+    // Document by doc id
     mapping(uint => DocumentAnchor) public multiApprovalDocumentAnchors;
 
     event Withdrawn(address indexed payee, uint256 weiAmount);
@@ -73,7 +69,7 @@ contract XDVDocumentAnchoring {
         string documentURI; 
         string description;
         uint timestamp;
-        // address[] whitelistSigners;
+        address[] whitelistSigners;
     }
 
     // DocumentAnchored events
@@ -90,13 +86,13 @@ contract XDVDocumentAnchoring {
         uint docid,
         string memory userDid,
         string memory documentUri,
-        bool isComplete
+        bool isComplete,
+        address[] memory whitelist
     ) public payable returns(uint) {
-        // if docid exists
-        // require(multiApprovalDocumentAnchors[docid].user != address(0));
-        // if whitelist
-        // TODO: .whitelist.length > 0
-
+        //Docid must exist
+        require(multiApprovalDocumentAnchors[docid].user != address(0));
+        // Doc must have at least one address on its whitelist
+        require(whitelist.lenght>0);
         // User must have a balance
         require(
             stablecoin.balanceOf(msg.sender) > 0,
@@ -168,8 +164,7 @@ contract XDVDocumentAnchoring {
             documentURI: documentURI,
             description: description,
             timestamp: block.timestamp,
-            // TODO
-            // whitelistSigners: whitelist
+            whitelistSigners: whitelist
         });
 
         emit DocumentAnchored(msg.sender, userDid, documentURI, i);
