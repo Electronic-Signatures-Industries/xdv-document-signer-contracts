@@ -70,6 +70,7 @@ contract XDVDocumentAnchoring {
         string description;
         uint timestamp;
         address[] whitelistSigners;
+        uint status; //Crear enum de los status: init, approve, completed, rejected
     }
 
     // DocumentAnchored events
@@ -88,13 +89,16 @@ contract XDVDocumentAnchoring {
         string memory userDid,
         string memory documentURI,
         bool isComplete,
-        string memory description,
-        address[] memory whitelist
+        string memory description
     ) public payable returns(bool) {
         //Docid must exist
         require(multiApprovalDocumentAnchors[docid].user != address(0));
         // Doc must have at least one address on its whitelist
-        require(whitelist.length>0);
+        require(whitelist.length < 10 && whitelist.length > 0);
+
+        //TODO: Hacer lookup con mapping de 2 indices. #1 docid #2 whitelist
+        //TODO: Si complete = true, y todos los mapping son true, anchorship status
+
         // User must have a balance
         require(
             stablecoin.balanceOf(msg.sender) > 0,
@@ -115,6 +119,7 @@ contract XDVDocumentAnchoring {
             "Transfer failed for fee"
         );
 
+        //TODO: Crear el array de bool segun la longitud del whitelist (guia de solidity array dinamico)
         accounting[msg.sender] = accounting[msg.sender] + fee;
         accounting[address(this)] = accounting[address(this)] + fee;
 
@@ -133,6 +138,9 @@ contract XDVDocumentAnchoring {
         string memory description,
         address[] memory whitelist
     ) public payable returns(uint){
+
+        //Si existe whitelisting se debe popular el mapping
+        //Si el whitelisting es > 0 
 
         // User must have a balance
         require(
