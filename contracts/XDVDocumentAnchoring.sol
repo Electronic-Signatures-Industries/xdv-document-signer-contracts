@@ -129,13 +129,8 @@ contract XDVDocumentAnchoring {
         multiApprovalDocumentAnchors[docid].documentURI = documentURI;
         multiApprovalDocumentAnchors[docid].description = description;
 
-<<<<<<< HEAD
-        emit DocumentAnchored(msg.sender, userDid, documentURI, description, docid);
+        emit DocumentAnchored(msg.sender, userDid, documentUri, description, docid);
         return true; 
-=======
-        emit DocumentAnchored(msg.sender, userDid, documentUri, i);
-        return i; 
->>>>>>> 69d94e4 (Hotfix: fixed compilation.)
     }
     function addDocument(
         string memory userDid,
@@ -178,14 +173,8 @@ contract XDVDocumentAnchoring {
             userDid: userDid,
             documentURI: documentURI,
             description: description,
-<<<<<<< HEAD
             timestamp: block.timestamp,
             whitelistSigners: whitelist
-=======
-            timestamp: block.timestamp
-            // TODO
-            // whitelistSigners: whitelist
->>>>>>> 69d94e4 (Hotfix: fixed compilation.)
         });
 
         emit DocumentAnchored(msg.sender, userDid, documentURI, description, i);
