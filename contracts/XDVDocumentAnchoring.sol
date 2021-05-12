@@ -76,7 +76,8 @@ contract XDVDocumentAnchoring {
     event DocumentAnchored(
         address indexed user, 
         string indexed userDid,
-        string documentURI,
+        string indexed documentURI,
+        string description,
         uint id
     );
 // Case 0 - single
@@ -85,14 +86,15 @@ contract XDVDocumentAnchoring {
     function peerSigning(
         uint docid,
         string memory userDid,
-        string memory documentUri,
+        string memory documentURI,
         bool isComplete,
+        string memory description,
         address[] memory whitelist
-    ) public payable returns(uint) {
+    ) public payable returns(bool) {
         //Docid must exist
         require(multiApprovalDocumentAnchors[docid].user != address(0));
         // Doc must have at least one address on its whitelist
-        require(whitelist.lenght>0);
+        require(whitelist.length>0);
         // User must have a balance
         require(
             stablecoin.balanceOf(msg.sender) > 0,
@@ -116,14 +118,14 @@ contract XDVDocumentAnchoring {
         accounting[msg.sender] = accounting[msg.sender] + fee;
         accounting[address(this)] = accounting[address(this)] + fee;
 
-        minterDocumentAnchorCounter[msg.sender]++;
-        uint i = minterDocumentAnchorCounter[msg.sender];
             
-        multiApprovalDocumentAnchors[i].user = msg.sender;
-        // TODO: Update other fields
+        multiApprovalDocumentAnchors[docid].user = msg.sender;
+        multiApprovalDocumentAnchors[docid].userDid = userDid;
+        multiApprovalDocumentAnchors[docid].documentURI = documentURI;
+        multiApprovalDocumentAnchors[docid].description = description;
 
-        emit DocumentAnchored(msg.sender, userDid, documentURI, i);
-        return i; 
+        emit DocumentAnchored(msg.sender, userDid, documentURI, description, docid);
+        return true; 
     }
     function addDocument(
         string memory userDid,
@@ -167,7 +169,7 @@ contract XDVDocumentAnchoring {
             whitelistSigners: whitelist
         });
 
-        emit DocumentAnchored(msg.sender, userDid, documentURI, i);
+        emit DocumentAnchored(msg.sender, userDid, documentURI, description, i);
         return i;
     }
 
