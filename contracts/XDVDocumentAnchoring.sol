@@ -126,7 +126,7 @@ contract XDVDocumentAnchoring {
         multiApprovalDocumentAnchors[i].user = msg.sender;
         // TODO: Update other fields
 
-        emit DocumentAnchored(msg.sender, userDid, documentURI, i);
+        emit DocumentAnchored(msg.sender, userDid, documentUri, i);
         return i; 
     }
     function addDocument(
@@ -167,7 +167,7 @@ contract XDVDocumentAnchoring {
             userDid: userDid,
             documentURI: documentURI,
             description: description,
-            timestamp: block.timestamp,
+            timestamp: block.timestamp
             // TODO
             // whitelistSigners: whitelist
         });
