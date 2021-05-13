@@ -149,9 +149,9 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"userDid\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"documentURI\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"}],\"name\":\"DocumentAnchored\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"minter\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"}],\"name\":\"MinterRegistered\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"minterCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"minterDocumentRequestCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"minterDocumentRequests\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"userDid\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"toMinter\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"toMinterDid\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"documentURI\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"status\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"MinterCore\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/rogelio/Code/xdv/nft-document-swap/contracts/MinterCore.sol\":\"MinterCore\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/rogelio/Code/xdv/nft-document-swap/contracts/MinterCore.sol\":{\"keccak256\":\"0x5b08e3fb4113660e06baf1a6a9a30cf099162ed07f7825404c6f648e1937a143\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cbf5ba3df85282aa74737686acd91120ae666db2be438413f4a72264c7dc8efc\",\"dweb:/ipfs/QmVFt58EV9xUmd2bE5iQaX8cdsxHK425KWTr8Z4wCvhH6w\"]}},\"version\":1}",
-  "bytecode": "0x608060405234801561001057600080fd5b506106be806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80632aa222c8146100465780636efaa69914610076578063761901bb146100ad575b600080fd5b610060600480360381019061005b91906103ec565b6100dd565b60405161006d9190610542565b60405180910390f35b610090600480360381019061008b9190610415565b6100f5565b6040516100a49897969594939291906104a8565b60405180910390f35b6100c760048036038101906100c291906103ec565b6103aa565b6040516100d49190610542565b60405180910390f35b60016020528060005260406000206000915090505481565b6002602052816000526040600020602052806000526040600020600091509150508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169080600101805461014b906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610177906105e8565b80156101c45780601f10610199576101008083540402835291602001916101c4565b820191906000526020600020905b8154815290600101906020018083116101a757829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030180546101ff906105e8565b80601f016020809104026020016040519081016040528092919081815260200182805461022b906105e8565b80156102785780601f1061024d57610100808354040283529160200191610278565b820191906000526020600020905b81548152906001019060200180831161025b57829003601f168201915b50505050509080600401805461028d906105e8565b80601f01602080910402602001604051908101604052809291908181526020018280546102b9906105e8565b80156103065780601f106102db57610100808354040283529160200191610306565b820191906000526020600020905b8154815290600101906020018083116102e957829003601f168201915b505050505090806005015490806006015490806007018054610327906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610353906105e8565b80156103a05780601f10610375576101008083540402835291602001916103a0565b820191906000526020600020905b81548152906001019060200180831161038357829003601f168201915b5050505050905088565b60006020528060005260406000206000915090505481565b6000813590506103d18161065a565b92915050565b6000813590506103e681610671565b92915050565b6000602082840312156103fe57600080fd5b600061040c848285016103c2565b91505092915050565b6000806040838503121561042857600080fd5b6000610436858286016103c2565b9250506020610447858286016103d7565b9150509250929050565b61045a81610579565b82525050565b600061046b8261055d565b6104758185610568565b93506104858185602086016105b5565b61048e81610649565b840191505092915050565b6104a2816105ab565b82525050565b6000610100820190506104be600083018b610451565b81810360208301526104d0818a610460565b90506104df6040830189610451565b81810360608301526104f18188610460565b905081810360808301526105058187610460565b905061051460a0830186610499565b61052160c0830185610499565b81810360e08301526105338184610460565b90509998505050505050505050565b60006020820190506105576000830184610499565b92915050565b600081519050919050565b600082825260208201905092915050565b60006105848261058b565b9050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000819050919050565b60005b838110156105d35780820151818401526020810190506105b8565b838111156105e2576000848401525b50505050565b6000600282049050600182168061060057607f821691505b602082108114156106145761061361061a565b5b50919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052602260045260246000fd5b6000601f19601f8301169050919050565b61066381610579565b811461066e57600080fd5b50565b61067a816105ab565b811461068557600080fd5b5056fea2646970667358221220fd3292b0ba8e3ef973f7dbc6274dd182fb8720aa725f1ecef8e2664853af60c064736f6c63430008040033",
-  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80632aa222c8146100465780636efaa69914610076578063761901bb146100ad575b600080fd5b610060600480360381019061005b91906103ec565b6100dd565b60405161006d9190610542565b60405180910390f35b610090600480360381019061008b9190610415565b6100f5565b6040516100a49897969594939291906104a8565b60405180910390f35b6100c760048036038101906100c291906103ec565b6103aa565b6040516100d49190610542565b60405180910390f35b60016020528060005260406000206000915090505481565b6002602052816000526040600020602052806000526040600020600091509150508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169080600101805461014b906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610177906105e8565b80156101c45780601f10610199576101008083540402835291602001916101c4565b820191906000526020600020905b8154815290600101906020018083116101a757829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030180546101ff906105e8565b80601f016020809104026020016040519081016040528092919081815260200182805461022b906105e8565b80156102785780601f1061024d57610100808354040283529160200191610278565b820191906000526020600020905b81548152906001019060200180831161025b57829003601f168201915b50505050509080600401805461028d906105e8565b80601f01602080910402602001604051908101604052809291908181526020018280546102b9906105e8565b80156103065780601f106102db57610100808354040283529160200191610306565b820191906000526020600020905b8154815290600101906020018083116102e957829003601f168201915b505050505090806005015490806006015490806007018054610327906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610353906105e8565b80156103a05780601f10610375576101008083540402835291602001916103a0565b820191906000526020600020905b81548152906001019060200180831161038357829003601f168201915b5050505050905088565b60006020528060005260406000206000915090505481565b6000813590506103d18161065a565b92915050565b6000813590506103e681610671565b92915050565b6000602082840312156103fe57600080fd5b600061040c848285016103c2565b91505092915050565b6000806040838503121561042857600080fd5b6000610436858286016103c2565b9250506020610447858286016103d7565b9150509250929050565b61045a81610579565b82525050565b600061046b8261055d565b6104758185610568565b93506104858185602086016105b5565b61048e81610649565b840191505092915050565b6104a2816105ab565b82525050565b6000610100820190506104be600083018b610451565b81810360208301526104d0818a610460565b90506104df6040830189610451565b81810360608301526104f18188610460565b905081810360808301526105058187610460565b905061051460a0830186610499565b61052160c0830185610499565b81810360e08301526105338184610460565b90509998505050505050505050565b60006020820190506105576000830184610499565b92915050565b600081519050919050565b600082825260208201905092915050565b60006105848261058b565b9050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000819050919050565b60005b838110156105d35780820151818401526020810190506105b8565b838111156105e2576000848401525b50505050565b6000600282049050600182168061060057607f821691505b602082108114156106145761061361061a565b5b50919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052602260045260246000fd5b6000601f19601f8301169050919050565b61066381610579565b811461066e57600080fd5b50565b61067a816105ab565b811461068557600080fd5b5056fea2646970667358221220fd3292b0ba8e3ef973f7dbc6274dd182fb8720aa725f1ecef8e2664853af60c064736f6c63430008040033",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"userDid\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"documentURI\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"}],\"name\":\"DocumentAnchored\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"minter\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"}],\"name\":\"MinterRegistered\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"minterCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"minterDocumentRequestCounter\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"minterDocumentRequests\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"user\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"userDid\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"toMinter\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"toMinterDid\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"documentURI\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"status\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"description\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"MinterCore\",\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/esferasoluciones-jupiter/Documents/projects/ifesa/xdv-document-signer-contracts/contracts/MinterCore.sol\":\"MinterCore\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/esferasoluciones-jupiter/Documents/projects/ifesa/xdv-document-signer-contracts/contracts/MinterCore.sol\":{\"keccak256\":\"0x5b08e3fb4113660e06baf1a6a9a30cf099162ed07f7825404c6f648e1937a143\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cbf5ba3df85282aa74737686acd91120ae666db2be438413f4a72264c7dc8efc\",\"dweb:/ipfs/QmVFt58EV9xUmd2bE5iQaX8cdsxHK425KWTr8Z4wCvhH6w\"]}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506106be806100206000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80632aa222c8146100465780636efaa69914610076578063761901bb146100ad575b600080fd5b610060600480360381019061005b91906103ec565b6100dd565b60405161006d9190610542565b60405180910390f35b610090600480360381019061008b9190610415565b6100f5565b6040516100a49897969594939291906104a8565b60405180910390f35b6100c760048036038101906100c291906103ec565b6103aa565b6040516100d49190610542565b60405180910390f35b60016020528060005260406000206000915090505481565b6002602052816000526040600020602052806000526040600020600091509150508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169080600101805461014b906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610177906105e8565b80156101c45780601f10610199576101008083540402835291602001916101c4565b820191906000526020600020905b8154815290600101906020018083116101a757829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030180546101ff906105e8565b80601f016020809104026020016040519081016040528092919081815260200182805461022b906105e8565b80156102785780601f1061024d57610100808354040283529160200191610278565b820191906000526020600020905b81548152906001019060200180831161025b57829003601f168201915b50505050509080600401805461028d906105e8565b80601f01602080910402602001604051908101604052809291908181526020018280546102b9906105e8565b80156103065780601f106102db57610100808354040283529160200191610306565b820191906000526020600020905b8154815290600101906020018083116102e957829003601f168201915b505050505090806005015490806006015490806007018054610327906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610353906105e8565b80156103a05780601f10610375576101008083540402835291602001916103a0565b820191906000526020600020905b81548152906001019060200180831161038357829003601f168201915b5050505050905088565b60006020528060005260406000206000915090505481565b6000813590506103d18161065a565b92915050565b6000813590506103e681610671565b92915050565b6000602082840312156103fe57600080fd5b600061040c848285016103c2565b91505092915050565b6000806040838503121561042857600080fd5b6000610436858286016103c2565b9250506020610447858286016103d7565b9150509250929050565b61045a81610579565b82525050565b600061046b8261055d565b6104758185610568565b93506104858185602086016105b5565b61048e81610649565b840191505092915050565b6104a2816105ab565b82525050565b6000610100820190506104be600083018b610451565b81810360208301526104d0818a610460565b90506104df6040830189610451565b81810360608301526104f18188610460565b905081810360808301526105058187610460565b905061051460a0830186610499565b61052160c0830185610499565b81810360e08301526105338184610460565b90509998505050505050505050565b60006020820190506105576000830184610499565b92915050565b600081519050919050565b600082825260208201905092915050565b60006105848261058b565b9050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000819050919050565b60005b838110156105d35780820151818401526020810190506105b8565b838111156105e2576000848401525b50505050565b6000600282049050600182168061060057607f821691505b602082108114156106145761061361061a565b5b50919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052602260045260246000fd5b6000601f19601f8301169050919050565b61066381610579565b811461066e57600080fd5b50565b61067a816105ab565b811461068557600080fd5b5056fea2646970667358221220c0a041e5b2b07485529d0551118e0e883a1231413d6267ed268713325734275e64736f6c63430008040033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80632aa222c8146100465780636efaa69914610076578063761901bb146100ad575b600080fd5b610060600480360381019061005b91906103ec565b6100dd565b60405161006d9190610542565b60405180910390f35b610090600480360381019061008b9190610415565b6100f5565b6040516100a49897969594939291906104a8565b60405180910390f35b6100c760048036038101906100c291906103ec565b6103aa565b6040516100d49190610542565b60405180910390f35b60016020528060005260406000206000915090505481565b6002602052816000526040600020602052806000526040600020600091509150508060000160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff169080600101805461014b906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610177906105e8565b80156101c45780601f10610199576101008083540402835291602001916101c4565b820191906000526020600020905b8154815290600101906020018083116101a757829003601f168201915b5050505050908060020160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff16908060030180546101ff906105e8565b80601f016020809104026020016040519081016040528092919081815260200182805461022b906105e8565b80156102785780601f1061024d57610100808354040283529160200191610278565b820191906000526020600020905b81548152906001019060200180831161025b57829003601f168201915b50505050509080600401805461028d906105e8565b80601f01602080910402602001604051908101604052809291908181526020018280546102b9906105e8565b80156103065780601f106102db57610100808354040283529160200191610306565b820191906000526020600020905b8154815290600101906020018083116102e957829003601f168201915b505050505090806005015490806006015490806007018054610327906105e8565b80601f0160208091040260200160405190810160405280929190818152602001828054610353906105e8565b80156103a05780601f10610375576101008083540402835291602001916103a0565b820191906000526020600020905b81548152906001019060200180831161038357829003601f168201915b5050505050905088565b60006020528060005260406000206000915090505481565b6000813590506103d18161065a565b92915050565b6000813590506103e681610671565b92915050565b6000602082840312156103fe57600080fd5b600061040c848285016103c2565b91505092915050565b6000806040838503121561042857600080fd5b6000610436858286016103c2565b9250506020610447858286016103d7565b9150509250929050565b61045a81610579565b82525050565b600061046b8261055d565b6104758185610568565b93506104858185602086016105b5565b61048e81610649565b840191505092915050565b6104a2816105ab565b82525050565b6000610100820190506104be600083018b610451565b81810360208301526104d0818a610460565b90506104df6040830189610451565b81810360608301526104f18188610460565b905081810360808301526105058187610460565b905061051460a0830186610499565b61052160c0830185610499565b81810360e08301526105338184610460565b90509998505050505050505050565b60006020820190506105576000830184610499565b92915050565b600081519050919050565b600082825260208201905092915050565b60006105848261058b565b9050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000819050919050565b60005b838110156105d35780820151818401526020810190506105b8565b838111156105e2576000848401525b50505050565b6000600282049050600182168061060057607f821691505b602082108114156106145761061361061a565b5b50919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052602260045260246000fd5b6000601f19601f8301169050919050565b61066381610579565b811461066e57600080fd5b50565b61067a816105ab565b811461068557600080fd5b5056fea2646970667358221220c0a041e5b2b07485529d0551118e0e883a1231413d6267ed268713325734275e64736f6c63430008040033",
   "immutableReferences": {},
   "generatedSources": [],
   "deployedGeneratedSources": [
@@ -3020,20 +3020,20 @@
   "sourceMap": "85:1329:3:-:0;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "85:1329:3:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;259:60;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;366:89;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;;;;;;;;;;;;;:::i;:::-;;;;;;;;146:45;;;;;;;;;;;;;:::i;:::-;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;259:60;;;;;;;;;;;;;;;;;:::o;366:89::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::o;146:45::-;;;;;;;;;;;;;;;;;:::o;7:139:33:-;53:5;91:6;78:20;69:29;;107:33;134:5;107:33;:::i;:::-;59:87;;;;:::o;152:139::-;198:5;236:6;223:20;214:29;;252:33;279:5;252:33;:::i;:::-;204:87;;;;:::o;297:262::-;356:6;405:2;393:9;384:7;380:23;376:32;373:2;;;421:1;418;411:12;373:2;464:1;489:53;534:7;525:6;514:9;510:22;489:53;:::i;:::-;479:63;;435:117;363:196;;;;:::o;565:407::-;633:6;641;690:2;678:9;669:7;665:23;661:32;658:2;;;706:1;703;696:12;658:2;749:1;774:53;819:7;810:6;799:9;795:22;774:53;:::i;:::-;764:63;;720:117;876:2;902:53;947:7;938:6;927:9;923:22;902:53;:::i;:::-;892:63;;847:118;648:324;;;;;:::o;978:118::-;1065:24;1083:5;1065:24;:::i;:::-;1060:3;1053:37;1043:53;;:::o;1102:364::-;1190:3;1218:39;1251:5;1218:39;:::i;:::-;1273:71;1337:6;1332:3;1273:71;:::i;:::-;1266:78;;1353:52;1398:6;1393:3;1386:4;1379:5;1375:16;1353:52;:::i;:::-;1430:29;1452:6;1430:29;:::i;:::-;1425:3;1421:39;1414:46;;1194:272;;;;;:::o;1472:118::-;1559:24;1577:5;1559:24;:::i;:::-;1554:3;1547:37;1537:53;;:::o;1596:1361::-;1965:4;2003:3;1992:9;1988:19;1980:27;;2017:71;2085:1;2074:9;2070:17;2061:6;2017:71;:::i;:::-;2135:9;2129:4;2125:20;2120:2;2109:9;2105:18;2098:48;2163:78;2236:4;2227:6;2163:78;:::i;:::-;2155:86;;2251:72;2319:2;2308:9;2304:18;2295:6;2251:72;:::i;:::-;2370:9;2364:4;2360:20;2355:2;2344:9;2340:18;2333:48;2398:78;2471:4;2462:6;2398:78;:::i;:::-;2390:86;;2524:9;2518:4;2514:20;2508:3;2497:9;2493:19;2486:49;2552:78;2625:4;2616:6;2552:78;:::i;:::-;2544:86;;2640:73;2708:3;2697:9;2693:19;2684:6;2640:73;:::i;:::-;2723;2791:3;2780:9;2776:19;2767:6;2723:73;:::i;:::-;2844:9;2838:4;2834:20;2828:3;2817:9;2813:19;2806:49;2872:78;2945:4;2936:6;2872:78;:::i;:::-;2864:86;;1970:987;;;;;;;;;;;:::o;2963:222::-;3056:4;3094:2;3083:9;3079:18;3071:26;;3107:71;3175:1;3164:9;3160:17;3151:6;3107:71;:::i;:::-;3061:124;;;;:::o;3191:99::-;3243:6;3277:5;3271:12;3261:22;;3250:40;;;:::o;3296:169::-;3380:11;3414:6;3409:3;3402:19;3454:4;3449:3;3445:14;3430:29;;3392:73;;;;:::o;3471:96::-;3508:7;3537:24;3555:5;3537:24;:::i;:::-;3526:35;;3516:51;;;:::o;3573:126::-;3610:7;3650:42;3643:5;3639:54;3628:65;;3618:81;;;:::o;3705:77::-;3742:7;3771:5;3760:16;;3750:32;;;:::o;3788:307::-;3856:1;3866:113;3880:6;3877:1;3874:13;3866:113;;;3965:1;3960:3;3956:11;3950:18;3946:1;3941:3;3937:11;3930:39;3902:2;3899:1;3895:10;3890:15;;3866:113;;;3997:6;3994:1;3991:13;3988:2;;;4077:1;4068:6;4063:3;4059:16;4052:27;3988:2;3837:258;;;;:::o;4101:320::-;4145:6;4182:1;4176:4;4172:12;4162:22;;4229:1;4223:4;4219:12;4250:18;4240:2;;4306:4;4298:6;4294:17;4284:27;;4240:2;4368;4360:6;4357:14;4337:18;4334:38;4331:2;;;4387:18;;:::i;:::-;4331:2;4152:269;;;;:::o;4427:180::-;4475:77;4472:1;4465:88;4572:4;4569:1;4562:15;4596:4;4593:1;4586:15;4613:102;4654:6;4705:2;4701:7;4696:2;4689:5;4685:14;4681:28;4671:38;;4661:54;;;:::o;4721:122::-;4794:24;4812:5;4794:24;:::i;:::-;4787:5;4784:35;4774:2;;4833:1;4830;4823:12;4774:2;4764:79;:::o;4849:122::-;4922:24;4940:5;4922:24;:::i;:::-;4915:5;4912:35;4902:2;;4961:1;4958;4951:12;4902:2;4892:79;:::o",
   "source": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\n/**\n *  @dev MinterCore\n */\ncontract MinterCore {\n    // Documents provider mappings\n    mapping(address => uint) public minterCounter;\n\n\n    // Requested Documents by minter id sequence/autonumber\n    mapping(address => uint) public minterDocumentRequestCounter;\n\n    // Requests by minter by autonumber\n    mapping(address => mapping(uint => DocumentMintingRequest)) public minterDocumentRequests;\n    \n    enum DocumentMintingRequestStatus   {\n        REQUEST,\n        MINTED,\n        BURNED\n    }\n\n    // Document minting request\n    struct DocumentMintingRequest {\n        address user;\n        string userDid;\n        address toMinter; // NFT\n        string toMinterDid;\n        string documentURI;\n        uint status;    \n        uint timestamp;    \n        string description;\n    }\n\n    // Document minting provider\n    struct DataProviderMinter {\n        string name;\n        address paymentAddress;//*\n        bool hasUserKyc;\n        uint feeStructure;//*\n        uint created;\n        address factoryAddress;//*\n        bool enabled;\n    }\n\n    // RequestMinting events\n    event MinterRegistered(\n        address indexed minter, // NFT\n        string name\n    );\n\n    // DocumentAnchored events\n    event DocumentAnchored(\n        address indexed user, \n        string indexed userDid,\n        string documentURI,\n        uint id\n    );\n\n  \n}\n\n",
-  "sourcePath": "/home/rogelio/Code/xdv/nft-document-swap/contracts/MinterCore.sol",
+  "sourcePath": "/home/esferasoluciones-jupiter/Documents/projects/ifesa/xdv-document-signer-contracts/contracts/MinterCore.sol",
   "ast": {
-    "absolutePath": "/home/rogelio/Code/xdv/nft-document-swap/contracts/MinterCore.sol",
+    "absolutePath": "/home/esferasoluciones-jupiter/Documents/projects/ifesa/xdv-document-signer-contracts/contracts/MinterCore.sol",
     "exportedSymbols": {
       "MinterCore": [
-        167
+        168
       ]
     },
-    "id": 168,
+    "id": 169,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 98,
+        "id": 99,
         "literals": [
           "solidity",
           "^",
@@ -3049,15 +3049,15 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 99,
+          "id": 100,
           "nodeType": "StructuredDocumentation",
           "src": "57:27:3",
           "text": "  @dev MinterCore"
         },
         "fullyImplemented": true,
-        "id": 167,
+        "id": 168,
         "linearizedBaseContracts": [
-          167
+          168
         ],
         "name": "MinterCore",
         "nameLocation": "94:10:3",
@@ -3066,12 +3066,12 @@
           {
             "constant": false,
             "functionSelector": "761901bb",
-            "id": 103,
+            "id": 104,
             "mutability": "mutable",
             "name": "minterCounter",
             "nameLocation": "178:13:3",
             "nodeType": "VariableDeclaration",
-            "scope": 167,
+            "scope": 168,
             "src": "146:45:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -3080,9 +3080,9 @@
               "typeString": "mapping(address => uint256)"
             },
             "typeName": {
-              "id": 102,
+              "id": 103,
               "keyType": {
-                "id": 100,
+                "id": 101,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "154:7:3",
@@ -3098,7 +3098,7 @@
                 "typeString": "mapping(address => uint256)"
               },
               "valueType": {
-                "id": 101,
+                "id": 102,
                 "name": "uint",
                 "nodeType": "ElementaryTypeName",
                 "src": "165:4:3",
@@ -3113,12 +3113,12 @@
           {
             "constant": false,
             "functionSelector": "2aa222c8",
-            "id": 107,
+            "id": 108,
             "mutability": "mutable",
             "name": "minterDocumentRequestCounter",
             "nameLocation": "291:28:3",
             "nodeType": "VariableDeclaration",
-            "scope": 167,
+            "scope": 168,
             "src": "259:60:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -3127,9 +3127,9 @@
               "typeString": "mapping(address => uint256)"
             },
             "typeName": {
-              "id": 106,
+              "id": 107,
               "keyType": {
-                "id": 104,
+                "id": 105,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "267:7:3",
@@ -3145,7 +3145,7 @@
                 "typeString": "mapping(address => uint256)"
               },
               "valueType": {
-                "id": 105,
+                "id": 106,
                 "name": "uint",
                 "nodeType": "ElementaryTypeName",
                 "src": "278:4:3",
@@ -3160,23 +3160,23 @@
           {
             "constant": false,
             "functionSelector": "6efaa699",
-            "id": 114,
+            "id": 115,
             "mutability": "mutable",
             "name": "minterDocumentRequests",
             "nameLocation": "433:22:3",
             "nodeType": "VariableDeclaration",
-            "scope": 167,
+            "scope": 168,
             "src": "366:89:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$135_storage_$_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$136_storage_$_$",
               "typeString": "mapping(address => mapping(uint256 => struct MinterCore.DocumentMintingRequest))"
             },
             "typeName": {
-              "id": 113,
+              "id": 114,
               "keyType": {
-                "id": 108,
+                "id": 109,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "374:7:3",
@@ -3188,13 +3188,13 @@
               "nodeType": "Mapping",
               "src": "366:59:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$135_storage_$_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$136_storage_$_$",
                 "typeString": "mapping(address => mapping(uint256 => struct MinterCore.DocumentMintingRequest))"
               },
               "valueType": {
-                "id": 112,
+                "id": 113,
                 "keyType": {
-                  "id": 109,
+                  "id": 110,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "393:4:3",
@@ -3206,23 +3206,23 @@
                 "nodeType": "Mapping",
                 "src": "385:39:3",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$135_storage_$",
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$136_storage_$",
                   "typeString": "mapping(uint256 => struct MinterCore.DocumentMintingRequest)"
                 },
                 "valueType": {
-                  "id": 111,
+                  "id": 112,
                   "nodeType": "UserDefinedTypeName",
                   "pathNode": {
-                    "id": 110,
+                    "id": 111,
                     "name": "DocumentMintingRequest",
                     "nodeType": "IdentifierPath",
-                    "referencedDeclaration": 135,
+                    "referencedDeclaration": 136,
                     "src": "401:22:3"
                   },
-                  "referencedDeclaration": 135,
+                  "referencedDeclaration": 136,
                   "src": "401:22:3",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_DocumentMintingRequest_$135_storage_ptr",
+                    "typeIdentifier": "t_struct$_DocumentMintingRequest_$136_storage_ptr",
                     "typeString": "struct MinterCore.DocumentMintingRequest"
                   }
                 }
@@ -3232,24 +3232,24 @@
           },
           {
             "canonicalName": "MinterCore.DocumentMintingRequestStatus",
-            "id": 118,
+            "id": 119,
             "members": [
               {
-                "id": 115,
+                "id": 116,
                 "name": "REQUEST",
                 "nameLocation": "512:7:3",
                 "nodeType": "EnumValue",
                 "src": "512:7:3"
               },
               {
-                "id": 116,
+                "id": 117,
                 "name": "MINTED",
                 "nameLocation": "529:6:3",
                 "nodeType": "EnumValue",
                 "src": "529:6:3"
               },
               {
-                "id": 117,
+                "id": 118,
                 "name": "BURNED",
                 "nameLocation": "545:6:3",
                 "nodeType": "EnumValue",
@@ -3263,16 +3263,16 @@
           },
           {
             "canonicalName": "MinterCore.DocumentMintingRequest",
-            "id": 135,
+            "id": 136,
             "members": [
               {
                 "constant": false,
-                "id": 120,
+                "id": 121,
                 "mutability": "mutable",
                 "name": "user",
                 "nameLocation": "643:4:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "635:12:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3281,7 +3281,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 119,
+                  "id": 120,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "635:7:3",
@@ -3295,12 +3295,12 @@
               },
               {
                 "constant": false,
-                "id": 122,
+                "id": 123,
                 "mutability": "mutable",
                 "name": "userDid",
                 "nameLocation": "664:7:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "657:14:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3309,7 +3309,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 121,
+                  "id": 122,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "657:6:3",
@@ -3322,12 +3322,12 @@
               },
               {
                 "constant": false,
-                "id": 124,
+                "id": 125,
                 "mutability": "mutable",
                 "name": "toMinter",
                 "nameLocation": "689:8:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "681:16:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3336,7 +3336,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 123,
+                  "id": 124,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "681:7:3",
@@ -3350,12 +3350,12 @@
               },
               {
                 "constant": false,
-                "id": 126,
+                "id": 127,
                 "mutability": "mutable",
                 "name": "toMinterDid",
                 "nameLocation": "721:11:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "714:18:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3364,7 +3364,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 125,
+                  "id": 126,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "714:6:3",
@@ -3377,12 +3377,12 @@
               },
               {
                 "constant": false,
-                "id": 128,
+                "id": 129,
                 "mutability": "mutable",
                 "name": "documentURI",
                 "nameLocation": "749:11:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "742:18:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3391,7 +3391,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 127,
+                  "id": 128,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "742:6:3",
@@ -3404,12 +3404,12 @@
               },
               {
                 "constant": false,
-                "id": 130,
+                "id": 131,
                 "mutability": "mutable",
                 "name": "status",
                 "nameLocation": "775:6:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "770:11:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3418,7 +3418,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 129,
+                  "id": 130,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "770:4:3",
@@ -3431,12 +3431,12 @@
               },
               {
                 "constant": false,
-                "id": 132,
+                "id": 133,
                 "mutability": "mutable",
                 "name": "timestamp",
                 "nameLocation": "800:9:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "795:14:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3445,7 +3445,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 131,
+                  "id": 132,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "795:4:3",
@@ -3458,12 +3458,12 @@
               },
               {
                 "constant": false,
-                "id": 134,
+                "id": 135,
                 "mutability": "mutable",
                 "name": "description",
                 "nameLocation": "830:11:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "823:18:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3472,7 +3472,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 133,
+                  "id": 134,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "823:6:3",
@@ -3487,22 +3487,22 @@
             "name": "DocumentMintingRequest",
             "nameLocation": "602:22:3",
             "nodeType": "StructDefinition",
-            "scope": 167,
+            "scope": 168,
             "src": "595:253:3",
             "visibility": "public"
           },
           {
             "canonicalName": "MinterCore.DataProviderMinter",
-            "id": 150,
+            "id": 151,
             "members": [
               {
                 "constant": false,
-                "id": 137,
+                "id": 138,
                 "mutability": "mutable",
                 "name": "name",
                 "nameLocation": "930:4:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "923:11:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3511,7 +3511,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 136,
+                  "id": 137,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "923:6:3",
@@ -3524,12 +3524,12 @@
               },
               {
                 "constant": false,
-                "id": 139,
+                "id": 140,
                 "mutability": "mutable",
                 "name": "paymentAddress",
                 "nameLocation": "952:14:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "944:22:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3538,7 +3538,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 138,
+                  "id": 139,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "944:7:3",
@@ -3552,12 +3552,12 @@
               },
               {
                 "constant": false,
-                "id": 141,
+                "id": 142,
                 "mutability": "mutable",
                 "name": "hasUserKyc",
                 "nameLocation": "984:10:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "979:15:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3566,7 +3566,7 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 140,
+                  "id": 141,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
                   "src": "979:4:3",
@@ -3579,12 +3579,12 @@
               },
               {
                 "constant": false,
-                "id": 143,
+                "id": 144,
                 "mutability": "mutable",
                 "name": "feeStructure",
                 "nameLocation": "1009:12:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1004:17:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3593,7 +3593,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 142,
+                  "id": 143,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "1004:4:3",
@@ -3606,12 +3606,12 @@
               },
               {
                 "constant": false,
-                "id": 145,
+                "id": 146,
                 "mutability": "mutable",
                 "name": "created",
                 "nameLocation": "1039:7:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1034:12:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3620,7 +3620,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 144,
+                  "id": 145,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "1034:4:3",
@@ -3633,12 +3633,12 @@
               },
               {
                 "constant": false,
-                "id": 147,
+                "id": 148,
                 "mutability": "mutable",
                 "name": "factoryAddress",
                 "nameLocation": "1064:14:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1056:22:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3647,7 +3647,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 146,
+                  "id": 147,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "1056:7:3",
@@ -3661,12 +3661,12 @@
               },
               {
                 "constant": false,
-                "id": 149,
+                "id": 150,
                 "mutability": "mutable",
                 "name": "enabled",
                 "nameLocation": "1096:7:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1091:12:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -3675,7 +3675,7 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 148,
+                  "id": 149,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
                   "src": "1091:4:3",
@@ -3690,29 +3690,29 @@
             "name": "DataProviderMinter",
             "nameLocation": "894:18:3",
             "nodeType": "StructDefinition",
-            "scope": 167,
+            "scope": 168,
             "src": "887:223:3",
             "visibility": "public"
           },
           {
             "anonymous": false,
-            "id": 156,
+            "id": 157,
             "name": "MinterRegistered",
             "nameLocation": "1151:16:3",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 155,
+              "id": 156,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 152,
+                  "id": 153,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "minter",
                   "nameLocation": "1193:6:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 156,
+                  "scope": 157,
                   "src": "1177:22:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3721,7 +3721,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 151,
+                    "id": 152,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1177:7:3",
@@ -3735,13 +3735,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 154,
+                  "id": 155,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "name",
                   "nameLocation": "1223:4:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 156,
+                  "scope": 157,
                   "src": "1216:11:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3750,7 +3750,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 153,
+                    "id": 154,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1216:6:3",
@@ -3768,23 +3768,23 @@
           },
           {
             "anonymous": false,
-            "id": 166,
+            "id": 167,
             "name": "DocumentAnchored",
             "nameLocation": "1277:16:3",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 165,
+              "id": 166,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 158,
+                  "id": 159,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "user",
                   "nameLocation": "1319:4:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1303:20:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3793,7 +3793,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 157,
+                    "id": 158,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1303:7:3",
@@ -3807,13 +3807,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 160,
+                  "id": 161,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "userDid",
                   "nameLocation": "1349:7:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1334:22:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3822,7 +3822,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 159,
+                    "id": 160,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1334:6:3",
@@ -3835,13 +3835,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 162,
+                  "id": 163,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "documentURI",
                   "nameLocation": "1373:11:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1366:18:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3850,7 +3850,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 161,
+                    "id": 162,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1366:6:3",
@@ -3863,13 +3863,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 164,
+                  "id": 165,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "id",
                   "nameLocation": "1399:2:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1394:7:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -3878,7 +3878,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 163,
+                    "id": 164,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "1394:4:3",
@@ -3895,7 +3895,7 @@
             "src": "1271:137:3"
           }
         ],
-        "scope": 168,
+        "scope": 169,
         "src": "85:1329:3",
         "usedErrors": []
       }
@@ -3903,18 +3903,18 @@
     "src": "32:1384:3"
   },
   "legacyAST": {
-    "absolutePath": "/home/rogelio/Code/xdv/nft-document-swap/contracts/MinterCore.sol",
+    "absolutePath": "/home/esferasoluciones-jupiter/Documents/projects/ifesa/xdv-document-signer-contracts/contracts/MinterCore.sol",
     "exportedSymbols": {
       "MinterCore": [
-        167
+        168
       ]
     },
-    "id": 168,
+    "id": 169,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 98,
+        "id": 99,
         "literals": [
           "solidity",
           "^",
@@ -3930,15 +3930,15 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "documentation": {
-          "id": 99,
+          "id": 100,
           "nodeType": "StructuredDocumentation",
           "src": "57:27:3",
           "text": "  @dev MinterCore"
         },
         "fullyImplemented": true,
-        "id": 167,
+        "id": 168,
         "linearizedBaseContracts": [
-          167
+          168
         ],
         "name": "MinterCore",
         "nameLocation": "94:10:3",
@@ -3947,12 +3947,12 @@
           {
             "constant": false,
             "functionSelector": "761901bb",
-            "id": 103,
+            "id": 104,
             "mutability": "mutable",
             "name": "minterCounter",
             "nameLocation": "178:13:3",
             "nodeType": "VariableDeclaration",
-            "scope": 167,
+            "scope": 168,
             "src": "146:45:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -3961,9 +3961,9 @@
               "typeString": "mapping(address => uint256)"
             },
             "typeName": {
-              "id": 102,
+              "id": 103,
               "keyType": {
-                "id": 100,
+                "id": 101,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "154:7:3",
@@ -3979,7 +3979,7 @@
                 "typeString": "mapping(address => uint256)"
               },
               "valueType": {
-                "id": 101,
+                "id": 102,
                 "name": "uint",
                 "nodeType": "ElementaryTypeName",
                 "src": "165:4:3",
@@ -3994,12 +3994,12 @@
           {
             "constant": false,
             "functionSelector": "2aa222c8",
-            "id": 107,
+            "id": 108,
             "mutability": "mutable",
             "name": "minterDocumentRequestCounter",
             "nameLocation": "291:28:3",
             "nodeType": "VariableDeclaration",
-            "scope": 167,
+            "scope": 168,
             "src": "259:60:3",
             "stateVariable": true,
             "storageLocation": "default",
@@ -4008,9 +4008,9 @@
               "typeString": "mapping(address => uint256)"
             },
             "typeName": {
-              "id": 106,
+              "id": 107,
               "keyType": {
-                "id": 104,
+                "id": 105,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "267:7:3",
@@ -4026,7 +4026,7 @@
                 "typeString": "mapping(address => uint256)"
               },
               "valueType": {
-                "id": 105,
+                "id": 106,
                 "name": "uint",
                 "nodeType": "ElementaryTypeName",
                 "src": "278:4:3",
@@ -4041,23 +4041,23 @@
           {
             "constant": false,
             "functionSelector": "6efaa699",
-            "id": 114,
+            "id": 115,
             "mutability": "mutable",
             "name": "minterDocumentRequests",
             "nameLocation": "433:22:3",
             "nodeType": "VariableDeclaration",
-            "scope": 167,
+            "scope": 168,
             "src": "366:89:3",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$135_storage_$_$",
+              "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$136_storage_$_$",
               "typeString": "mapping(address => mapping(uint256 => struct MinterCore.DocumentMintingRequest))"
             },
             "typeName": {
-              "id": 113,
+              "id": 114,
               "keyType": {
-                "id": 108,
+                "id": 109,
                 "name": "address",
                 "nodeType": "ElementaryTypeName",
                 "src": "374:7:3",
@@ -4069,13 +4069,13 @@
               "nodeType": "Mapping",
               "src": "366:59:3",
               "typeDescriptions": {
-                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$135_storage_$_$",
+                "typeIdentifier": "t_mapping$_t_address_$_t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$136_storage_$_$",
                 "typeString": "mapping(address => mapping(uint256 => struct MinterCore.DocumentMintingRequest))"
               },
               "valueType": {
-                "id": 112,
+                "id": 113,
                 "keyType": {
-                  "id": 109,
+                  "id": 110,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "393:4:3",
@@ -4087,23 +4087,23 @@
                 "nodeType": "Mapping",
                 "src": "385:39:3",
                 "typeDescriptions": {
-                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$135_storage_$",
+                  "typeIdentifier": "t_mapping$_t_uint256_$_t_struct$_DocumentMintingRequest_$136_storage_$",
                   "typeString": "mapping(uint256 => struct MinterCore.DocumentMintingRequest)"
                 },
                 "valueType": {
-                  "id": 111,
+                  "id": 112,
                   "nodeType": "UserDefinedTypeName",
                   "pathNode": {
-                    "id": 110,
+                    "id": 111,
                     "name": "DocumentMintingRequest",
                     "nodeType": "IdentifierPath",
-                    "referencedDeclaration": 135,
+                    "referencedDeclaration": 136,
                     "src": "401:22:3"
                   },
-                  "referencedDeclaration": 135,
+                  "referencedDeclaration": 136,
                   "src": "401:22:3",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_struct$_DocumentMintingRequest_$135_storage_ptr",
+                    "typeIdentifier": "t_struct$_DocumentMintingRequest_$136_storage_ptr",
                     "typeString": "struct MinterCore.DocumentMintingRequest"
                   }
                 }
@@ -4113,24 +4113,24 @@
           },
           {
             "canonicalName": "MinterCore.DocumentMintingRequestStatus",
-            "id": 118,
+            "id": 119,
             "members": [
               {
-                "id": 115,
+                "id": 116,
                 "name": "REQUEST",
                 "nameLocation": "512:7:3",
                 "nodeType": "EnumValue",
                 "src": "512:7:3"
               },
               {
-                "id": 116,
+                "id": 117,
                 "name": "MINTED",
                 "nameLocation": "529:6:3",
                 "nodeType": "EnumValue",
                 "src": "529:6:3"
               },
               {
-                "id": 117,
+                "id": 118,
                 "name": "BURNED",
                 "nameLocation": "545:6:3",
                 "nodeType": "EnumValue",
@@ -4144,16 +4144,16 @@
           },
           {
             "canonicalName": "MinterCore.DocumentMintingRequest",
-            "id": 135,
+            "id": 136,
             "members": [
               {
                 "constant": false,
-                "id": 120,
+                "id": 121,
                 "mutability": "mutable",
                 "name": "user",
                 "nameLocation": "643:4:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "635:12:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4162,7 +4162,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 119,
+                  "id": 120,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "635:7:3",
@@ -4176,12 +4176,12 @@
               },
               {
                 "constant": false,
-                "id": 122,
+                "id": 123,
                 "mutability": "mutable",
                 "name": "userDid",
                 "nameLocation": "664:7:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "657:14:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4190,7 +4190,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 121,
+                  "id": 122,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "657:6:3",
@@ -4203,12 +4203,12 @@
               },
               {
                 "constant": false,
-                "id": 124,
+                "id": 125,
                 "mutability": "mutable",
                 "name": "toMinter",
                 "nameLocation": "689:8:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "681:16:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4217,7 +4217,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 123,
+                  "id": 124,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "681:7:3",
@@ -4231,12 +4231,12 @@
               },
               {
                 "constant": false,
-                "id": 126,
+                "id": 127,
                 "mutability": "mutable",
                 "name": "toMinterDid",
                 "nameLocation": "721:11:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "714:18:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4245,7 +4245,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 125,
+                  "id": 126,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "714:6:3",
@@ -4258,12 +4258,12 @@
               },
               {
                 "constant": false,
-                "id": 128,
+                "id": 129,
                 "mutability": "mutable",
                 "name": "documentURI",
                 "nameLocation": "749:11:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "742:18:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4272,7 +4272,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 127,
+                  "id": 128,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "742:6:3",
@@ -4285,12 +4285,12 @@
               },
               {
                 "constant": false,
-                "id": 130,
+                "id": 131,
                 "mutability": "mutable",
                 "name": "status",
                 "nameLocation": "775:6:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "770:11:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4299,7 +4299,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 129,
+                  "id": 130,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "770:4:3",
@@ -4312,12 +4312,12 @@
               },
               {
                 "constant": false,
-                "id": 132,
+                "id": 133,
                 "mutability": "mutable",
                 "name": "timestamp",
                 "nameLocation": "800:9:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "795:14:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4326,7 +4326,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 131,
+                  "id": 132,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "795:4:3",
@@ -4339,12 +4339,12 @@
               },
               {
                 "constant": false,
-                "id": 134,
+                "id": 135,
                 "mutability": "mutable",
                 "name": "description",
                 "nameLocation": "830:11:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 135,
+                "scope": 136,
                 "src": "823:18:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4353,7 +4353,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 133,
+                  "id": 134,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "823:6:3",
@@ -4368,22 +4368,22 @@
             "name": "DocumentMintingRequest",
             "nameLocation": "602:22:3",
             "nodeType": "StructDefinition",
-            "scope": 167,
+            "scope": 168,
             "src": "595:253:3",
             "visibility": "public"
           },
           {
             "canonicalName": "MinterCore.DataProviderMinter",
-            "id": 150,
+            "id": 151,
             "members": [
               {
                 "constant": false,
-                "id": 137,
+                "id": 138,
                 "mutability": "mutable",
                 "name": "name",
                 "nameLocation": "930:4:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "923:11:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4392,7 +4392,7 @@
                   "typeString": "string"
                 },
                 "typeName": {
-                  "id": 136,
+                  "id": 137,
                   "name": "string",
                   "nodeType": "ElementaryTypeName",
                   "src": "923:6:3",
@@ -4405,12 +4405,12 @@
               },
               {
                 "constant": false,
-                "id": 139,
+                "id": 140,
                 "mutability": "mutable",
                 "name": "paymentAddress",
                 "nameLocation": "952:14:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "944:22:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4419,7 +4419,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 138,
+                  "id": 139,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "944:7:3",
@@ -4433,12 +4433,12 @@
               },
               {
                 "constant": false,
-                "id": 141,
+                "id": 142,
                 "mutability": "mutable",
                 "name": "hasUserKyc",
                 "nameLocation": "984:10:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "979:15:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4447,7 +4447,7 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 140,
+                  "id": 141,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
                   "src": "979:4:3",
@@ -4460,12 +4460,12 @@
               },
               {
                 "constant": false,
-                "id": 143,
+                "id": 144,
                 "mutability": "mutable",
                 "name": "feeStructure",
                 "nameLocation": "1009:12:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1004:17:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4474,7 +4474,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 142,
+                  "id": 143,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "1004:4:3",
@@ -4487,12 +4487,12 @@
               },
               {
                 "constant": false,
-                "id": 145,
+                "id": 146,
                 "mutability": "mutable",
                 "name": "created",
                 "nameLocation": "1039:7:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1034:12:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4501,7 +4501,7 @@
                   "typeString": "uint256"
                 },
                 "typeName": {
-                  "id": 144,
+                  "id": 145,
                   "name": "uint",
                   "nodeType": "ElementaryTypeName",
                   "src": "1034:4:3",
@@ -4514,12 +4514,12 @@
               },
               {
                 "constant": false,
-                "id": 147,
+                "id": 148,
                 "mutability": "mutable",
                 "name": "factoryAddress",
                 "nameLocation": "1064:14:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1056:22:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4528,7 +4528,7 @@
                   "typeString": "address"
                 },
                 "typeName": {
-                  "id": 146,
+                  "id": 147,
                   "name": "address",
                   "nodeType": "ElementaryTypeName",
                   "src": "1056:7:3",
@@ -4542,12 +4542,12 @@
               },
               {
                 "constant": false,
-                "id": 149,
+                "id": 150,
                 "mutability": "mutable",
                 "name": "enabled",
                 "nameLocation": "1096:7:3",
                 "nodeType": "VariableDeclaration",
-                "scope": 150,
+                "scope": 151,
                 "src": "1091:12:3",
                 "stateVariable": false,
                 "storageLocation": "default",
@@ -4556,7 +4556,7 @@
                   "typeString": "bool"
                 },
                 "typeName": {
-                  "id": 148,
+                  "id": 149,
                   "name": "bool",
                   "nodeType": "ElementaryTypeName",
                   "src": "1091:4:3",
@@ -4571,29 +4571,29 @@
             "name": "DataProviderMinter",
             "nameLocation": "894:18:3",
             "nodeType": "StructDefinition",
-            "scope": 167,
+            "scope": 168,
             "src": "887:223:3",
             "visibility": "public"
           },
           {
             "anonymous": false,
-            "id": 156,
+            "id": 157,
             "name": "MinterRegistered",
             "nameLocation": "1151:16:3",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 155,
+              "id": 156,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 152,
+                  "id": 153,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "minter",
                   "nameLocation": "1193:6:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 156,
+                  "scope": 157,
                   "src": "1177:22:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4602,7 +4602,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 151,
+                    "id": 152,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1177:7:3",
@@ -4616,13 +4616,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 154,
+                  "id": 155,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "name",
                   "nameLocation": "1223:4:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 156,
+                  "scope": 157,
                   "src": "1216:11:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4631,7 +4631,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 153,
+                    "id": 154,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1216:6:3",
@@ -4649,23 +4649,23 @@
           },
           {
             "anonymous": false,
-            "id": 166,
+            "id": 167,
             "name": "DocumentAnchored",
             "nameLocation": "1277:16:3",
             "nodeType": "EventDefinition",
             "parameters": {
-              "id": 165,
+              "id": 166,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 158,
+                  "id": 159,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "user",
                   "nameLocation": "1319:4:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1303:20:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4674,7 +4674,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 157,
+                    "id": 158,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1303:7:3",
@@ -4688,13 +4688,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 160,
+                  "id": 161,
                   "indexed": true,
                   "mutability": "mutable",
                   "name": "userDid",
                   "nameLocation": "1349:7:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1334:22:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4703,7 +4703,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 159,
+                    "id": 160,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1334:6:3",
@@ -4716,13 +4716,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 162,
+                  "id": 163,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "documentURI",
                   "nameLocation": "1373:11:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1366:18:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4731,7 +4731,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 161,
+                    "id": 162,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "1366:6:3",
@@ -4744,13 +4744,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 164,
+                  "id": 165,
                   "indexed": false,
                   "mutability": "mutable",
                   "name": "id",
                   "nameLocation": "1399:2:3",
                   "nodeType": "VariableDeclaration",
-                  "scope": 166,
+                  "scope": 167,
                   "src": "1394:7:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -4759,7 +4759,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 163,
+                    "id": 164,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "1394:4:3",
@@ -4776,7 +4776,7 @@
             "src": "1271:137:3"
           }
         ],
-        "scope": 168,
+        "scope": 169,
         "src": "85:1329:3",
         "usedErrors": []
       }
@@ -4789,7 +4789,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.0",
-  "updatedAt": "2021-05-02T17:01:20.109Z",
+  "updatedAt": "2021-05-13T20:10:09.864Z",
   "devdoc": {
     "details": "MinterCore",
     "kind": "dev",
