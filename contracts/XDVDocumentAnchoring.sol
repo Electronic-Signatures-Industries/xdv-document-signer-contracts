@@ -16,6 +16,9 @@ contract XDVDocumentAnchoring {
     // Document by doc id
     mapping(uint => DocumentAnchor) public multiApprovalDocumentAnchors;
 
+    //Whitelisting by docid by address
+    mapping(uint => mapping( address => bool)) whitelistingStatus;
+
     event Withdrawn(address indexed payee, uint256 weiAmount);
     address public owner;
     uint public fee;
@@ -62,6 +65,15 @@ contract XDVDocumentAnchoring {
     function getProtocolConfig() public view returns (uint256) {
         return (fee);
     }
+
+    enum DocumentAnchorStatus {
+        NONE,
+        INITIAL,
+        APPROVED,
+        COMPLETED,
+        REJECTED
+    }
+
     // Document Anchor
     struct DocumentAnchor {
         address user;
@@ -70,7 +82,7 @@ contract XDVDocumentAnchoring {
         string description;
         uint timestamp;
         address[] whitelistSigners;
-        uint status; //Crear enum de los status: init, approve, completed, rejected
+        uint status;
     }
 
     // DocumentAnchored events
@@ -81,6 +93,14 @@ contract XDVDocumentAnchoring {
         string description,
         uint id
     );
+
+    event DocumentPeerSigned(
+        uint indexed docid,
+        string indexed documentURI,
+        string indexed userDid,
+        uint status
+    );
+
 // Case 0 - single
 // Case 1 - get approvals
 // Case 2 - quorum eg 3 of 5 - aggPeerSigning
@@ -91,13 +111,18 @@ contract XDVDocumentAnchoring {
         bool isComplete,
         string memory description
     ) public payable returns(bool) {
-        //Docid must exist
-        require(multiApprovalDocumentAnchors[docid].user != address(0));
+        // Docid must exist
+        require(multiApprovalDocumentAnchors[docid].user != address(0), "Document Id doesn't exist");
         // Doc must have at least one address on its whitelist
-        require(whitelist.length < 10 && whitelist.length > 0);
-
-        //TODO: Hacer lookup con mapping de 2 indices. #1 docid #2 whitelist
-        //TODO: Si complete = true, y todos los mapping son true, anchorship status
+        require(
+            multiApprovalDocumentAnchors[docid].whitelistSigners.length <= 10 && 
+            multiApprovalDocumentAnchors[docid].whitelistSigners.length > 0, 
+            "Document doesn't have any whitelisted addresses"
+        );
+        // Doc status must be other than NONE (0)
+        require(multiApprovalDocumentAnchors[docid].status != uint (DocumentAnchorStatus.NONE));
+        
+        require(whitelistingStatus[docid][msg.sender]==false,"Address already signed document");
 
         // User must have a balance
         require(
@@ -119,7 +144,6 @@ contract XDVDocumentAnchoring {
             "Transfer failed for fee"
         );
 
-        //TODO: Crear el array de bool segun la longitud del whitelist (guia de solidity array dinamico)
         accounting[msg.sender] = accounting[msg.sender] + fee;
         accounting[address(this)] = accounting[address(this)] + fee;
 
@@ -129,18 +153,26 @@ contract XDVDocumentAnchoring {
         multiApprovalDocumentAnchors[docid].documentURI = documentURI;
         multiApprovalDocumentAnchors[docid].description = description;
 
-        emit DocumentAnchored(msg.sender, userDid, documentUri, description, docid);
+        whitelistingStatus[docid][msg.sender] == true;
+        if(isComplete){
+            multiApprovalDocumentAnchors[docid].status = uint (DocumentAnchorStatus.COMPLETED);
+        }else{
+            multiApprovalDocumentAnchors[docid].status = uint (DocumentAnchorStatus.APPROVED);
+        }
+
+        multiApprovalDocumentAnchors[docid].status = uint (DocumentAnchorStatus.APPROVED);
+
+        emit DocumentPeerSigned(docid, documentURI, userDid, multiApprovalDocumentAnchors[docid].status);
         return true; 
     }
+
     function addDocument(
         string memory userDid,
         string memory documentURI,
         string memory description,
-        address[] memory whitelist
+        address[] memory whitelist,
+        uint status
     ) public payable returns(uint){
-
-        //Si existe whitelisting se debe popular el mapping
-        //Si el whitelisting es > 0 
 
         // User must have a balance
         require(
@@ -167,18 +199,26 @@ contract XDVDocumentAnchoring {
 
         minterDocumentAnchorCounter[msg.sender]++;
         uint i = minterDocumentAnchorCounter[msg.sender];
-            
+
+        // Whitelisting mapping population
+        if(whitelist.length > 0){
+            //Initializing whitelisting status
+            for(uint j=0; j<whitelist.length; j++){
+                whitelistingStatus[j][whitelist[j]] = false;
+            }
+        }
+
         multiApprovalDocumentAnchors[i] = DocumentAnchor({
             user: msg.sender, 
             userDid: userDid,
             documentURI: documentURI,
             description: description,
             timestamp: block.timestamp,
-            whitelistSigners: whitelist
+            whitelistSigners: whitelist,
+            status: status
         });
 
         emit DocumentAnchored(msg.sender, userDid, documentURI, description, i);
         return i;
     }
-
 }
