@@ -170,9 +170,10 @@ contract XDVDocumentAnchoring {
         string memory userDid,
         string memory documentURI,
         string memory description,
-        address[] memory whitelist,
+        address[] memory peers,
         uint status
     ) public payable returns(uint){
+        address[] memory whitelist = peers;
 
         // User must have a balance
         require(
