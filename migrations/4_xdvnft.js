@@ -1,0 +1,50 @@
+const BigNumber = require('bignumber.js');
+const fs = require('fs');
+const XDVNFT = artifacts.require('XDVNFT');
+const DAI = artifacts.require('DAI');
+
+const ContractImportBuilder = require('../contract-import-builder');
+
+module.exports = async (deployer, network, accounts) => {
+    const builder = new ContractImportBuilder();
+    const path = `${__dirname}/../abi-export/xdv.js`;
+
+    builder.setOutput(path);
+    builder.onWrite = (output) => {
+        fs.writeFileSync(path, output);
+    };
+    let xdvnft;
+    let daiaddress = "";
+    let dai;
+
+    if (network === "bsc") {
+      daiaddress = "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3";
+    }
+    else{
+      await deployer.deploy(DAI);
+      dai = await DAI.deployed();
+      daiaddress = dai.address;
+    }
+    // else {
+
+    await deployer.deploy(XDVNFT, "XDVNFT","XDVNFT", daiaddress);
+
+    xdvnft = await XDVNFT.deployed();
+    await xdvnft.setServiceFeeForContract(new BigNumber(0.5 * 1e18));
+    /*const fee_bn = new BigNumber(5 * 1e18);
+    await dai.mint(accounts[0],fee_bn);*/
+
+    builder.addContract(
+      'DAI',
+      dai,
+      daiaddress,
+      network
+    );
+
+    builder.addContract(
+      'XDVNFT',
+      xdvnft,
+      xdvnft.address,
+      network
+    );
+};
