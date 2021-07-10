@@ -89,7 +89,7 @@ contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
         require(!paused(), "XDV: Token execution is paused");
 
         if (from == address(0)) {
-            paymentBeforeMint(from);
+            paymentBeforeMint(msg.sender);
         }
 
         super._beforeTokenTransfer(from, to, tokenId);
