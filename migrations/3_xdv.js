@@ -21,9 +21,10 @@ module.exports = async (deployer, network, accounts) => {
       daiaddress = "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3";
     }
     else{
-      await deployer.deploy(DAI);
-      dai = await DAI.deployed();
-      daiaddress = dai.address;
+     // await deployer.deploy(DAI);
+     // dai = await DAI.deployed();
+     // testnet
+      daiaddress = `0xec5dcb5dbf4b114c9d0f65bccab49ec54f6a0867`;
     }
     // else {
 
@@ -33,13 +34,6 @@ module.exports = async (deployer, network, accounts) => {
     await xdvDocumentAnchoring.setProtocolConfig(new BigNumber(0.5 * 1e18));
     /*const fee_bn = new BigNumber(5 * 1e18);
     await dai.mint(accounts[0],fee_bn);*/
-
-    builder.addContract(
-      'DAI',
-      dai,
-      daiaddress,
-      network
-    );
 
     builder.addContract(
       'XDVDocumentAnchoring',
