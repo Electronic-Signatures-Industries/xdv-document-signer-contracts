@@ -20,6 +20,8 @@ module.exports = {
       network_id: 56,
       confirmations: 10,
       timeoutBlocks: 200,
+      ///gas: 5000000,
+     // gasPrice: 135000000000,
       skipDryRun: false
     },
     localhost: {
