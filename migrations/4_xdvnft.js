@@ -34,6 +34,8 @@ module.exports = async (deployer, network, accounts) => {
     const fee_bn = new BigNumber(5 * 1e18);
     await dai.mint(accounts[0],fee_bn);
 
+    await xdvnft.mint(  accounts[0], "bafyreicztwstn4ujtsnabjabn3hj7mvbhsgrvefbh37ddnx4w2pvghvsfm")
+    
     // builder.addContract(
     //   'DAI',
     //   dai,
