@@ -26,7 +26,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.6+commit.11564f7e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"name\":\"isValidSignature\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"magicValue\",\"type\":\"bytes4\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Copied from @openzeppelin/contracts/interfaces/IERC1271.sol. When available in update, please remove this copy. Interface of the ERC1271 standard signature validation method for contracts as defined in https://eips.ethereum.org/EIPS/eip-1271[ERC-1271].\",\"kind\":\"dev\",\"methods\":{\"isValidSignature(bytes32,bytes)\":{\"details\":\"Should return whether the signature provided is valid for the provided data\",\"params\":{\"hash\":\"Hash of the data to be signed\",\"signature\":\"Signature byte array associated with _data\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/rogelio/Code/xdv/nft-document-swap/contracts/IERC1271.sol\":\"IERC1271\"},\"evmVersion\":\"berlin\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/rogelio/Code/xdv/nft-document-swap/contracts/IERC1271.sol\":{\"keccak256\":\"0x045ce0dee91dca3fdcb4468c99ab941e2d17c45e1e62df7995b6076cfc418ade\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9fe2d3f5e8e725964b5e7ec588357c77e1e3d779f74c683532ec65438ef0c421\",\"dweb:/ipfs/QmdDpjnn5edXcN1ns2qiSdg6WT8MWppJjRH2e1RQqNGJ4a\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"hash\",\"type\":\"bytes32\"},{\"internalType\":\"bytes\",\"name\":\"signature\",\"type\":\"bytes\"}],\"name\":\"isValidSignature\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"magicValue\",\"type\":\"bytes4\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Copied from @openzeppelin/contracts/interfaces/IERC1271.sol. When available in update, please remove this copy. Interface of the ERC1271 standard signature validation method for contracts as defined in https://eips.ethereum.org/EIPS/eip-1271[ERC-1271].\",\"kind\":\"dev\",\"methods\":{\"isValidSignature(bytes32,bytes)\":{\"details\":\"Should return whether the signature provided is valid for the provided data\",\"params\":{\"hash\":\"Hash of the data to be signed\",\"signature\":\"Signature byte array associated with _data\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/dallant/Code/xdv-document-signer-contracts/contracts/IERC1271.sol\":\"IERC1271\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/dallant/Code/xdv-document-signer-contracts/contracts/IERC1271.sol\":{\"keccak256\":\"0x045ce0dee91dca3fdcb4468c99ab941e2d17c45e1e62df7995b6076cfc418ade\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9fe2d3f5e8e725964b5e7ec588357c77e1e3d779f74c683532ec65438ef0c421\",\"dweb:/ipfs/QmdDpjnn5edXcN1ns2qiSdg6WT8MWppJjRH2e1RQqNGJ4a\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -35,9 +35,9 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\n/**\n * @dev Copied from @openzeppelin/contracts/interfaces/IERC1271.sol.\n * When available in update, please remove this copy.\n *\n * Interface of the ERC1271 standard signature validation method for\n * contracts as defined in https://eips.ethereum.org/EIPS/eip-1271[ERC-1271].\n */\ninterface IERC1271 {\n    /**\n     * @dev Should return whether the signature provided is valid for the provided data\n     * @param hash      Hash of the data to be signed\n     * @param signature Signature byte array associated with _data\n     */\n    function isValidSignature(bytes32 hash, bytes memory signature)\n        external\n        view\n        returns (bytes4 magicValue);\n}\n",
-  "sourcePath": "/home/rogelio/Code/xdv/nft-document-swap/contracts/IERC1271.sol",
+  "sourcePath": "/home/dallant/Code/xdv-document-signer-contracts/contracts/IERC1271.sol",
   "ast": {
-    "absolutePath": "/home/rogelio/Code/xdv/nft-document-swap/contracts/IERC1271.sol",
+    "absolutePath": "/home/dallant/Code/xdv-document-signer-contracts/contracts/IERC1271.sol",
     "exportedSymbols": {
       "IERC1271": [
         36
@@ -61,6 +61,7 @@
       {
         "abstract": false,
         "baseContracts": [],
+        "canonicalName": "IERC1271",
         "contractDependencies": [],
         "contractKind": "interface",
         "documentation": {
@@ -203,7 +204,7 @@
     "src": "33:689:1"
   },
   "legacyAST": {
-    "absolutePath": "/home/rogelio/Code/xdv/nft-document-swap/contracts/IERC1271.sol",
+    "absolutePath": "/home/dallant/Code/xdv-document-signer-contracts/contracts/IERC1271.sol",
     "exportedSymbols": {
       "IERC1271": [
         36
@@ -227,6 +228,7 @@
       {
         "abstract": false,
         "baseContracts": [],
+        "canonicalName": "IERC1271",
         "contractDependencies": [],
         "contractKind": "interface",
         "documentation": {
@@ -370,11 +372,11 @@
   },
   "compiler": {
     "name": "solc",
-    "version": "0.8.6+commit.11564f7e.Emscripten.clang"
+    "version": "0.8.9+commit.e5eed63a.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.0",
-  "updatedAt": "2021-07-06T18:19:39.579Z",
+  "schemaVersion": "3.4.1",
+  "updatedAt": "2021-10-04T14:40:11.783Z",
   "devdoc": {
     "details": "Copied from @openzeppelin/contracts/interfaces/IERC1271.sol. When available in update, please remove this copy. Interface of the ERC1271 standard signature validation method for contracts as defined in https://eips.ethereum.org/EIPS/eip-1271[ERC-1271].",
     "kind": "dev",
