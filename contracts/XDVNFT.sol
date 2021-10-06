@@ -70,7 +70,7 @@ contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
         // TODO: later lacchain vc eip1812
     function swap(
         address user,
-        int chainid,
+        uint8 chainid,
         // MsgMetadata
 	    string memory did,
 	    string memory name,
