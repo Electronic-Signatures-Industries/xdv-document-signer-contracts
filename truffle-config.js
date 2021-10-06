@@ -3,10 +3,14 @@ require('dotenv').config();
 module.exports = {
   compilers: {
     solc: {
-      version: "^0.8.0"
+      version: "^0.8.0",
+      metadataLiteral: true 
     }
   },
-  plugins: ["truffle-contract-size"],
+  api_keys: {
+    bscscan: process.env.ETHERSCAN_API,
+  },
+  plugins: ["truffle-contract-size", "truffle-plugin-verify"],
   networks: {
     bsctestnet: {
       provider: () => new HDWalletProvider(process.env.BSC_MNEMONIC, process.env.BSC_TESTNET),
@@ -38,10 +42,10 @@ module.exports = {
     },
     rinkeby: {
       provider: () =>
-        new HDWalletProvider(process.env.MNEMONIC, process.env.URL),
-      network_id: 4,
+        new HDWalletProvider('lend lock kit kiss walnut flower expect text upset nut arrive hub waste stairs climb neither must crowd harvest network wife lizard shiver obtain', 'http://localhost:8545'),
+      network_id: '*',
       gas: 7000000,
-      gasPrice: 30000000000
+      gasPrice: 30000000
     },
     
     kovan: {

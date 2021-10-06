@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+import "./Ownable.sol";
+import "./IERC20.sol";
+import "./ERC721.sol";
+import "./ERC721Burnable.sol";
+import "./ERC721Pausable.sol";
+import "./ERC721URIStorage.sol";
+import "./Counters.sol";
 
 //  a NFT secure document 
 contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
@@ -18,16 +18,6 @@ contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
     uint256 public serviceFeeForContract = 0;
 
     event Withdrawn(address indexed paymentAddress, uint256 amount);
-    // Ancon EVM Hook
-	event _anconCreateMetadata(
-	address owner,
-	string did,
-	string name,
-	string description,
-	string image,
-	string parent,
-	string  sources,
-	string  links);
 
     event ServiceFeePaid(
         address indexed from,
@@ -66,36 +56,6 @@ contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
 
         return newItemId;
     }
-
-        // TODO: later lacchain vc eip1812
-    function swap(
-        address user,
-        int chainid,
-        // MsgMetadata
-	    string memory did,
-	    string memory name,
-	    string memory description,
-	    string memory image,
-	    string memory parent,
-        // JSON Encoded arrays
-	    string memory  sources,
-	    string memory  links
-    ) public returns (bool) {
-	
-    // swap 
-    // user
-    // chainid
-    // vc  lacchain
-    //  register(msg.sender, user, 1h, validfrom, data)
-    // metadata(...)
-    
-        emit _anconCreateMetadata(user,did,name,description,image,parent,sources,links);
-
-        return true;
-
-    }
-    // supportWith
-
 
     /**
      * @dev Just overrides the superclass' function. Fixes inheritance
