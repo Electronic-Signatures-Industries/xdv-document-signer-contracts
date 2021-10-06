@@ -3,10 +3,14 @@ require('dotenv').config();
 module.exports = {
   compilers: {
     solc: {
-      version: "^0.8.0"
+      version: "^0.8.0",
+      metadataLiteral: true 
     }
   },
-  plugins: ["truffle-contract-size"],
+  api_keys: {
+    bscscan: process.env.ETHERSCAN_API,
+  },
+  plugins: ["truffle-contract-size", "truffle-plugin-verify"],
   networks: {
     bsctestnet: {
       provider: () => new HDWalletProvider(process.env.BSC_MNEMONIC, process.env.BSC_TESTNET),

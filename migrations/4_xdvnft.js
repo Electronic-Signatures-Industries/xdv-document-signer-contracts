@@ -1,9 +1,9 @@
-const BigNumber = require('bignumber.js');
-const fs = require('fs');
-const XDVNFT = artifacts.require('XDVNFT');
-const DAI = artifacts.require('DAI');
+const BigNumber = require('bignumber.js')
+const fs = require('fs')
+const XDVNFT = artifacts.require('XDVNFT')
+const DAI = artifacts.require('DAI')
 
-const ContractImportBuilder = require('../contract-import-builder');
+const ContractImportBuilder = require('../contract-import-builder')
 
 module.exports = async (deployer, network, accounts) => {
     const builder = new ContractImportBuilder();
