@@ -8,12 +8,14 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Pausable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./ICredentialRegistry.sol";
 
 //  a NFT secure document 
 contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     IERC20 public stablecoin;
+    ICredentialRegistry public credentialRegistry;
     uint256 public serviceFeeForPaymentAddress = 0;
     uint256 public serviceFeeForContract = 0;
 
@@ -41,9 +43,11 @@ contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
     constructor(
         string memory name,
         string memory symbol,
-        address tokenERC20
+        address tokenERC20,
+        address credentialAddr
     ) ERC721(name, symbol) {
         stablecoin = IERC20(tokenERC20);
+        credentialRegistry = ICredentialRegistry(credentialAddr);
     }
 
     function setServiceFeeForPaymentAddress(uint256 _fee) public onlyOwner {
@@ -69,33 +73,68 @@ contract XDVNFT is ERC721Burnable, ERC721Pausable, ERC721URIStorage, Ownable {
 
         // TODO: later lacchain vc eip1812
     function swap(
-        address user,
-        uint8 chainid,
+        address user, //owner
+        uint256 chainid,
+        bytes32 credentialHash,
+        bytes memory signature,
         // MsgMetadata
-	    string memory did,
-	    string memory name,
-	    string memory description,
-	    string memory image,
-	    string memory parent,
+        string memory did,
+        string memory name,
+        string memory description,
+        string memory image,
+        string memory parent,
         // JSON Encoded arrays
-	    string memory  sources,
-	    string memory  links
-    ) public returns (bool) {
+        string memory  sources,
+        string memory  links
+    ) public returns (bool
+        // string memory did, 
+        // string memory description, 
+        // string memory image, 
+        // string memory parent
+    ) {
 	
     // swap 
     // user
     // chainid
     // vc  lacchain
     //  register(msg.sender, user, 1h, validfrom, data)
+    credentialRegistry.registerCredential(
+        msg.sender, 
+        user, 
+        credentialHash, 
+        block.timestamp, 
+        block.timestamp + 2 days , 
+        signature);
     // metadata(...)
-    
-        emit _anconCreateMetadata(user,did,name,description,image,parent,sources,links);
+
+    //logs
+    // log := &ethtypes.Log{
+	// 	Address:     common.HexToAddress("0xecf8f87f810ecf450940c9f60066b4a7a501d6a7"),
+	// 	BlockHash:   common.HexToHash("0x656c34545f90a730a19008c0e7a7cd4fb3895064b48d6d69761bd5abad681056"),
+	// 	BlockNumber: 2019236,
+	// 	Data:        pck,
+	// 	Index:       2,
+	// 	TxIndex:     3,
+	// 	TxHash:      common.HexToHash("0x3b198bfd5d2907285af009e9ae84a0ecd63677110d89d7e030251acb87f6487e"),
+	// 	Topics: []common.Hash{
+	// 		evm_hook_abi.Events["_anconCreateMetadata"].ID,
+	// 	},
+	// }
+
+        emit _anconCreateMetadata(user,
+            did,
+            name,
+            description,
+            image,
+            parent,
+            sources,
+            links
+        );
 
         return true;
 
     }
     // supportWith
-
 
     /**
      * @dev Just overrides the superclass' function. Fixes inheritance
