@@ -36,6 +36,13 @@ module.exports = {
       port: 8545,
       network_id: '*' // Match any network id
     },
+    ancon: {
+      provider: () =>
+        new HDWalletProvider(process.env.MNEMONIC, process.env.ANCON),
+      network_id: '*',
+      gas: 7000000,
+      gasPrice: 30000000
+    },
     rinkeby: {
       provider: () =>
         new HDWalletProvider(process.env.MNEMONIC, process.env.URL),
