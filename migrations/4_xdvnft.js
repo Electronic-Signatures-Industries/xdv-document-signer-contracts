@@ -17,19 +17,22 @@ module.exports = async (deployer, network, accounts) => {
     let stableCoinAddress = "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";
     let dai;
 
-    if (network === "bsc") {
-      stableCoinAddress = "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";
-    }
-    else{
-   //   await deployer.deploy(DAI);
-    //  dai = await DAI.deployed();
-    //  stableCoinAddress = dai.address;
-    }
+    // if (network === "bsc") {
+    //   stableCoinAddress = "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d";
+    // }
+    // else{
+    await deployer.deploy(DAI);
+    dai = await DAI.deployed();
+    stableCoinAddress = dai.address;
+    // }
     // else {
+    console.log("DAI C Address", stableCoinAddress);
 
     await deployer.deploy(XDVNFT, "XDVNFT","XDVNFT", stableCoinAddress);
 
+    
     xdvnft = await XDVNFT.deployed();
+    console.log("XDVNFT Address", xdvnft.address);
     await xdvnft.setServiceFeeForContract(new BigNumber(1 * 1e18));
     /*const fee_bn = new BigNumber(5 * 1e18);
     await dai.mint(accounts[0],fee_bn);*/
